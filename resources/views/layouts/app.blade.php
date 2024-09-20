@@ -13,11 +13,13 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/js/component.jsx'])
 
         <!-- Styles -->
         @livewireStyles
     </head>
     <body class="font-sans antialiased">
+        {{-- <div id="example-component"></div> --}}
         <x-banner />
 
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
