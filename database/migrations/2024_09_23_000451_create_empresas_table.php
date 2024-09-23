@@ -10,10 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create("anios", function (Blueprint $table) {
+        Schema::create("empresas", function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("id_categoria_moodle");
+            $table->string("ruc");
+            $table->foreignId("tempresa_id")->constrained("tempresas");
+            $table->tinyInteger("estado");
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists("anios");
+        Schema::dropIfExists("empresas");
     }
 };
