@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string("ap_paterno");
             $table->string("ap_materno");
             $table->string("identificacion");
-            $table->char("id_moodle_user", 1);
+            $table->char("id_moodle_user")->nullable();
             $table->char("estado", 1);
             $table->char("locked", 1);
             $table->string("email")->unique();
