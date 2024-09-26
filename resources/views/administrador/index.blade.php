@@ -3,7 +3,7 @@
 @section('title', 'Tablero')
 
 @section('content_header')
-    <h1></h1>
+    <h1>settings</h1>
 @stop
 
 @section('content')

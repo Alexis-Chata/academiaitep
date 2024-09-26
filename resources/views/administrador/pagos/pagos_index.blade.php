@@ -13,6 +13,7 @@
 @section('css')
     {{-- Add here extra stylesheets --}}
     {{-- <link rel="stylesheet" href="/css/style.css"> --}}
+    @vite(['resources/css/style.css'])
 @stop
 
 @section('js')
