@@ -15,7 +15,8 @@ return new class extends Migration {
             $table->string("name");
             $table->string("ap_paterno");
             $table->string("ap_materno");
-            $table->string("identificacion");
+            $table->string("f_tipo_documento_id");
+            $table->string("nro_documento");
             $table->char("id_moodle_user")->nullable();
             $table->char("estado", 1);
             $table->char("locked", 1);
@@ -25,6 +26,7 @@ return new class extends Migration {
             $table->rememberToken();
             $table->foreignId("current_team_id")->nullable();
             $table->string("profile_photo_path", 2048)->nullable();
+            $table->string("dni_path", 2048)->nullable();
             $table->timestamps();
         });
 

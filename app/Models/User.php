@@ -25,8 +25,17 @@ class User extends Authenticatable //implements MustVerifyEmail
      */
     protected $fillable = [
         'name',
+        'ap_paterno',
+        'ap_materno',
+        'f_tipo_documento_id',
+        'nro_documento',
         'email',
+        'id_moodle_user',
+        'estado',
+        'locked',
         'password',
+        'profile_photo_path',
+        'dni_path',
     ];
 
     /**

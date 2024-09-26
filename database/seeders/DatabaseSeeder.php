@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             'ap_paterno' => 'Jadem',
             'password' => bcrypt('12345678'),
             'ap_materno' => 'Learning',
-            'identificacion' => '12345678',
+            'f_tipo_documento_id' => 'dni',
+            'nro_documento' => '12345678',
             'estado' => '1',
             'locked' => '1',
         ]);
