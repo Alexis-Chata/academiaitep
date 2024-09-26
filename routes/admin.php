@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-#index principal
-Route::view("index", "administrador.index")->name("tablero");
+#dashboard principal
+Route::view("/", "administrador.index")->name("tablero");
 #carreras
-Route::view("carreras/index", "administrador.carreras.index_carrera")->name("carreras.index");
+Route::view("carreras", "administrador.carreras.index_carrera")->name("carreras.index");
+Route::view("pagos", "administrador.pagos.pagos_index")->name("pagos.index");

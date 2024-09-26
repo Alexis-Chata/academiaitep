@@ -314,6 +314,10 @@ return [
                     'route' => 'admin.carreras.index'
                 ],
                 [
+                    'text' => 'Pagos',
+                    'route' => 'admin.pagos.index'
+                ],
+                [
                     'text' => 'level_one',
                     'url' => '#',
                     'submenu' => [
@@ -354,7 +358,7 @@ return [
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
-       
+
     ],
 
     /*

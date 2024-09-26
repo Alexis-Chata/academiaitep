@@ -44,5 +44,9 @@
                 </x-button>
             </div>
         </form>
+        <script>
+            email.value="test@example.com";
+            password.value="12345678";
+        </script>
     </x-authentication-card>
 </x-guest-layout>
