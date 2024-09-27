@@ -213,6 +213,98 @@
     }
 </script>
 <style>
+.container {
+    display: grid;
+    max-width: 1200px;
+    margin: auto;
+    gap: 10px;
+}
+
+/* CONTENEDOR dni-section */
+.dni-section {
+    display: grid;
+    grid-template-columns: 1fr 0.4fr;
+    gap: 10px;
+}
+/* Estilo general de los tabs */
+.tabs-informacion {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tab-labels {
+    display: flex;
+    gap: 10px;
+}
+
+/* Ocultar los radio buttons */
+input[type="radio"] {
+    display: none;
+}
+
+.tab {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.tab:hover {
+    background-color: #ccc;
+}
+
+/* Estilo del contenido */
+.tab-content-container {
+    display: grid;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+    border-radius: 5px;
+}
+
+.tab-content {
+    display: none;
+    min-height: 200px;
+}
+
+/* tabs-informacion */
+input#tab1:checked ~ .tab-content-container #datos-content,
+input#tab2:checked ~ .tab-content-container #apoderados-content,
+input#tab3:checked ~ .tab-content-container #ubicacion-content,
+
+/* toggle_perfil-dni */
+input#toggle-perfil:checked ~ .tab-content-container #perfil-content,
+input#toggle-dni:checked ~ .tab-content-container #dni-content {
+    display: block;
+}
+
+/* CONTENEDOR matricula-section */
+.matricula-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+/* CONTENEDOR pago-section */
+.pago-section {
+    display: grid;
+    grid-template-columns: 0.8fr 1fr;
+    gap: 10px;
+}
+
+/* GENERALES */
+img {
+    max-width: 180px;
+}
+
+.item {
+    background-color: lightgray;
+    padding: 20px;
+    text-align: center;
+}
+
 .datos-container,
 .ubicacion-container {
     display: flex;
