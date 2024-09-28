@@ -255,13 +255,11 @@
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="concepto">Elegir un Concepto de Cobro:</label>
                         <select id="concepto" class="form-control">
-                            <option>Elegir</option>
+                            <option>Elegir un Concepto de Cobro ...</option>
                         </select>
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="cantidad">0</label>
                         <input type="number" class="form-control" id="cantidad" value="0" min="0">
                     </div>
                     <div class="form-group col-md-4 d-flex align-items-end">
@@ -273,9 +271,11 @@
             <table class="table table-bordered mt-4">
                 <thead>
                     <tr>
-                        <th>Columna 1</th>
-                        <th>Columna 2</th>
-                        <th>Columna 3</th>
+                        <th>Codigo</th>
+                        <th>Concepto</th>
+                        <th>Saldo</th>
+                        <th>A Pagar</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -283,8 +283,12 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     <tr>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -453,11 +457,16 @@
     display: grid;
     grid-template-columns: 1fr auto;
     gap: calc(4px + .3vw);
+    width: 80%;
+    margin: auto;
     & .columnLeft, & .columnRight{
-        padding: 5px;
-        border: 1px solid #ddd;
+        padding: calc(4px + .5vw);
+        border-top: 3px solid #01aaa6;
         background-color: #fafafa;
         border-radius:5px;
+    }
+    @media (width <= 1200px) {
+        width: 100%;
     }
 }
 .uploadSection{
@@ -545,6 +554,10 @@ input#toggle-dni:checked~.tab-labels label[for="toggle-dni"] {
 
 
 /* CONTENEDOR matricula-section */
+.container-fluid{
+    padding: 0 calc(2px + .7vw) !important;
+}
+
 .matricula-section {
     display: grid;
     grid-template-columns: 1fr;
@@ -552,8 +565,9 @@ input#toggle-dni:checked~.tab-labels label[for="toggle-dni"] {
     & .columnFull{
         max-width:100%;
         background: #fafafa;
-        padding: 5px !important;
+        padding: calc(4px + .5vw) !important;
         margin: 0 !important;
+        border-top: 3px solid #01aaa6 !important;
     }
 }
 
@@ -561,12 +575,12 @@ input#toggle-dni:checked~.tab-labels label[for="toggle-dni"] {
 /* CONTENEDOR pago-section */
 .pago-section {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: .85fr 1fr;
     gap: 10px;
     & .columnLeft, & .columnRight{
-        border: 1px solid #ddd;
+        border-top: 3px solid #01aaa6;
         background-color: #fafafa;
-        padding: 5px;
+        padding: calc(4px + .5vw);
         border-radius: 5px;
         margin-top: 0 !important;
         overflow-x: auto;
@@ -579,14 +593,17 @@ input#toggle-dni:checked~.tab-labels label[for="toggle-dni"] {
     }
 }
 .columnLeft, .columnFull, .columnRight{
-    box-shadow: 0 0 1px 1px #000;
+    box-shadow: 0 0 2px 1px #d7d7d7;
 }
 .pago-section h2 {
-    font-size: 22px;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 4px;
-    margin-bottom: 10px;
+    font-size: calc(14px + .4vw);
+    background: #737373;
+    color: white;
+    padding: calc(4px + .5vw);
+    margin: calc(-4px - .5vw);
+    margin-bottom: calc(4px + .5vw);
 }
+
 .pago-section .columnRight thead {
     background-color: #000000;
     color: white;
@@ -809,6 +826,11 @@ tbody tr:hover {
 }
 .col-md-6,.col-md-2{
     max-width:100% !important;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    @media(max-width: 1300px) {
+        grid-template-columns: 1fr;
+    }
 }
 label {
         margin-bottom: 0px !important;
