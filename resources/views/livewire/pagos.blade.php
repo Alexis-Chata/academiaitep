@@ -244,6 +244,11 @@
                 <div class="d-flex justify-content-end">
                     <button type="button" class="btn btn-outline-secondary">Editar</button>
                 </div>
+                <div class="noMat">
+                    <svg width="800px" height="800px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="width: 1em;height: auto;fill: #ffffff; "><title>alert-solid</title><path class="clr-i-solid clr-i-solid-path-1" d="M18,2.5c-8.82,0-16,6.28-16,14s7.18,14,16,14a18,18,0,0,0,4.88-.68l5.53,3.52a1,1,0,0,0,1.54-.84l0-6.73a13,13,0,0,0,4-9.27C34,8.78,26.82,2.5,18,2.5ZM16.93,9.13a1.41,1.41,0,1,1,2.81,0V18.9a1.41,1.41,0,1,1-2.81,0Zm1.41,17.35a1.87,1.87,0,1,1,1.87-1.87A1.87,1.87,0,0,1,18.34,26.47Z"></path><rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect></svg>
+                    <b>No se encontro matricula --></b>
+                    <button type="button">AGREGAR</button>
+                </div>
             </div>
         </div>
 
@@ -652,7 +657,6 @@
 
             & .columnLeft,
             & .columnRight {
-                border-top: 3px solid #01aaa6;
                 background-color: #fafafa;
                 padding: calc(4px + .5vw);
                 border-radius: 5px;
@@ -937,15 +941,50 @@
             .col-md-2 {
                 max-width: 100% !important;
                 display: grid;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: auto 1fr;
+                gap: calc(5px + .3vw);
+                align-items: center;
+                margin-bottom: calc(4px + .3vw);
 
                 @media(max-width: 1300px) {
                     grid-template-columns: 1fr;
+                    gap: 0;
                 }
             }
 
             label {
                 margin-bottom: 0px !important;
+            }
+        }
+        .noMat {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #d42020;
+            color: white;
+            font-size: calc(14px + .35vw);
+            border-radius: 5px;
+            gap: 5px;
+            text-shadow: 1px 1px 1px #960000;
+            padding: 10px 0;
+            margin-top: 5px;
+            & svg{
+                width: 1em;
+                height: auto;
+                fill: #fff;
+                margin-top: -3px;
+            }
+            & button{
+                background: white;
+                color: #000;
+                border: 0;
+                box-shadow: 0 0 3px 1px #8a8a8a;
+                font-weight: bold;
+                transition: .3s;
+                &:hover{
+                    background: black;
+                    color: white;
+                }
             }
         }
     </style>
