@@ -4,9 +4,9 @@
     <div class="dniContainer">
         <div class="columnLeft">
             <!-- upload-section -->
-            <div class="uploadSection" style="display:flex;justify-content:space-between">
-                <div>
-                    <label for="search">Buscar:</label>
+            <div class="uploadSection">
+                <div class="buscar" style="display: flex;align-items: center;">
+                    <label for="search" style="margin-right: 5px;">Buscar:</label>
                     <input type="text" id="search" placeholder="DNI ...">
                 </div>
                 <div>
@@ -133,7 +133,7 @@
             <div class="tabs-toggle_perfil-dni">
                 <input type="radio" id="toggle-perfil" name="tab-toggle" checked />
                 <input type="radio" id="toggle-dni" name="tab-toggle" />
-                <div class="tab-labels">
+                <div class="tab-labels" style="margin-bottom: 5px">
                     <label for="toggle-perfil" class="tab">Perfil</label>
                     <label for="toggle-dni" class="tab">DNI</label>
                 </div>
@@ -152,22 +152,20 @@
 
     <!-- matricula-section -->
     <div class="matricula-section">
-        <div class="container mt-5 p-4 border rounded">
+        <div class="columnFull mt-5 p-4 border rounded">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <button class="btn btn-primary me-2">MAT-A</button>
-                    <button class="btn btn-danger">MAT-B</button>
-                    <button class="btn btn-light me-3">
+                    <button class="matA">MAT-A</button>
+                    <button class="matB">MAT-B</button>
+                    <button class="btn btn-light me-3" style="margin-top: -15px;border: 2px solid #9a9a9a;border-radius: 0">
                         <img src="https://cdn-icons-png.flaticon.com/512/0/532.png" alt="Descargar" width="20px" />
                     </button>
                 </div>
-                <div class="badge bg-success text-white p-2">
-                    v: 30-09-2024
-                </div>
+                <div class="vencimiento">v: 30-09-2024</div>
             </div>
 
             <!-- Contenedor de inputs en 3 columnas -->
-            <div class="row">
+            <div class="row grid-input">
                 <div class="col-md-4 mb-3">
                     <label for="anio" class="form-label"><strong>Año:</strong></label>
                     <input type="text" id="anio" name="anio" class="form-control" value="2023" readonly>
@@ -297,7 +295,7 @@
         <div class="columnRight mt-5">
             <h2 class="mb-4">Tabla de Datos</h2>
             <table class="table table-striped table-bordered">
-                <thead class="thead-light">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>Mes</th>
@@ -435,24 +433,50 @@
 <style>
 .mainContainer {
     display: grid;
-    max-width: 1200px;
+    max-width: 1600px;
     margin: auto;
-    padding: 15px 0 55px;
+    padding: 5px 0 55px;
     gap: 10px;
     font-family: sans-serif;
+    font-size: 16px;
+    @media(width <= 1200px) {
+        font-size: 14px;
+    }
+    @media(width <= 700px) {
+        font-size: 13px;
+    }
 }
 
 
 /* CONTENEDOR dniContainer */
 .dniContainer {
     display: grid;
-    grid-template-columns: 1fr 0.4fr;
-    gap: 10px;
+    grid-template-columns: 1fr auto;
+    gap: calc(4px + .3vw);
     & .columnLeft, & .columnRight{
-        padding: 20px;
+        padding: 5px;
         border: 1px solid #ddd;
         background-color: #fafafa;
         border-radius:5px;
+    }
+}
+.uploadSection{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: calc(5px + .3vw);
+    @media (width <= 615px) {
+        gap: calc(4px + .3vw);
+        & input{
+            width: auto;
+        }
+        & .buscar label{
+            display: none;
+        }
+        & .buscar + div{
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
     }
 }
 
@@ -477,7 +501,7 @@ input:read-only{
 }
 
 .tab {
-    padding: 10px 20px;
+    padding: 5px 20px;
     background-color: #d7d7d7;
     cursor: pointer;
     border-radius: 5px;
@@ -494,7 +518,6 @@ input:read-only{
 
 .tab-content {
     display: none;
-    min-height: 200px;
 }
 
 /* tabs-informacion */
@@ -516,7 +539,8 @@ input#tab3:checked~.tab-labels label[for="tab3"],
 /* toggle_perfil-dni */
 input#toggle-perfil:checked~.tab-labels label[for="toggle-perfil"],
 input#toggle-dni:checked~.tab-labels label[for="toggle-dni"] {
-    background-color: #aeaeff;
+    background-color: #00b9b4;
+    color: white;
 }
 
 
@@ -525,9 +549,11 @@ input#toggle-dni:checked~.tab-labels label[for="toggle-dni"] {
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
-    & .container{
+    & .columnFull{
         max-width:100%;
         background: #fafafa;
+        padding: 5px !important;
+        margin: 0 !important;
     }
 }
 
@@ -540,12 +566,31 @@ input#toggle-dni:checked~.tab-labels label[for="toggle-dni"] {
     & .columnLeft, & .columnRight{
         border: 1px solid #ddd;
         background-color: #fafafa;
-        padding: 20px;
+        padding: 5px;
         border-radius: 5px;
         margin-top: 0 !important;
+        overflow-x: auto;
+        & table{
+            overflow-x: auto;
+        }
+    }
+    @media(width <= 800px) {
+        grid-template-columns: 1fr;
     }
 }
-
+.columnLeft, .columnFull, .columnRight{
+    box-shadow: 0 0 1px 1px #000;
+}
+.pago-section h2 {
+    font-size: 22px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+}
+.pago-section .columnRight thead {
+    background-color: #000000;
+    color: white;
+}
 
 /* GENERALES */
 img {
@@ -562,17 +607,20 @@ img {
 /* SEGUNDO ESTILO */
 .datos-container,
 .ubicacion-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin: auto;
-    font-family: Arial, sans-serif;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+    align-items: center;
+    justify-content: center;
+    gap: 1vw;
+    @media (width <= 600px) {
+        grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr));
+    }
 }
 
 .input-group {
     display: flex;
     flex-direction: column;
-    width: 30%;
+    width: 100%;
     margin-bottom: 15px;
 }
 
@@ -581,12 +629,13 @@ input {
     padding: 5px;
     border-radius: 4px;
     font-size: 14px;
+    width: 100%;
 }
 
 .actions {
     display: flex;
     justify-content: flex-end;
-    width: 100%;
+    margin-top: calc(2px + .3vw);
 }
 
 button {
@@ -609,6 +658,33 @@ button.guardar {
     background-color: #28a745;
     border-color: #28a745;
 }
+.matA{
+    background-color: #3878ff;
+    font-size: 20px;
+    color: white;
+    padding: 10px;
+    margin: -6px !important;
+    border-radius: 0;
+    border: none;
+}
+.matB{
+    background-color: #ea0000;
+    font-size: 20px;
+    color: white;
+    padding: 10px;
+    margin: -6px !important;
+    margin-left: 0px !important;
+    border-radius: 0;
+    border: none;
+}
+.vencimiento{
+    background-color: #009400;
+    font-size: 20px;
+    color: white;
+    padding: 10px;
+    margin: -6px !important;
+    margin-top: -8px !important;
+}
 
 /* Ocultar por defecto los botones de guardar y cancelar */
 .btn-guardar,
@@ -627,11 +703,10 @@ input[type="file"] {
 
 .custom-file-upload {
     display: inline-block;
-    padding: 10px;
+    padding: 6px 10px;
     cursor: pointer;
     border-radius: 4px;
     background-color: #28a745;
-    /* Color verde */
     color: white;
     text-align: center;
 }
@@ -649,7 +724,7 @@ table {
 
 th,
 td {
-    padding: 8px;
+    padding: calc(2px + .3vw);
     text-align: left;
     border: 1px solid #ddd;
 }
@@ -669,30 +744,27 @@ tbody tr:hover {
 
 /* Estilos para pantallas pequeñas */
 @media (max-width: 600px) {
-    thead {
+    .tab-content-container thead {
         display: none;
         /* Oculta el encabezado en pantallas pequeñas */
     }
 
-    tr {
+    .tab-content-container tr {
         display: block;
         /* Cambia las filas a bloque */
         margin-bottom: 1rem;
         /* Espacio entre filas */
     }
 
-    td {
+    .tab-content-container td {
         display: flex;
-        /* Cambia las celdas a flex */
-        justify-content: space-between;
-        /* Espacio entre contenido de celdas */
+        justify-content: right;
+        align-items: center;
         padding-left: 50%;
-        /* Espacio para el contenido */
         position: relative;
-        /* Posicionamiento relativo para pseudo-elementos */
     }
 
-    td::before {
+    .tab-content-container td::before {
         content: attr(data-label);
         /* Usa el atributo data-label como etiqueta */
         position: absolute;
@@ -702,6 +774,46 @@ tbody tr:hover {
         font-weight: bold;
         /* Negrita para las etiquetas */
     }
+    .tab-content-container td:nth-of-type(1):before { content: "Nombre"; }
+    .tab-content-container td:nth-of-type(2):before { content: "Celular"; }
+    .tab-content-container td:nth-of-type(3):before { content: "Tipo"; }
+    .tab-content-container td:nth-of-type(4):before { content: "DNI"; }
+    .tab-content-container td:nth-of-type(5):before { content: "Dirección"; }
+    .tab-content-container td:nth-of-type(6):before { content: "Acciones"; }
+
 }
+
+.content-wrapper>.content{
+    padding: 0 !important;
+.grid-input{
+    display: grid;
+    grid-template-columns:repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+    & .col-md-4{
+        max-width:100% !important;
+    }
+}
+.tab-content-container td:last-child {
+    display: flex;
+    justify-content: center;
+    gap: calc(2px + .3vw);
+    & button{
+        margin: 0 !important;
+    }
+    @media(max-width: 600px) {
+        justify-content: end;
+    }
+}
+.form-row{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+}
+.col-md-6,.col-md-2{
+    max-width:100% !important;
+}
+label {
+        margin-bottom: 0px !important;
+    }
+}
+
 </style>
 </div>
