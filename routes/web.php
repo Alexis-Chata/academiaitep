@@ -9,8 +9,8 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return redirect(route('admin.tablero'));
-});
+})->name('dashboard');
 
 Route::get('/home', function () {
     return redirect(route('admin.tablero'));
-});
+})->name('home');

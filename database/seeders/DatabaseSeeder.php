@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
             'ap_paterno' => 'Jadem',
+            'direccion' => 'direccion',
             'password' => bcrypt('12345678'),
             'ap_materno' => 'Learning',
             'f_tipo_documento_id' => 'dni',

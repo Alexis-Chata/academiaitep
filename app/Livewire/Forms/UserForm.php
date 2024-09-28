@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\User;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -22,6 +23,9 @@ class UserForm extends Form
     public $nro_documento;
     #[Validate('required')]
     public $email;
+    public $direccion;
+    public $celular1;
+    public $celular2;
     public $estado;
     public $locked;
     public $password;
@@ -38,19 +42,32 @@ class UserForm extends Form
         $this->email = $user->email;
         $this->estado = $user->estado;
         $this->locked = $user->locked;
-        $this->password = $user->identificacion;
+        $this->password = bcrypt($user->nro_documento);
         $this->profile_photo_path = $user->profile_photo_path;
         $this->dni_path = $user->dni_path;
     }
 
     public function update(){
-        $this->validate();
         $this->user->update($this->all());
     }
 
     public function store()
     {
         $this->validate();
-        User::create($this->all());
+        if (!isset($this->password)) {
+            $this->password = bcrypt($this->nro_documento);
+        }
+
+        if (isset($this->user)) {
+            $this->validate([
+                'email' => 'required|email|unique:users,email,'.$this->user->id,
+            ]);
+            $this->update();
+        } else {
+            $this->validate([
+                'email' => 'required|email|unique:users,email',
+            ]);
+            User::create($this->all());
+        }
     }
 }
