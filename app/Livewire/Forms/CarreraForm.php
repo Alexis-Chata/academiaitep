@@ -16,12 +16,19 @@ class CarreraForm extends Form
     public $area_id;
 
     public function set(Carrera $carrera){
+
         $this->carrera = $carrera;
         $this->name = $carrera->name;
         $this->area_id = $carrera->area_id;
     }
 
-    public function update(){$this->validate();$this->carrera->update($this->all());}
+    public function update()
+    {
+        $this->validate();$this->carrera->update($this->all());
+    }
 
-    public function store(){$this->validate();Carrera::create($this->all());}
+    public function store()
+    {
+        $this->validate();Carrera::create($this->all());
+    }
 }

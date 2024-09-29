@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string("name");
             $table->string("capacidad");
             $table->foreignId("aula_id")->constrained("taulas");
+            $table->foreignId("sede_id")->constrained("sedes");
             $table->foreignId("local_id")->constrained("locals");
             $table->timestamps();
         });

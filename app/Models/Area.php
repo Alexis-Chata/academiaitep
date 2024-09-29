@@ -9,4 +9,8 @@ class Area extends Model
 {
     protected $fillable = ["name"];
     use HasFactory;
+
+    public function carreras(){
+        return $this->hasMany(Carrera::class);
+    }
 }

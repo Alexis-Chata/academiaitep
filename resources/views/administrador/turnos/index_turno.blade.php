@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    @livewire('gestionar-carreras')
+    @livewire('gestionar-turnos')
 @stop
 
 @section('css')

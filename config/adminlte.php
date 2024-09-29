@@ -311,7 +311,23 @@ return [
             'submenu' => [
                 [
                     'text' => 'Carreras',
-                    'route' => 'admin.carreras.index'
+                    'route' => 'admin.carreras.index',
+                    'can' => 'admin.carrera.titulo'
+                ],
+                [
+                    'text' => 'Ciclos',
+                    'route' => 'admin.ciclos.index',
+                    'can' => 'admin.ciclo.titulo'
+                ],
+                [
+                    'text' => 'Modalidades',
+                    'route' => 'admin.modalidads.index',
+                    'can' => 'admin.modalidad.titulo'
+                ],
+                [
+                    'text' => 'Turnos',
+                    'route' => 'admin.turnos.index',
+                    'can' => 'admin.turno.titulo'
                 ],
                 [
                     'text' => 'Pagos',

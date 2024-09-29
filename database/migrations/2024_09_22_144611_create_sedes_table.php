@@ -4,17 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create("ciclos", function (Blueprint $table) {
+        Schema::create('sedes', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            //$table->string("id_categoria_moodle");
-            //$table->foreignId("anio_id")->constrained("anios");
+            $table->string('name');
+            $table->string('direccion');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists("ciclos");
+        Schema::dropIfExists('sedes');
     }
 };

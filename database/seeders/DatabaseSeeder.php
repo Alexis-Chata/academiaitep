@@ -14,8 +14,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-
-        User::factory()->create([
+        $this->call(RoleSeeder::class);
+        $this->call(TaulaSeeder::class);
+        $this->call(SedeSeeder::class);
+        
+       $user = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'ap_paterno' => 'Jadem',
@@ -27,5 +30,7 @@ class DatabaseSeeder extends Seeder
             'estado' => '1',
             'locked' => '1',
         ]);
+        
+        $user->assignRole(['Administrador','Super_Administrador']);
     }
 }
