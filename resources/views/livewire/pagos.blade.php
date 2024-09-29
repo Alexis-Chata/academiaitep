@@ -7,7 +7,26 @@
                 <div class="uploadSection">
                     <div class="buscar" style="display: flex;align-items: center;">
                         <label for="search" style="margin-right: 5px;">Buscar:</label>
-                        <input type="text" id="search" placeholder="DNI ...">
+
+                        <div style="position: relative; width: 100%;">
+                            <input type="text" id="search" wire:model.live="search" placeholder="DNI ..."
+                                style="flex: 1;" @keydown.arrow-down.prevent="$wire.incrementIndex()"
+                                @keydown.arrow-up.prevent="$wire.decrementIndex()"
+                                @keydown.enter.prevent="$wire.selectCurrent()">
+
+                            <!-- Lista de resultados -->
+                            @if (!empty($results))
+                                <ul class="list-group position-absolute w-100" style="top: 100%; z-index: 1000;">
+                                    @foreach ($results as $index => $result)
+                                        <li class="list-group-item list-group-item-action text-sm py-2
+                                            {{ $selectedIndex === $index ? 'active' : '' }}" role="button"
+                                            wire:click="selectResult('{{ $result->id }}')">
+                                            {{ $result->name }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </div>
                     </div>
                     <div>
                         <label class="custom-file-upload" for="profileImage">Subir Perfil</label>
@@ -32,52 +51,97 @@
                             <div class="datos-container">
                                 <div class="input-group">
                                     <label for="nombres">Nombres:</label>
-                                    <input type="text" id="nombres" value="Arthur Juan" readonly wire:model="userform.name">
-                                    <div>@error('userform.name') {{ $message }} @enderror</div>
+                                    <input type="text" id="nombres" readonly
+                                        wire:model="userform.name">
+                                    <div>
+                                        @error('userform.name')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="apPaterno">Ap. Paterno:</label>
-                                    <input type="text" id="apPaterno" value="Buitron" readonly wire:model="userform.ap_paterno">
-                                    <div>@error('userform.ap_paterno') {{ $message }} @enderror</div>
+                                    <input type="text" id="apPaterno" readonly
+                                        wire:model="userform.ap_paterno">
+                                    <div>
+                                        @error('userform.ap_paterno')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="apMaterno">Ap. Materno:</label>
-                                    <input type="text" id="apMaterno" value="Navarro" readonly wire:model="userform.ap_materno">
-                                    <div>@error('userform.ap_materno') {{ $message }} @enderror</div>
+                                    <input type="text" id="apMaterno" readonly
+                                        wire:model="userform.ap_materno">
+                                    <div>
+                                        @error('userform.ap_materno')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="tipo_doc_identidad">Tipo Doc.:</label>
-                                    <select id="tipo_doc_identidad" class="form-control w-100" disabled wire:model="userform.f_tipo_documento_id">
+                                    <select id="tipo_doc_identidad" class="form-control w-100" disabled
+                                        wire:model="userform.f_tipo_documento_id">
                                         <option value="DNI">DNI</option>
                                         <option value="CE">C.E</option>
                                     </select>
-                                    <div>@error('userform.f_tipo_documento_id') {{ $message }} @enderror</div>
+                                    <div>
+                                        @error('userform.f_tipo_documento_id')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="nro_doc_identidad">Nro. Doc.:</label>
-                                    <input type="text" id="nro_doc_identidad" value="12345678" readonly wire:model="userform.nro_documento">
-                                    <div>@error('userform.userform') {{ $message }} @enderror</div>
+                                    <input type="text" id="nro_doc_identidad" readonly
+                                        wire:model="userform.nro_documento">
+                                    <div>
+                                        @error('userform.userform')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                     <input type="hidden" id="userform" wire:model="userform">
                                 </div>
                                 <div class="input-group">
                                     <label for="direccion">Dirección:</label>
-                                    <input type="text" id="direccion" value="Mz C Lt 14 - Chorrillos" readonly wire:model="userform.direccion">
-                                    <div>@error('userform.direccion') {{ $message }} @enderror</div>
+                                    <input type="text" id="direccion" readonly
+                                        wire:model="userform.direccion">
+                                    <div>
+                                        @error('userform.direccion')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="email">Email:</label>
-                                    <input type="text" id="email" value="estudiante1@gmail.com" readonly wire:model="userform.email">
-                                    <div>@error('userform.email') {{ $message }} @enderror</div>
+                                    <input type="text" id="email" readonly
+                                        wire:model="userform.email">
+                                    <div>
+                                        @error('userform.email')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="celular">Celular:</label>
-                                    <input type="text" id="celular" value="934 665 704" readonly wire:model="userform.celular1">
-                                    <div>@error('userform.celular1') {{ $message }} @enderror</div>
+                                    <input type="text" id="celular" readonly
+                                        wire:model="userform.celular1">
+                                    <div>
+                                        @error('userform.celular1')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="celular2">Celular 2:</label>
-                                    <input type="text" id="celular2" value="987 985 987" readonly wire:model="userform.celular2">
-                                    <div>@error('userform.celular2') {{ $message }} @enderror</div>
+                                    <input type="text" id="celular2" readonly
+                                        wire:model="userform.celular2">
+                                    <div>
+                                        @error('userform.celular2')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
                             <div class="actions">
@@ -245,7 +309,15 @@
                     <button type="button" class="btn btn-outline-secondary">Editar</button>
                 </div>
                 <div class="noMat">
-                    <svg width="800px" height="800px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="width: 1em;height: auto;fill: #ffffff; "><title>alert-solid</title><path class="clr-i-solid clr-i-solid-path-1" d="M18,2.5c-8.82,0-16,6.28-16,14s7.18,14,16,14a18,18,0,0,0,4.88-.68l5.53,3.52a1,1,0,0,0,1.54-.84l0-6.73a13,13,0,0,0,4-9.27C34,8.78,26.82,2.5,18,2.5ZM16.93,9.13a1.41,1.41,0,1,1,2.81,0V18.9a1.41,1.41,0,1,1-2.81,0Zm1.41,17.35a1.87,1.87,0,1,1,1.87-1.87A1.87,1.87,0,0,1,18.34,26.47Z"></path><rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect></svg>
+                    <svg width="800px" height="800px" viewBox="0 0 36 36" version="1.1"
+                        preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" style="width: 1em;height: auto;fill: #ffffff; ">
+                        <title>alert-solid</title>
+                        <path class="clr-i-solid clr-i-solid-path-1"
+                            d="M18,2.5c-8.82,0-16,6.28-16,14s7.18,14,16,14a18,18,0,0,0,4.88-.68l5.53,3.52a1,1,0,0,0,1.54-.84l0-6.73a13,13,0,0,0,4-9.27C34,8.78,26.82,2.5,18,2.5ZM16.93,9.13a1.41,1.41,0,1,1,2.81,0V18.9a1.41,1.41,0,1,1-2.81,0Zm1.41,17.35a1.87,1.87,0,1,1,1.87-1.87A1.87,1.87,0,0,1,18.34,26.47Z">
+                        </path>
+                        <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
+                    </svg>
                     <b>No se encontro matricula --></b>
                     <button type="button">AGREGAR</button>
                 </div>
@@ -956,6 +1028,7 @@
                 margin-bottom: 0px !important;
             }
         }
+
         .noMat {
             display: flex;
             justify-content: center;
@@ -968,20 +1041,23 @@
             text-shadow: 1px 1px 1px #960000;
             padding: 10px 0;
             margin-top: 5px;
-            & svg{
+
+            & svg {
                 width: 1em;
                 height: auto;
                 fill: #fff;
                 margin-top: -3px;
             }
-            & button{
+
+            & button {
                 background: white;
                 color: #000;
                 border: 0;
                 box-shadow: 0 0 3px 1px #8a8a8a;
                 font-weight: bold;
                 transition: .3s;
-                &:hover{
+
+                &:hover {
                     background: black;
                     color: white;
                 }

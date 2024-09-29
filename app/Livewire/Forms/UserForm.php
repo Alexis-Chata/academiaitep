@@ -40,6 +40,9 @@ class UserForm extends Form
         $this->f_tipo_documento_id = $user->f_tipo_documento_id;
         $this->nro_documento = $user->nro_documento;
         $this->email = $user->email;
+        $this->direccion = $user->direccion;
+        $this->celular1 = $user->celular1;
+        $this->celular2 = $user->celular2;
         $this->estado = $user->estado;
         $this->locked = $user->locked;
         $this->password = bcrypt($user->nro_documento);
