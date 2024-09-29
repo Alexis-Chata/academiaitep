@@ -13,10 +13,10 @@ return new class extends Migration {
         Schema::create("aulas", function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("capacidad");
-            $table->foreignId("aula_id")->constrained("taulas");
+            $table->string("shortname")->unique();
+            $table->integer("capacidad");
+            $table->foreignId("taula_id")->constrained("taulas");
             $table->foreignId("sede_id")->constrained("sedes");
-            $table->foreignId("local_id")->constrained("locals");
             $table->timestamps();
         });
     }

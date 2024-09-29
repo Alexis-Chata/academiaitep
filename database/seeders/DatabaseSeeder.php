@@ -17,6 +17,10 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(TaulaSeeder::class);
         $this->call(SedeSeeder::class);
+        $this->call(CicloSeeder::class);
+        $this->call(TurnoSeeder::class);
+        $this->call(ModalidadSeeder::class);
+        $this->call(AulaSeeder::class);
         
        $user = User::factory()->create([
             'name' => 'Test User',

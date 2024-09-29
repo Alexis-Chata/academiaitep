@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 #dashboard principal
 Route::view("/", "administrador.index")->name("tablero");
+#aulas
+Route::view("aulas", "administrador.aulas.index_aula")->middleware('can:admin.aula.titulo')->name("aulas.index");
 #carreras
 Route::view("carreras", "administrador.carreras.index_carrera")->middleware('can:admin.carrera.titulo')->name("carreras.index");
 #turnos

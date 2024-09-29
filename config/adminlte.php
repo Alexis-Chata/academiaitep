@@ -310,6 +310,11 @@ return [
             'icon' => 'fas fa-bookmark',
             'submenu' => [
                 [
+                    'text' => 'Aulas',
+                    'route' => 'admin.aulas.index',
+                    'can' => 'admin.aula.titulo'
+                ],
+                [
                     'text' => 'Carreras',
                     'route' => 'admin.carreras.index',
                     'can' => 'admin.carrera.titulo'
