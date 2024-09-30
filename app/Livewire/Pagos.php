@@ -7,9 +7,12 @@ use App\Models\User;
 use Illuminate\Support\Arr;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\WithFileUploads; // UpLoad Perfil & DNI
+use Illuminate\Support\Facades\Storage; // UpLoad Perfil & DNI
 
 class Pagos extends Component
 {
+    use WithFileUploads; // UpLoad Perfil & DNI
     public UserForm $userform;
     public $readonly_datos = 'readonly';
     public $disabled_datos = 'disabled';
@@ -19,6 +22,49 @@ class Pagos extends Component
     public $search = ''; // Para almacenar el valor de búsqueda
     public $results = []; // Para almacenar los resultados filtrados
     public $selectedIndex = -1; // Índice del resultado seleccionado
+
+    /* UpLoad Perfil & DNI */
+    public $perfilUrl = 'https://icones.pro/wp-content/uploads/2021/03/avatar-de-personne-icone-homme.png';
+    public $dniUrl = 'https://cdn.www.gob.pe/uploads/medium/archive/000/010/331/dni-digito-verificador.png';
+    public $newPerfilImage;
+    public $newDniImage;
+
+    public function updatedNewPerfilImage(){
+        // Al actualizarse la imagen seleccionada para el perfil, mostrar la imagen subida temporalmente
+        $this->perfilUrl = $this->newPerfilImage->temporaryUrl();
+    }
+    public function updatedNewDniImage(){
+        // Al actualizarse la imagen seleccionada para el DNI, mostrar la imagen subida temporalmente
+        $this->dniUrl = $this->newDniImage->temporaryUrl();
+    }
+    public function saveImage($type){
+        if ($type === 'perfil' && $this->newPerfilImage) {
+            // Guardar la imagen en la carpeta "public/profiles"
+            $path = $this->newPerfilImage->store('profiles', 'public');
+            // Generar la URL pública de la imagen
+            $this->perfilUrl = \Storage::url($path);
+            $this->newPerfilImage = null;
+        }
+
+        if ($type === 'dni' && $this->newDniImage) {
+            // Guardar la imagen en la carpeta "public/dni"
+            $path = $this->newDniImage->store('dni', 'public');
+            // Generar la URL pública de la imagen
+            $this->dniUrl = \Storage::url($path);
+            $this->newDniImage = null;
+        }
+    }
+    public function cancelImage($type){
+        // Cancelar la imagen seleccionada y restaurar la original
+        if ($type === 'perfil') {
+            $this->perfilUrl = 'https://icones.pro/wp-content/uploads/2021/03/avatar-de-personne-icone-homme.png';
+            $this->newPerfilImage = null;
+        } else {
+            $this->dniUrl = 'https://cdn.www.gob.pe/uploads/medium/archive/000/010/331/dni-digito-verificador.png';
+            $this->newDniImage = null;
+        }
+    }
+    /* END */
 
     // Este método se ejecuta cada vez que el campo de búsqueda cambia
     public function updatedSearch()
