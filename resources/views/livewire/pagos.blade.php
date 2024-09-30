@@ -611,6 +611,31 @@
             @media (width <=1200px) {
                 width: 100%;
             }
+            @media (width <=500px) {
+                grid-template-columns: 1fr;
+            }
+        }
+        .dniContainer .columnRight {
+            padding: 0;
+            border-top: 0;
+            background-color: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            display: grid;
+            align-items: start;
+            justify-content: center;
+
+            & .tabs-toggle_perfil-dni {
+                padding: calc(4px + .5vw);
+                border-top: 3px solid #01aaa6;
+                background-color: #fafafa;
+                border-radius: 5px;
+                box-shadow: 0 0 2px 1px #d7d7d7;
+
+                & .tab-labels{
+                    justify-content: center;
+                }
+            }
         }
 
         .uploadSection {
@@ -766,8 +791,14 @@
         }
 
         /* GENERALES */
-        img {
+        .tabs-toggle_perfil-dni img {
             max-width: 180px;
+            width: calc(100px + 5vw);
+            display: block;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 3px 0 #c0c0c0;
+            margin-top: 8px;
         }
 
 
