@@ -627,13 +627,14 @@
 
             & .tabs-toggle_perfil-dni {
                 padding: calc(4px + .5vw);
-                border-top: 3px solid #01aaa6;
                 background-color: #fafafa;
                 border-radius: 5px;
                 box-shadow: 0 0 2px 1px #d7d7d7;
+                overflow: hidden;
 
                 & .tab-labels{
                     justify-content: center;
+                    margin-top: calc(-4px - .5vw);
                 }
             }
         }
@@ -671,7 +672,10 @@
 
         .tab-labels {
             display: flex;
-            gap: 10px;
+            background-color: #18b9b5;
+            color: white;
+            justify-content: center;
+            margin: 0 calc(-4px - .5vw);
         }
 
         /* Ocultar los radio buttons */
@@ -685,9 +689,7 @@
 
         .tab {
             padding: 5px 20px;
-            background-color: #d7d7d7;
             cursor: pointer;
-            border-radius: 5px;
             transition: background-color 0.3s ease;
         }
 
@@ -721,7 +723,7 @@
         /* toggle_perfil-dni */
         input#toggle-perfil:checked~.tab-labels label[for="toggle-perfil"],
         input#toggle-dni:checked~.tab-labels label[for="toggle-dni"] {
-            background-color: #00b9b4;
+            background-color: #161616;
             color: white;
         }
 
