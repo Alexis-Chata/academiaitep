@@ -10,20 +10,24 @@
 
                         <div style="position: relative; width: 100%;">
                             <input type="text" id="search" wire:model.live="search" placeholder="DNI ..."
-                                style="flex: 1;" @keydown.arrow-down.prevent="$wire.incrementIndex()"
+                                autocomplete="off" style="flex: 1;" @keydown.arrow-down.prevent="$wire.incrementIndex()"
                                 @keydown.arrow-up.prevent="$wire.decrementIndex()"
                                 @keydown.enter.prevent="$wire.selectCurrent()">
 
                             <!-- Lista de resultados -->
                             @if (!empty($results))
                                 <ul class="list-group position-absolute w-100" style="top: 100%; z-index: 1000;">
-                                    @foreach ($results as $index => $result)
+                                    @forelse ($results as $index => $result)
                                         <li class="list-group-item list-group-item-action text-sm py-2
-                                            {{ $selectedIndex === $index ? 'active' : '' }}" role="button"
-                                            wire:click="selectResult('{{ $result->id }}')">
+                                            {{ $selectedIndex === $index ? 'active' : '' }}"
+                                            role="button" wire:click="selectResult('{{ $result->id }}')">
                                             {{ $result->name }}
                                         </li>
-                                    @endforeach
+                                    @empty
+                                        <li class="list-group-item list-group-item-action text-sm py-2" role="button">
+                                            No encontrado
+                                        </li>
+                                    @endforelse
                                 </ul>
                             @endif
                         </div>
@@ -51,7 +55,7 @@
                             <div class="datos-container">
                                 <div class="input-group">
                                     <label for="nombres">Nombres:</label>
-                                    <input type="text" id="nombres" readonly
+                                    <input type="text" id="nombres" {{ $readonly_datos }}
                                         wire:model="userform.name">
                                     <div>
                                         @error('userform.name')
@@ -61,7 +65,7 @@
                                 </div>
                                 <div class="input-group">
                                     <label for="apPaterno">Ap. Paterno:</label>
-                                    <input type="text" id="apPaterno" readonly
+                                    <input type="text" id="apPaterno" {{ $readonly_datos }}
                                         wire:model="userform.ap_paterno">
                                     <div>
                                         @error('userform.ap_paterno')
@@ -71,7 +75,7 @@
                                 </div>
                                 <div class="input-group">
                                     <label for="apMaterno">Ap. Materno:</label>
-                                    <input type="text" id="apMaterno" readonly
+                                    <input type="text" id="apMaterno" {{ $readonly_datos }}
                                         wire:model="userform.ap_materno">
                                     <div>
                                         @error('userform.ap_materno')
@@ -81,7 +85,7 @@
                                 </div>
                                 <div class="input-group">
                                     <label for="tipo_doc_identidad">Tipo Doc.:</label>
-                                    <select id="tipo_doc_identidad" class="form-control w-100" disabled
+                                    <select id="tipo_doc_identidad" class="form-control w-100" {{ $disabled_datos }}
                                         wire:model="userform.f_tipo_documento_id">
                                         <option value="DNI">DNI</option>
                                         <option value="CE">C.E</option>
@@ -94,18 +98,17 @@
                                 </div>
                                 <div class="input-group">
                                     <label for="nro_doc_identidad">Nro. Doc.:</label>
-                                    <input type="text" id="nro_doc_identidad" readonly
+                                    <input type="text" id="nro_doc_identidad" {{ $readonly_datos }}
                                         wire:model="userform.nro_documento">
                                     <div>
                                         @error('userform.userform')
                                             {{ $message }}
                                         @enderror
                                     </div>
-                                    <input type="hidden" id="userform" wire:model="userform">
                                 </div>
                                 <div class="input-group">
                                     <label for="direccion">Dirección:</label>
-                                    <input type="text" id="direccion" readonly
+                                    <input type="text" id="direccion" {{ $readonly_datos }}
                                         wire:model="userform.direccion">
                                     <div>
                                         @error('userform.direccion')
@@ -115,7 +118,7 @@
                                 </div>
                                 <div class="input-group">
                                     <label for="email">Email:</label>
-                                    <input type="text" id="email" readonly
+                                    <input type="text" id="email" {{ $readonly_datos }}
                                         wire:model="userform.email">
                                     <div>
                                         @error('userform.email')
@@ -125,7 +128,7 @@
                                 </div>
                                 <div class="input-group">
                                     <label for="celular">Celular:</label>
-                                    <input type="text" id="celular" readonly
+                                    <input type="text" id="celular" {{ $readonly_datos }}
                                         wire:model="userform.celular1">
                                     <div>
                                         @error('userform.celular1')
@@ -135,7 +138,7 @@
                                 </div>
                                 <div class="input-group">
                                     <label for="celular2">Celular 2:</label>
-                                    <input type="text" id="celular2" readonly
+                                    <input type="text" id="celular2" {{ $readonly_datos }}
                                         wire:model="userform.celular2">
                                     <div>
                                         @error('userform.celular2')
@@ -145,12 +148,18 @@
                                 </div>
                             </div>
                             <div class="actions">
-                                <button id="btn-editar" onclick="habilitar_Edicion('datos-content')">Editar</button>
-                                <button id="btn-agregar" onclick="limpiar_Inputs('datos-content')">Agregar</button>
-                                <button id="btn-guardar" class="btn-guardar guardar"
-                                    onclick="guardarCambios()">Guardar</button>
-                                <button id="btn-cancelar" class="btn-cancelar cancelar"
-                                    onclick="cancelarEdicion()">Cancelar</button>
+                                @if (isset($userform->user))
+                                    <button id="btn-editar"
+                                        onclick="habilitar_Edicion('datos-content')">Editar</button>
+                                @else
+                                    <button id="btn-editar" class="d-none" disabled>Editar</button>
+                                @endif
+                                <button id="btn-agregar" class="{{ $d_none_datos }}"
+                                    wire:click="btnAgregar()">Agregar</button>
+                                <button id="btn-guardar" class="btn-guardar guardar {{ $inline_block_datos }}"
+                                    wire:click="btnGuardar()">Guardar</button>
+                                <button id="btn-cancelar" class="btn-cancelar cancelar {{ $inline_block_datos }}"
+                                    wire:click="btnCancelar()">Cancelar</button>
                             </div>
                         </div>
                         <div class="tab-content" id="apoderados-content">
@@ -499,78 +508,38 @@
             btnCancelar = parent.querySelector('#btn-cancelar');
         }
 
-        function limpiar_Inputs(parentid) {
-            inicializar_inputs(document.getElementById(parentid))
-            limpiarInputs()
-        }
-
         function habilitar_Edicion(parentid) {
             inicializar_inputs(document.getElementById(parentid))
             habilitarEdicion()
         }
-        // const inputs = document.querySelectorAll('.tabsSection input');
-        // const btnEditar = document.getElementById('btn-editar');
-        // const btnAgregar = document.getElementById('btn-agregar');
-        // const btnGuardar = document.getElementById('btn-guardar');
-        // const btnCancelar = document.getElementById('btn-cancelar');
 
         // Almacenar valores originales para restaurarlos en caso de cancelación
         let valoresOriginales = {};
 
         function habilitarEdicion() {
+            guardarValores()
+
+            // Cambiar la visibilidad de los botones
+            btnEditar.style.display = 'none';
+            btnAgregar.style.display = 'none';
+            btnGuardar.style.display = 'inline-block';
+            btnCancelar.style.display = 'inline-block';
+        }
+
+        function guardarValores() {
             // Guardar los valores originales de los inputs
             valoresOriginales = {};
             inputs.forEach(input => {
                 valoresOriginales[input.id] = input.value;
                 input.removeAttribute('readonly');
             });
-
-            // Cambiar la visibilidad de los botones
-            btnEditar.style.display = 'none';
-            btnAgregar.style.display = 'none';
-            btnGuardar.style.display = 'inline-block';
-            btnCancelar.style.display = 'inline-block';
-        }
-
-        function limpiarInputs() {
-            // Limpiar los valores y habilitar inputs
-            inputs.forEach(input => {
-                input.value = '';
-                input.removeAttribute('readonly');
+            selects.forEach(select => {
+                valoresOriginales[select.id] = select.value;
+                select.removeAttribute('disabled');
             });
-
-            // Cambiar la visibilidad de los botones
-            btnEditar.style.display = 'none';
-            btnAgregar.style.display = 'none';
-            btnGuardar.style.display = 'inline-block';
-            btnCancelar.style.display = 'inline-block';
+            console.log(valoresOriginales);
         }
 
-        function guardarCambios() {
-            inputs.forEach(input => input.setAttribute('readonly', 'readonly'));
-            btnEditar.style.display = 'inline-block';
-            btnAgregar.style.display = 'inline-block';
-            btnGuardar.style.display = 'none';
-            btnCancelar.style.display = 'none';
-            Livewire.dispatch('user-save');
-            alert('Cambios guardados');
-        }
-
-        function cancelarEdicion() {
-            // Restaurar los valores originales
-            inputs.forEach(input => {
-                if (valoresOriginales[input.id] !== undefined) {
-                    input.value = valoresOriginales[input.id];
-                }
-                input.setAttribute('readonly', 'readonly');
-            });
-
-            // Cambiar la visibilidad de los botones
-            btnEditar.style.display = 'inline-block';
-            btnAgregar.style.display = 'inline-block';
-            btnGuardar.style.display = 'none';
-            btnCancelar.style.display = 'none';
-        }
     </script>
     <style>
         .mainContainer {
@@ -611,10 +580,12 @@
             @media (width <=1200px) {
                 width: 100%;
             }
+
             @media (width <=500px) {
                 grid-template-columns: 1fr;
             }
         }
+
         .dniContainer .columnRight {
             padding: 0;
             border-top: 0;
@@ -632,7 +603,7 @@
                 box-shadow: 0 0 2px 1px #d7d7d7;
                 overflow: hidden;
 
-                & .tab-labels{
+                & .tab-labels {
                     justify-content: center;
                     margin-top: calc(-4px - .5vw);
                 }

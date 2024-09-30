@@ -4,31 +4,17 @@ namespace App\Livewire;
 
 use App\Livewire\Forms\UserForm;
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Pagos extends Component
 {
     public UserForm $userform;
-
-    public function mount()
-    {
-        // $this->userform->name = "Arthur Juan";
-        // $this->userform->ap_paterno = "Buitron";
-        // $this->userform->ap_materno = "Navarro";
-        // $this->userform->f_tipo_documento_id = "DNI";
-        // $this->userform->nro_documento = "12345678";
-        // $this->userform->direccion = "Mz C Lt 14 - Chorrillos";
-        // $this->userform->email = "estudiante1@gmail.com";
-        // $this->userform->celular1 = "934 665 704";
-        // $this->userform->celular2 = "987 985 987";
-    }
-
-    #[On('user-save')]
-    public function save_user()
-    {
-        $this->userform->store();
-    }
+    public $readonly_datos = 'readonly';
+    public $disabled_datos = 'disabled';
+    public $d_none_datos = '';
+    public $inline_block_datos = '';
 
     public $search = ''; // Para almacenar el valor de búsqueda
     public $results = []; // Para almacenar los resultados filtrados
@@ -42,7 +28,15 @@ class Pagos extends Component
         if (!empty($this->search)) {
             $this->results = User::when($this->search, function ($q) {
                 $q->where('name', 'like', '%%' . $this->search . '%%');
-                })
+            })->when($this->search, function ($q) {
+                $q->orWhere('ap_paterno', 'like', '%%' . $this->search . '%%');
+            })->when($this->search, function ($q) {
+                $q->orWhere('ap_materno', 'like', '%%' . $this->search . '%%');
+            })->when($this->search, function ($q) {
+                $q->orWhere('nro_documento', 'like', '%%' . $this->search . '%%');
+            })->when($this->search, function ($q) {
+                $q->orWhereFullText(["name", "ap_paterno", "ap_materno", "nro_documento"], $this->search);
+            })
                 ->take(5)
                 ->get();
         } else {
@@ -70,7 +64,7 @@ class Pagos extends Component
     public function selectCurrent()
     {
         if (isset($this->results[$this->selectedIndex])) {
-            $this->selectResult($this->results[$this->selectedIndex]->name);
+            $this->selectResult($this->results[$this->selectedIndex]);
         }
     }
 
@@ -80,6 +74,39 @@ class Pagos extends Component
         $this->results = []; // Limpiar los resultados
         $this->userform->set($user);
     }
+
+    public function btnAgregar()
+    {
+        $this->refreshComponent();
+        $this->readonly_datos = '';
+        $this->disabled_datos = '';
+        $this->d_none_datos = 'd-none';
+        $this->inline_block_datos = 'd-inline-block';
+    }
+
+    public function btnCancelar()
+    {
+        $this->refreshComponent();
+    }
+
+    public function btnGuardar()
+    {
+        $this->save_user();
+        $this->refreshComponent();
+    }
+
+    public function refreshComponent()
+    {
+        $this->userform->reset();
+        $this->reset(array_keys(Arr::except($this->all(), ['userform'])));
+    }
+
+    #[On('user-save')]
+    public function save_user()
+    {
+        $this->userform->store();
+    }
+
     public function render()
     {
         return view('livewire.pagos');

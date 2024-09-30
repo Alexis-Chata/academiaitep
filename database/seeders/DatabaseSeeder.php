@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
         $this->call(AulaSeeder::class);
         $this->call(CgrupoSeeder::class);
         $this->call(GrupoSeeder::class);
-       $user = User::factory()->create([
+        $this->call(UserSeeder::class);
+        $user = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'ap_paterno' => 'Jadem',
@@ -35,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'estado' => '1',
             'locked' => '1',
         ]);
-        
-        $user->assignRole(['Administrador','Super_Administrador']);
+
+        $user->assignRole(['Administrador', 'Super_Administrador']);
     }
 }

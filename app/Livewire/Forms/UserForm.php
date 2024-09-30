@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
@@ -51,7 +52,7 @@ class UserForm extends Form
     }
 
     public function update(){
-        $this->user->update($this->all());
+        $this->user->update(Arr::except($this->all(), ['user']));
     }
 
     public function store()

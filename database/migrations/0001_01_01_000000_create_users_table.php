@@ -31,6 +31,8 @@ return new class extends Migration {
             $table->string("profile_photo_path", 2048)->nullable();
             $table->string("dni_path", 2048)->nullable();
             $table->timestamps();
+
+            $table->fullText(["name", "ap_paterno", "ap_materno", "nro_documento"]);
         });
 
         Schema::create("password_reset_tokens", function (Blueprint $table) {
