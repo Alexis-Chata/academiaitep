@@ -45,5 +45,15 @@ class RoleSeeder extends Seeder
         Permission::create(['name' =>'admin.aula.crear'])->syncRoles(['Administrador','Super_Administrador']);
         Permission::create(['name' =>'admin.aula.editar'])->syncRoles(['Administrador','Super_Administrador']);
         Permission::create(['name' =>'admin.aula.eliminar'])->syncRoles(['Administrador','Super_Administrador']);
+        #grupos
+        Permission::create(['name' =>'admin.grupo.titulo'])->syncRoles(['Administrador','Super_Administrador']);
+        Permission::create(['name' =>'admin.grupo.crear'])->syncRoles(['Administrador','Super_Administrador']);
+        Permission::create(['name' =>'admin.grupo.editar'])->syncRoles(['Administrador','Super_Administrador']);
+        Permission::create(['name' =>'admin.grupo.eliminar'])->syncRoles(['Administrador','Super_Administrador']);
+        #cgrupos
+        Permission::create(['name' =>'admin.cgrupo.titulo'])->syncRoles(['Administrador','Super_Administrador']);
+        Permission::create(['name' =>'admin.cgrupo.crear'])->syncRoles(['Administrador','Super_Administrador']);
+        Permission::create(['name' =>'admin.cgrupo.editar'])->syncRoles(['Administrador','Super_Administrador']);
+        Permission::create(['name' =>'admin.cgrupo.eliminar'])->syncRoles(['Administrador','Super_Administrador']);
     }
 }

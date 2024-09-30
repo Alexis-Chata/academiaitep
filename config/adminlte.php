@@ -320,9 +320,19 @@ return [
                     'can' => 'admin.carrera.titulo'
                 ],
                 [
+                    'text' => 'Costos-Grupos',
+                    'route' => 'admin.cgrupos.index',
+                    'can' => 'admin.cgrupo.titulo'
+                ],
+                [
                     'text' => 'Ciclos',
                     'route' => 'admin.ciclos.index',
                     'can' => 'admin.ciclo.titulo'
+                ],
+                [
+                    'text' => 'Grupo',
+                    'route' => 'admin.grupos.index',
+                    'can' => 'admin.grupo.titulo'
                 ],
                 [
                     'text' => 'Modalidades',

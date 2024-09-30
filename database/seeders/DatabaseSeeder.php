@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TurnoSeeder::class);
         $this->call(ModalidadSeeder::class);
         $this->call(AulaSeeder::class);
-        
+        $this->call(CgrupoSeeder::class);
+        $this->call(GrupoSeeder::class);
        $user = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
