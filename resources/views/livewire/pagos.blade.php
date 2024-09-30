@@ -231,26 +231,51 @@
             </div>
             <!-- columnRight -->
             <div class="columnRight">
-                <div class="tabs-toggle_perfil-dni">
-                    <input type="radio" id="toggle-perfil" name="tab-toggle" checked />
-                    <input type="radio" id="toggle-dni" name="tab-toggle" />
-                    <div class="tab-labels" style="margin-bottom: 5px">
-                        <label for="toggle-perfil" class="tab">Perfil</label>
-                        <label for="toggle-dni" class="tab">DNI</label>
-                    </div>
+                   <div class="tabs-toggle_perfil-dni">
+                       <input type="radio" id="toggle-perfil" name="tab-toggle" checked />
+                       <input type="radio" id="toggle-dni" name="tab-toggle" />
+                       <div class="tab-labels" style="margin-bottom: 5px">
+                           <label for="toggle-perfil" class="tab">Perfil</label>
+                           <label for="toggle-dni" class="tab">DNI</label>
+                       </div>
 
-                    <div class="tab-content-container">
-                        <div class="tab-content" id="perfil-content">
-                            <img src="https://icones.pro/wp-content/uploads/2021/03/avatar-de-personne-icone-homme.png"
-                                alt="Perfil">
-                        </div>
-                        <div class="tab-content" id="dni-content">
-                            <img src="https://cdn.www.gob.pe/uploads/medium/archive/000/010/331/dni-digito-verificador.png"
-                                alt="DNI">
-                        </div>
-                    </div>
-                </div>
-            </div>
+                       <div class="tab-content-container">
+                           <!-- Perfil Section -->
+                           <div class="tab-content" id="perfil-content">
+                               <div class="image-container">
+                                   <img id="perfil-img" src="{{ $perfilUrl }}" alt="Perfil">
+                                   <div class="btn-group" id="perfil-btn-group">
+                                       @if(!$newPerfilImage)
+                                           <button id="add-image-perfil" class="btn-icon" onclick="document.getElementById('perfil-upload').click()">➕</button>
+                                           <input type="file" id="perfil-upload" wire:model="newPerfilImage" style="display: none;" accept="image/*">
+                                       @endif
+                                       @if($newPerfilImage)
+                                           <button id="save-image-perfil" class="btn-icon" wire:click="saveImage('perfil')">💾</button>
+                                           <button id="cancel-image-perfil" class="btn-icon" wire:click="cancelImage('perfil')">❌</button>
+                                       @endif
+                                   </div>
+                               </div>
+                           </div>
+
+                           <!-- DNI Section -->
+                           <div class="tab-content" id="dni-content">
+                               <div class="image-container">
+                                   <img id="dni-img" src="{{ $dniUrl }}" alt="DNI">
+                                   <div class="btn-group" id="dni-btn-group">
+                                       @if(!$newDniImage)
+                                           <button id="add-image-dni" class="btn-icon" onclick="document.getElementById('dni-upload').click()">➕</button>
+                                           <input type="file" id="dni-upload" wire:model="newDniImage" style="display: none;" accept="image/*">
+                                       @endif
+                                       @if($newDniImage)
+                                           <button id="save-image-dni" class="btn-icon" wire:click="saveImage('dni')">💾</button>
+                                           <button id="cancel-image-dni" class="btn-icon" wire:click="cancelImage('dni')">❌</button>
+                                       @endif
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
         </div>
 
         <!-- matricula-section -->
@@ -1067,5 +1092,38 @@
                 }
             }
         }
+        /*Estilos Button upload Perfil & DNI*/
+        .image-container {
+               position: relative;
+               display: inline-block;
+           }
+
+           img {
+               width: 100%;
+               max-width: 250px;
+               height: auto;
+           }
+
+           .btn-group {
+               position: absolute;
+               bottom: 5px;
+               left: 50%;
+               transform: translateX(-50%);
+               display: flex;
+               gap: 5px;
+           }
+
+           .btn-icon {
+               background-color: rgba(0, 0, 0, 0.5);
+               color: white;
+               border: none;
+               padding: 5px;
+               border-radius: 50%;
+               cursor: pointer;
+           }
+
+           .btn-icon:hover {
+               background-color: rgba(0, 0, 0, 0.8);
+           }
     </style>
 </div>
