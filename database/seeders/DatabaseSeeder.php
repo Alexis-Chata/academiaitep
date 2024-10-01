@@ -38,5 +38,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user->assignRole(['Administrador', 'Super_Administrador']);
+
+        $this->call(TapoderadoSeeder::class);
+        $this->call(ApoderadoSeeder::class);
+        $this->call(UserApoderadoSeeder::class);
     }
 }
