@@ -33,6 +33,88 @@ class Pagos extends Component
     public $newPerfilImage;
     public $newDniImage;
 
+    public $editingApoderadoId = null;
+    public $editingApoderado = null;
+
+    // ... otros métodos
+
+    public function editApoderado($id)
+    {
+        $this->editingApoderadoId = $id;
+        $this->editingApoderado = Apoderado::find($id)->toArray();
+    }
+
+    public function cancelEdit()
+    {
+        $this->editingApoderadoId = null;
+        $this->editingApoderado = null;
+    }
+
+    public function updateApoderado()
+    {
+        $this->validate([
+            "editingApoderado.name" => "required",
+            "editingApoderado.ap_paterno" => "required",
+            "editingApoderado.ap_materno" => "required",
+            "editingApoderado.celular1" => "required",
+            "editingApoderado.nro_documento" => "required",
+            "editingApoderado.direccion" => "required",
+            "editingApoderado.tapoderado_id" => "required",
+        ]);
+
+        $apoderado = Apoderado::find($this->editingApoderadoId);
+        $apoderado->update($this->editingApoderado);
+
+        $this->editingApoderadoId = null;
+        $this->editingApoderado = null;
+        $this->loadApoderados($this->userform);
+    }
+
+    public function deleteApoderado($id)
+    {
+        $apoderado = Apoderado::findOrFail($id);
+        $apoderado->delete();
+        $this->loadApoderados($this->userform);
+    }
+
+    public function addApoderado()
+    {
+        $this->editingApoderadoId = "new";
+        $this->editingApoderado = [
+            "name" => "",
+            "ap_paterno" => "",
+            "ap_materno" => "",
+            "celular1" => "",
+            "nro_documento" => "",
+            "direccion" => "",
+            "tapoderado_id" => "",
+        ];
+    }
+
+    public function saveNewApoderado()
+    {
+        $this->validate([
+            "editingApoderado.name" => "required",
+            "editingApoderado.ap_paterno" => "required",
+            "editingApoderado.ap_materno" => "required",
+            "editingApoderado.celular1" => "required",
+            "editingApoderado.nro_documento" => "required",
+            "editingApoderado.direccion" => "required",
+            "editingApoderado.tapoderado_id" => "required",
+        ]);
+
+        $apoderado = Apoderado::create($this->editingApoderado);
+        $this->userform
+            ->apoderados()
+            ->attach($apoderado->id, [
+                "tapoderado_id" => $this->editingApoderado["tapoderado_id"],
+            ]);
+
+        $this->editingApoderadoId = null;
+        $this->editingApoderado = null;
+        $this->loadApoderados($this->userform);
+    }
+
     public function updatedNewPerfilImage()
     {
         // Al actualizarse la imagen seleccionada para el perfil, mostrar la imagen subida temporalmente
@@ -194,7 +276,6 @@ class Pagos extends Component
                 ];
             })
             ->toArray();
-            //dd($this->apoderados);
     }
 
     public function btnAgregar()

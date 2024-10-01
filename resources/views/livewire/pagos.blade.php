@@ -170,21 +170,67 @@
                                 <tbody>
                                     @forelse ($apoderados as $apoderado)
                                         <tr>
-                                            <td>{{ $apoderado['name'] }}</td>
-                                            <td>{{ $apoderado['celular'] }}</td>
-                                            <td>{{ $apoderado['tipo'] }}</td>
-                                            <td>{{ $apoderado['dni'] }}</td>
-                                            <td>{{ $apoderado['direccion'] }}</td>
-                                            <td>
-                                                <button wire:click="editApoderado({{ $apoderado['id'] }})">Editar</button>
-                                                <button wire:click="deleteApoderado({{ $apoderado['id'] }})">Eliminar</button>
-                                            </td>
+                                            @if ($editingApoderadoId === $apoderado['id'])
+                                                <td>
+                                                    <input type="text" wire:model.defer="editingApoderado.name" placeholder="Nombre">
+                                                    <input type="text" wire:model.defer="editingApoderado.ap_paterno" placeholder="Ap. Paterno">
+                                                    <input type="text" wire:model.defer="editingApoderado.ap_materno" placeholder="Ap. Materno">
+                                                </td>
+                                                <td><input type="text" wire:model.defer="editingApoderado.celular1" placeholder="Celular"></td>
+                                                <td>
+                                                    <select wire:model.defer="editingApoderado.tapoderado_id">
+                                                        @foreach(\App\Models\Tapoderado::all() as $tapoderado)
+                                                            <option value="{{ $tapoderado->id }}">{{ $tapoderado->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" wire:model.defer="editingApoderado.nro_documento" placeholder="DNI"></td>
+                                                <td><input type="text" wire:model.defer="editingApoderado.direccion" placeholder="Dirección"></td>
+                                                <td>
+                                                    <button wire:click="updateApoderado">Guardar</button>
+                                                    <button wire:click="cancelEdit">Cancelar</button>
+                                                </td>
+                                            @else
+                                                <td>{{ $apoderado['name'] }}</td>
+                                                <td>{{ $apoderado['celular'] }}</td>
+                                                <td>{{ $apoderado['tipo'] }}</td>
+                                                <td>{{ $apoderado['dni'] }}</td>
+                                                <td>{{ $apoderado['direccion'] }}</td>
+                                                <td>
+                                                    <button wire:click="editApoderado({{ $apoderado['id'] }})">Editar</button>
+                                                    <button wire:click="deleteApoderado({{ $apoderado['id'] }})">Eliminar</button>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @empty
                                         <tr>
                                             <td colspan="6">Sin registro</td>
                                         </tr>
                                     @endforelse
+                                    @if ($editingApoderadoId === 'new')
+                                        <tr>
+                                            <td>
+                                                <input type="text" wire:model.defer="editingApoderado.name" placeholder="Nombre">
+                                                <input type="text" wire:model.defer="editingApoderado.ap_paterno" placeholder="Ap. Paterno">
+                                                <input type="text" wire:model.defer="editingApoderado.ap_materno" placeholder="Ap. Materno">
+                                            </td>
+                                            <td><input type="text" wire:model.defer="editingApoderado.celular1" placeholder="Celular"></td>
+                                            <td>
+                                                <select wire:model.defer="editingApoderado.tapoderado_id">
+                                                    <option value="">Seleccione tipo</option>
+                                                    @foreach(\App\Models\Tapoderado::all() as $tapoderado)
+                                                        <option value="{{ $tapoderado->id }}">{{ $tapoderado->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td><input type="text" wire:model.defer="editingApoderado.nro_documento" placeholder="DNI"></td>
+                                            <td><input type="text" wire:model.defer="editingApoderado.direccion" placeholder="Dirección"></td>
+                                            <td>
+                                                <button wire:click="saveNewApoderado">Guardar</button>
+                                                <button wire:click="cancelEdit">Cancelar</button>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 </tbody>
                             </table>
                             <div class="actions">
