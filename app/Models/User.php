@@ -28,21 +28,21 @@ class User extends Authenticatable //implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'ap_paterno',
-        'ap_materno',
-        'f_tipo_documento_id',
-        'nro_documento',
-        'direccion',
-        'celular1',
-        'celular2',
-        'email',
-        'id_moodle_user',
-        'estado',
-        'locked',
-        'password',
-        'profile_photo_path',
-        'dni_path',
+        "name",
+        "ap_paterno",
+        "ap_materno",
+        "f_tipo_documento_id",
+        "nro_documento",
+        "direccion",
+        "celular1",
+        "celular2",
+        "email",
+        "id_moodle_user",
+        "estado",
+        "locked",
+        "password",
+        "profile_photo_path",
+        "dni_path",
     ];
 
     /**
@@ -51,10 +51,10 @@ class User extends Authenticatable //implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
+        "password",
+        "remember_token",
+        "two_factor_recovery_codes",
+        "two_factor_secret",
     ];
 
     /**
@@ -62,9 +62,7 @@ class User extends Authenticatable //implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $appends = [
-        'profile_photo_url',
-    ];
+    protected $appends = ["profile_photo_url"];
 
     /**
      * Get the attributes that should be cast.
@@ -74,22 +72,30 @@ class User extends Authenticatable //implements MustVerifyEmail
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            "email_verified_at" => "datetime",
+            "password" => "hashed",
         ];
     }
 
     protected function estado(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => $value ?? 1,  // Asignar 0 si es null
+            set: fn($value) => $value ?? 1 // Asignar 0 si es null
         );
     }
 
     protected function locked(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => $value ?? 1,  // Asignar 0 si es null
+            set: fn($value) => $value ?? 1 // Asignar 0 si es null
         );
+    }
+
+    public function apoderados()
+    {
+        return $this->belongsToMany(
+            Apoderado::class,
+            "user_apoderados"
+        )->withPivot("tapoderado_id");
     }
 }

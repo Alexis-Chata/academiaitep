@@ -9,11 +9,14 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Apoderado;
+use App\Models\Tapoderado;
 
 class Pagos extends Component
 {
     use WithFileUploads; // UpLoad Perfil & DNI
 
+    public $apoderados = [];
     public UserForm $userform;
     public $readonly_datos = "readonly";
     public $disabled_datos = "disabled";
@@ -162,6 +165,36 @@ class Pagos extends Component
         // Cargar las imágenes actuales del usuario
         $this->perfilUrl = $this->userform->profile_photo_path;
         $this->dniUrl = $this->userform->dni_path;
+
+        // Cargar los apoderados del usuario
+        $this->loadApoderados($user);
+    }
+
+    public function loadApoderados(User $user)
+    {
+        $this->apoderados = $user
+            ->apoderados()
+            ->with("tipoApoderado")
+            ->get()
+            ->map(function ($apoderado) {
+                return [
+                    "id" => $apoderado->id,
+                    "name" =>
+                        $apoderado->name .
+                        " " .
+                        $apoderado->ap_paterno .
+                        " " .
+                        $apoderado->ap_materno,
+                    "celular" => $apoderado->celular1,
+                    "tipo" => $apoderado->tipoApoderado
+                        ? $apoderado->tipoApoderado->name
+                        : "No especificado",
+                    "dni" => $apoderado->nro_documento,
+                    "direccion" => $apoderado->direccion,
+                ];
+            })
+            ->toArray();
+            //dd($this->apoderados);
     }
 
     public function btnAgregar()

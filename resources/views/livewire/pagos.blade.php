@@ -143,8 +143,7 @@
                             </div>
                             <div class="actions">
                                 @if (isset($userform->user))
-                                    <button id="btn-editar"
-                                        onclick="habilitar_Edicion('datos-content')">Editar</button>
+                                    <button id="btn-editar" onclick="habilitar_Edicion('datos-content')">Editar</button>
                                 @else
                                     <button id="btn-editar" class="d-none" disabled>Editar</button>
                                 @endif
@@ -169,26 +168,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Arthuro</td>
-                                        <td>987654321</td>
-                                        <td>Papa</td>
-                                        <td>48473299</td>
-                                        <td>av. varela</td>
-                                        <td><button>Editar</button><button>Eliminar</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ariana</td>
-                                        <td>987654234</td>
-                                        <td>Mama</td>
-                                        <td>49473299</td>
-                                        <td>av. girasoles</td>
-                                        <td><button>Editar</button><button>Eliminar</button></td>
-                                    </tr>
+                                    @forelse ($apoderados as $apoderado)
+                                        <tr>
+                                            <td>{{ $apoderado['name'] }}</td>
+                                            <td>{{ $apoderado['celular'] }}</td>
+                                            <td>{{ $apoderado['tipo'] }}</td>
+                                            <td>{{ $apoderado['dni'] }}</td>
+                                            <td>{{ $apoderado['direccion'] }}</td>
+                                            <td>
+                                                <button wire:click="editApoderado({{ $apoderado['id'] }})">Editar</button>
+                                                <button wire:click="deleteApoderado({{ $apoderado['id'] }})">Eliminar</button>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6">Sin registro</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                             <div class="actions">
-                                <button id="btn-agregar">Agregar</button>
+                                <button id="btn-agregar" wire:click="addApoderado">Agregar</button>
                             </div>
                         </div>
                         <div class="tab-content" id="ubicacion-content">
@@ -225,51 +225,59 @@
             </div>
             <!-- columnRight -->
             <div class="columnRight">
-                   <div class="tabs-toggle_perfil-dni">
-                       <input type="radio" id="toggle-perfil" name="tab-toggle" checked />
-                       <input type="radio" id="toggle-dni" name="tab-toggle" />
-                       <div class="tab-labels" style="margin-bottom: 5px">
-                           <label for="toggle-perfil" class="tab">Perfil</label>
-                           <label for="toggle-dni" class="tab">DNI</label>
-                       </div>
+                <div class="tabs-toggle_perfil-dni">
+                    <input type="radio" id="toggle-perfil" name="tab-toggle" checked />
+                    <input type="radio" id="toggle-dni" name="tab-toggle" />
+                    <div class="tab-labels" style="margin-bottom: 5px">
+                        <label for="toggle-perfil" class="tab">Perfil</label>
+                        <label for="toggle-dni" class="tab">DNI</label>
+                    </div>
 
-                       <div class="tab-content-container">
-                           <!-- Perfil Section -->
-                           <div class="tab-content" id="perfil-content">
-                               <div class="image-container">
-                                   <img id="perfil-img" src="{{ $perfilUrl }}" alt="Perfil">
-                                   <div class="btn-group" id="perfil-btn-group">
-                                       @if(!$newPerfilImage)
-                                           <button id="add-image-perfil" class="btn-icon" onclick="document.getElementById('perfil-upload').click()">➕</button>
-                                           <input type="file" id="perfil-upload" wire:model="newPerfilImage" style="display: none;" accept="image/*">
-                                       @endif
-                                       @if($newPerfilImage)
-                                           <button id="save-image-perfil" class="btn-icon" wire:click="saveImage('perfil')">💾</button>
-                                           <button id="cancel-image-perfil" class="btn-icon" wire:click="cancelImage('perfil')">❌</button>
-                                       @endif
-                                   </div>
-                               </div>
-                           </div>
+                    <div class="tab-content-container">
+                        <!-- Perfil Section -->
+                        <div class="tab-content" id="perfil-content">
+                            <div class="image-container">
+                                <img id="perfil-img" src="{{ $perfilUrl }}" alt="Perfil">
+                                <div class="btn-group" id="perfil-btn-group">
+                                    @if (!$newPerfilImage)
+                                        <button id="add-image-perfil" class="btn-icon"
+                                            onclick="document.getElementById('perfil-upload').click()">➕</button>
+                                        <input type="file" id="perfil-upload" wire:model="newPerfilImage"
+                                            style="display: none;" accept="image/*">
+                                    @endif
+                                    @if ($newPerfilImage)
+                                        <button id="save-image-perfil" class="btn-icon"
+                                            wire:click="saveImage('perfil')">💾</button>
+                                        <button id="cancel-image-perfil" class="btn-icon"
+                                            wire:click="cancelImage('perfil')">❌</button>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
 
-                           <!-- DNI Section -->
-                           <div class="tab-content" id="dni-content">
-                               <div class="image-container">
-                                   <img id="dni-img" src="{{ $dniUrl }}" alt="DNI">
-                                   <div class="btn-group" id="dni-btn-group">
-                                       @if(!$newDniImage)
-                                           <button id="add-image-dni" class="btn-icon" onclick="document.getElementById('dni-upload').click()">➕</button>
-                                           <input type="file" id="dni-upload" wire:model="newDniImage" style="display: none;" accept="image/*">
-                                       @endif
-                                       @if($newDniImage)
-                                           <button id="save-image-dni" class="btn-icon" wire:click="saveImage('dni')">💾</button>
-                                           <button id="cancel-image-dni" class="btn-icon" wire:click="cancelImage('dni')">❌</button>
-                                       @endif
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-               </div>
+                        <!-- DNI Section -->
+                        <div class="tab-content" id="dni-content">
+                            <div class="image-container">
+                                <img id="dni-img" src="{{ $dniUrl }}" alt="DNI">
+                                <div class="btn-group" id="dni-btn-group">
+                                    @if (!$newDniImage)
+                                        <button id="add-image-dni" class="btn-icon"
+                                            onclick="document.getElementById('dni-upload').click()">➕</button>
+                                        <input type="file" id="dni-upload" wire:model="newDniImage"
+                                            style="display: none;" accept="image/*">
+                                    @endif
+                                    @if ($newDniImage)
+                                        <button id="save-image-dni" class="btn-icon"
+                                            wire:click="saveImage('dni')">💾</button>
+                                        <button id="cancel-image-dni" class="btn-icon"
+                                            wire:click="cancelImage('dni')">❌</button>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- matricula-section -->
@@ -558,7 +566,6 @@
             });
             console.log(valoresOriginales);
         }
-
     </script>
     <style>
         .mainContainer {
@@ -1086,32 +1093,33 @@
                 }
             }
         }
+
         /*Estilos Button upload Perfil & DNI*/
         .image-container {
-               position: relative;
-               display: inline-block;
-           }
+            position: relative;
+            display: inline-block;
+        }
 
-           .btn-group {
-               position: absolute;
-               bottom: 5px;
-               left: 50%;
-               transform: translateX(-50%);
-               display: flex;
-               gap: 5px;
-           }
+        .btn-group {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+        }
 
-           .btn-icon {
-               background-color: rgba(0, 0, 0, 0.5);
-               color: white;
-               border: none;
-               padding: 5px;
-               border-radius: 50%;
-               cursor: pointer;
-           }
+        .btn-icon {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
 
-           .btn-icon:hover {
-               background-color: rgba(0, 0, 0, 0.8);
-           }
+        .btn-icon:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
     </style>
 </div>
