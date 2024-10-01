@@ -47,8 +47,8 @@ class UserForm extends Form
         $this->estado = $user->estado;
         $this->locked = $user->locked;
         $this->password = bcrypt($user->nro_documento);
-        $this->profile_photo_path = $user->profile_photo_path;
-        $this->dni_path = $user->dni_path;
+        $this->profile_photo_path = $user->profile_photo_path ?? "https://icones.pro/wp-content/uploads/2021/03/avatar-de-personne-icone-homme.png";
+        $this->dni_path = $user->dni_path ?? "https://cdn.www.gob.pe/uploads/medium/archive/000/010/331/dni-digito-verificador.png";
     }
 
     public function update(){

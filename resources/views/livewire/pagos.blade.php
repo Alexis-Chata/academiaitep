@@ -32,12 +32,6 @@
                             @endif
                         </div>
                     </div>
-                    <div>
-                        <label class="custom-file-upload" for="profileImage">Subir Perfil</label>
-                        <input type="file" id="profileImage" accept="image/*">
-                        <label class="custom-file-upload" for="documentImage">Subir DNI</label>
-                        <input type="file" id="documentImage" accept="image/*">
-                    </div>
                 </div>
                 <!-- tabs-section -->
                 <div class="tabsSection">
@@ -1096,12 +1090,6 @@
         .image-container {
                position: relative;
                display: inline-block;
-           }
-
-           img {
-               width: 100%;
-               max-width: 250px;
-               height: auto;
            }
 
            .btn-group {
