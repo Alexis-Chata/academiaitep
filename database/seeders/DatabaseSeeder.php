@@ -42,5 +42,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TapoderadoSeeder::class);
         $this->call(ApoderadoSeeder::class);
         $this->call(UserApoderadoSeeder::class);
+        $this->call(FTipoDocumentoSeeder::class);
     }
 }
