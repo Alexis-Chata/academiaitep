@@ -12,6 +12,20 @@ class TapoderadoSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $tapoderado = new \App\Models\Tapoderado();
+        $tapoderado->name = 'Padre';
+        $tapoderado->save();
+
+        $tapoderado = new \App\Models\Tapoderado();
+        $tapoderado->name = 'Madre';
+        $tapoderado->save();
+
+        $tapoderado = new \App\Models\Tapoderado();
+        $tapoderado->name = 'Tio';
+        $tapoderado->save();
+
+        $tapoderado = new \App\Models\Tapoderado();
+        $tapoderado->name = 'Tutor Legal';
+        $tapoderado->save();
     }
 }
