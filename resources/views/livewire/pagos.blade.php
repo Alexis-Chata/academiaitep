@@ -164,6 +164,7 @@
                                         <th>Tipo</th>
                                         <th>DNI</th>
                                         <th>Dirección</th>
+                                        <th>Email</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -178,6 +179,7 @@
                                                 <td>{{ $user_apoderado->tipo_apoderado->name }}</td>
                                                 <td>{{ $user_apoderado->apoderado->nro_documento }}</td>
                                                 <td>{{ $user_apoderado->apoderado->direccion }}</td>
+                                                <td>{{ $user_apoderado->apoderado->email }}</td>
                                                 <td>
                                                     <button wire:click="editApoderado({{ $user_apoderado->apoderado->id }}, {{ $user_apoderado->id }})">Editar</button>
                                                     <button wire:click="deleteApoderado({{ $user_apoderado->id }})">Eliminar</button>
