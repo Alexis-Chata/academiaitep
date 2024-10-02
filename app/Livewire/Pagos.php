@@ -60,16 +60,37 @@ class Pagos extends Component
     }
 
     public function updateApoderado()
-    {
-        $this->apoderadoform->email = $this->apoderado->email ?? $this->apoderadoform->nro_documento.'@example.com';
+{
+    $this->validate([
+        'apoderadoform.name' => 'required',
+        'apoderadoform.ap_paterno' => 'required',
+        'apoderadoform.ap_materno' => 'required',
+        'apoderadoform.celular1' => 'required',
+        'user_apoderadoform.tapoderado_id' => 'required',
+        'apoderadoform.f_tipo_documento_id' => 'required',
+        'apoderadoform.nro_documento' => 'required',
+        'apoderadoform.direccion' => 'required',
+        'apoderadoform.email' => 'nullable|email', // Añade esta línea
+    ]);
+
+    if ($this->editingApoderadoId === 'new') {
+        // Si no se proporciona un email, asigna un valor predeterminado o una cadena vacía
+        if (empty($this->apoderadoform->email)) {
+            $this->apoderadoform->email = 'sin_email@ejemplo.com'; // O usa una cadena vacía: ''
+        }
         $this->apoderadoform->store();
-        $this->user_apoderadoform->user_id = $this->userform->user->id;
         $this->user_apoderadoform->apoderado_id = $this->apoderadoform->apoderado->id;
+        $this->user_apoderadoform->user_id = $this->userform->user->id;
         $this->user_apoderadoform->store();
-        $this->editingApoderadoId = null;
-        $this->editingApoderado = null;
-        $this->user_apoderados = $this->userform->user->user_apoderados;
+    } else {
+        $this->apoderadoform->update();
+        $this->user_apoderadoform->update();
     }
+
+    $this->editingApoderadoId = null;
+    $this->user_apoderados = $this->userform->user->user_apoderados;
+    session()->flash('message', 'Apoderado guardado correctamente.');
+}
 
     public function deleteApoderado(User_apoderado $user_apoderado_id)
     {
@@ -79,10 +100,11 @@ class Pagos extends Component
     }
 
     public function addApoderado()
-    {
-        $this->editingApoderadoId = "new";
-        //$this->user_apoderadoform->set($user_apoderado_id);
-    }
+{
+    $this->editingApoderadoId = 'new';
+    $this->apoderadoform->reset();
+    $this->user_apoderadoform->reset();
+}
 
     public function saveNewApoderado()
     {

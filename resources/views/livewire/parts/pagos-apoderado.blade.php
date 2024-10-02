@@ -65,6 +65,14 @@
     </div>
 </td>
 <td>
+    <input type="email" wire:model.defer="apoderadoform.email" placeholder="Email">
+    <div>
+        @error('apoderadoform.email')
+            {{ $message }}
+        @enderror
+    </div>
+</td>
+<td>
     <button wire:click="updateApoderado">Guardar</button>
     <button wire:click="cancelEdit">Cancelar</button>
 </td>

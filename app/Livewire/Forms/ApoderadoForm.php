@@ -9,7 +9,7 @@ use Livewire\Form;
 
 class ApoderadoForm extends Form
 {
-    public ?Apoderado $apoderado;
+    public ?Apoderado $apoderado = null;
 
     #[Validate('required')]
     public $name;
@@ -42,17 +42,21 @@ class ApoderadoForm extends Form
 
     public function update()
     {
-        $this->apoderado->update(Arr::except($this->all(), ['apoderado']));
+        $this->validate();
+        
+        if ($this->apoderado) {
+            $this->apoderado->update($this->all());
+        }
     }
 
     public function store()
     {
         $this->validate();
 
-        if (isset($this->apoderado)) {
+        if ($this->apoderado) {
             $this->update();
         } else {
-            Apoderado::create($this->all());
+            $this->apoderado = Apoderado::create($this->all());
         }
     }
 }
