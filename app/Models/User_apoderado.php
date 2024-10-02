@@ -9,6 +9,12 @@ class User_apoderado extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'apoderado_id',
+        'tapoderado_id',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

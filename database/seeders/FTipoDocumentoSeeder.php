@@ -25,7 +25,7 @@ class FTipoDocumentoSeeder extends Seeder
 
         $tipo_comprobante = new F_tipo_documento();
         $tipo_comprobante->id = '4';
-        $tipo_comprobante->descripcion = 'CARNET DE EXTRANJERIA';
+        $tipo_comprobante->descripcion = 'CARNET EXTRANJERIA';
         $tipo_comprobante->save();
 
         $tipo_comprobante = new F_tipo_documento();
@@ -38,14 +38,14 @@ class FTipoDocumentoSeeder extends Seeder
         $tipo_comprobante->descripcion = 'PASAPORTE';
         $tipo_comprobante->save();
 
-        $tipo_comprobante = new F_tipo_documento();
-        $tipo_comprobante->id = 'A';
-        $tipo_comprobante->descripcion = 'CED. DIPLOMATICA DE IDENTIDAD';
-        $tipo_comprobante->save();
+        // $tipo_comprobante = new F_tipo_documento();
+        // $tipo_comprobante->id = 'A';
+        // $tipo_comprobante->descripcion = 'CED. DIPLOMATICA DE IDENTIDAD';
+        // $tipo_comprobante->save();
 
-        $tipo_comprobante = new F_tipo_documento();
-        $tipo_comprobante->id = 'B';
-        $tipo_comprobante->descripcion = 'Documento identidad país residencia-no.d';
-        $tipo_comprobante->save();
+        // $tipo_comprobante = new F_tipo_documento();
+        // $tipo_comprobante->id = 'B';
+        // $tipo_comprobante->descripcion = 'Documento identidad país residencia-no.d';
+        // $tipo_comprobante->save();
     }
 }

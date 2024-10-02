@@ -18,8 +18,8 @@ return new class extends Migration {
             $table->string("f_tipo_documento_id");
             $table->string("nro_documento");
             $table->string("email");
-            $table->string("celular1");
-            $table->string("celular2");
+            $table->string("celular1")->nullable();
+            $table->string("celular2")->nullable();
             $table->string("direccion");
             $table->timestamps();
         });

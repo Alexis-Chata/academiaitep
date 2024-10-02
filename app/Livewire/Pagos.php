@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Forms\ApoderadoForm;
+use App\Livewire\Forms\UserApoderadoForm;
 use App\Livewire\Forms\UserForm;
 use App\Models\User;
 use Illuminate\Support\Arr;
@@ -10,6 +12,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Apoderado;
+use App\Models\F_tipo_documento;
 use App\Models\Tapoderado;
 use App\Models\User_apoderado;
 
@@ -19,7 +22,10 @@ class Pagos extends Component
 
     public $user_apoderados;
     public $tipo_apoderados;
+    public $tipo_documentos;
     public UserForm $userform;
+    public ApoderadoForm $apoderadoform;
+    public UserApoderadoForm $user_apoderadoform;
     public $readonly_datos = "readonly";
     public $disabled_datos = "disabled";
     public $d_none_datos = "";
@@ -40,11 +46,11 @@ class Pagos extends Component
 
     // ... otros métodos
 
-    public function editApoderado($id)
+    public function editApoderado(Apoderado $apoderado, User_apoderado $user_apoderado_id)
     {
-        $this->editingApoderadoId = $id;
-        $this->editingApoderado = Apoderado::find($id)->toArray();
-        //dd($this->editingApoderado);
+        $this->editingApoderadoId = $apoderado->id;
+        $this->user_apoderadoform->set($user_apoderado_id);
+        $this->apoderadoform->set($apoderado);
     }
 
     public function cancelEdit()
@@ -55,57 +61,31 @@ class Pagos extends Component
 
     public function updateApoderado()
     {
-        $validated  = $this->validate([
-            "editingApoderado.name" => "required",
-            "editingApoderado.ap_paterno" => "required",
-            "editingApoderado.ap_materno" => "required",
-            "editingApoderado.celular1" => "required",
-            "editingApoderado.nro_documento" => "required",
-            "editingApoderado.direccion" => "required",
-            "editingApoderado.tapoderado_id" => "required",
-        ]);
-
-        dd($validated);
-
-        $apoderado = Apoderado::find($this->editingApoderadoId);
-        $apoderado->update($this->editingApoderado->toArray())->save();
+        $this->apoderadoform->email = $this->apoderado->email ?? $this->apoderadoform->nro_documento.'@example.com';
+        $this->apoderadoform->store();
+        $this->user_apoderadoform->user_id = $this->userform->user->id;
+        $this->user_apoderadoform->apoderado_id = $this->apoderadoform->apoderado->id;
+        $this->user_apoderadoform->store();
         $this->editingApoderadoId = null;
         $this->editingApoderado = null;
-        $this->userform->set($this->userform->user->id);
+        $this->user_apoderados = $this->userform->user->user_apoderados;
     }
 
-    public function deleteApoderado($user_apoderado_id)
+    public function deleteApoderado(User_apoderado $user_apoderado_id)
     {
-        $this->user_apoderados->find($user_apoderado_id)->delete();
+        $this->user_apoderadoform->set($user_apoderado_id);
+        $this->user_apoderadoform->delete();
         $this->user_apoderados = $this->userform->user->user_apoderados;
     }
 
     public function addApoderado()
     {
         $this->editingApoderadoId = "new";
-        $this->editingApoderado = [
-            "name" => "",
-            "ap_paterno" => "",
-            "ap_materno" => "",
-            "celular1" => "",
-            "nro_documento" => "",
-            "direccion" => "",
-            "tapoderado_id" => "",
-        ];
+        //$this->user_apoderadoform->set($user_apoderado_id);
     }
 
     public function saveNewApoderado()
     {
-        $this->validate([
-            "editingApoderado.name" => "required",
-            "editingApoderado.ap_paterno" => "required",
-            "editingApoderado.ap_materno" => "required",
-            "editingApoderado.celular1" => "required",
-            "editingApoderado.nro_documento" => "required",
-            "editingApoderado.direccion" => "required",
-            "editingApoderado.tapoderado_id" => "required",
-        ]);
-
         $apoderado = Apoderado::create($this->editingApoderado);
         $this->userform->user
             ->apoderados()
@@ -289,6 +269,7 @@ class Pagos extends Component
     public function mount()
     {
         $this->tipo_apoderados = Tapoderado::all();
+        $this->tipo_documentos = F_tipo_documento::all();
         $this->user_apoderados = collect();
     }
 
