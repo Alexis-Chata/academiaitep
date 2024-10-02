@@ -168,9 +168,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($apoderados as $apoderado)
+                                    @forelse ($user_apoderados as $user_apoderado)
                                         <tr>
-                                            @if ($editingApoderadoId === $apoderado['id'])
+                                            @if ($editingApoderadoId === $user_apoderado->apoderado->id)
                                                 <td>
                                                     <input type="text" wire:model.defer="editingApoderado.name" placeholder="Nombre">
                                                     <input type="text" wire:model.defer="editingApoderado.ap_paterno" placeholder="Ap. Paterno">
@@ -179,7 +179,7 @@
                                                 <td><input type="text" wire:model.defer="editingApoderado.celular1" placeholder="Celular"></td>
                                                 <td>
                                                     <select wire:model.defer="editingApoderado.tapoderado_id">
-                                                        @foreach(\App\Models\Tapoderado::all() as $tapoderado)
+                                                        @foreach($tipo_apoderados as $tapoderado)
                                                             <option value="{{ $tapoderado->id }}">{{ $tapoderado->name }}</option>
                                                         @endforeach
                                                     </select>
@@ -191,14 +191,14 @@
                                                     <button wire:click="cancelEdit">Cancelar</button>
                                                 </td>
                                             @else
-                                                <td>{{ $apoderado['name'] }}</td>
-                                                <td>{{ $apoderado['celular'] }}</td>
-                                                <td>{{ $apoderado['tipo'] }}</td>
-                                                <td>{{ $apoderado['dni'] }}</td>
-                                                <td>{{ $apoderado['direccion'] }}</td>
+                                                <td>{{ $user_apoderado->apoderado->full_name }}</td>
+                                                <td>{{ $user_apoderado->apoderado->celular1 }}</td>
+                                                <td>{{ $user_apoderado->tipo_apoderado->name }}</td>
+                                                <td>{{ $user_apoderado->apoderado->nro_documento }}</td>
+                                                <td>{{ $user_apoderado->apoderado->direccion }}</td>
                                                 <td>
-                                                    <button wire:click="editApoderado({{ $apoderado['id'] }})">Editar</button>
-                                                    <button wire:click="deleteApoderado({{ $apoderado['id'] }})">Eliminar</button>
+                                                    <button wire:click="editApoderado({{ $user_apoderado->apoderado->id }})">Editar</button>
+                                                    <button wire:click="deleteApoderado({{ $user_apoderado->id }})">Eliminar</button>
                                                 </td>
                                             @endif
                                         </tr>

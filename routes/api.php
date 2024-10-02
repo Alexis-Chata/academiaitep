@@ -1,17 +1,15 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect(route('admin.tablero'));
-    //return view('welcome');
-});
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
 
-Route::get('/dashboard', function () {
-    return redirect(route('admin.tablero'));
-})->name('dashboard');
+Route::post('/easy-web', function () {
+    Http::get('http://157.230.213.30:3000/api/box/deploy/24afa5260f33107c9002d660ade0bf15fcfdee59b6267b86');
 
-Route::get('/home', function () {
-    return redirect(route('admin.tablero'));
-})->name('home');
+    return response()->json(['message' => 'Solicitud enviada correctamente']);
+})->name('apieasyweb');

@@ -15,25 +15,25 @@ class UserApoderadoSeeder extends Seeder
     {
         $userApoderado = new User_apoderado();
         $userApoderado->user_id = 1;
-        $userApoderado->apoderado_id = 1;
+        $userApoderado->apoderado_id = 2;
         $userApoderado->tapoderado_id = 1;
         $userApoderado->save();
 
         $userApoderado = new User_apoderado();
         $userApoderado->user_id = 2;
-        $userApoderado->apoderado_id = 2;
+        $userApoderado->apoderado_id = 1;
         $userApoderado->tapoderado_id = 2;
         $userApoderado->save();
 
         $userApoderado = new User_apoderado();
         $userApoderado->user_id = 3;
-        $userApoderado->apoderado_id = 3;
+        $userApoderado->apoderado_id = 2;
         $userApoderado->tapoderado_id = 3;
         $userApoderado->save();
 
         $userApoderado = new User_apoderado();
         $userApoderado->user_id = 3;
-        $userApoderado->apoderado_id = 4;
+        $userApoderado->apoderado_id = 1;
         $userApoderado->tapoderado_id = 4;
         $userApoderado->save();
     }

@@ -11,12 +11,14 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Apoderado;
 use App\Models\Tapoderado;
+use App\Models\User_apoderado;
 
 class Pagos extends Component
 {
     use WithFileUploads; // UpLoad Perfil & DNI
 
-    public $apoderados = [];
+    public $user_apoderados;
+    public $tipo_apoderados;
     public UserForm $userform;
     public $readonly_datos = "readonly";
     public $disabled_datos = "disabled";
@@ -42,6 +44,7 @@ class Pagos extends Component
     {
         $this->editingApoderadoId = $id;
         $this->editingApoderado = Apoderado::find($id)->toArray();
+        //dd($this->editingApoderado);
     }
 
     public function cancelEdit()
@@ -52,7 +55,7 @@ class Pagos extends Component
 
     public function updateApoderado()
     {
-        $this->validate([
+        $validated  = $this->validate([
             "editingApoderado.name" => "required",
             "editingApoderado.ap_paterno" => "required",
             "editingApoderado.ap_materno" => "required",
@@ -62,19 +65,19 @@ class Pagos extends Component
             "editingApoderado.tapoderado_id" => "required",
         ]);
 
-        $apoderado = Apoderado::find($this->editingApoderadoId);
-        $apoderado->update($this->editingApoderado);
+        dd($validated);
 
+        $apoderado = Apoderado::find($this->editingApoderadoId);
+        $apoderado->update($this->editingApoderado->toArray())->save();
         $this->editingApoderadoId = null;
         $this->editingApoderado = null;
-        $this->loadApoderados($this->userform);
+        $this->userform->set($this->userform->user->id);
     }
 
-    public function deleteApoderado($id)
+    public function deleteApoderado($user_apoderado_id)
     {
-        $apoderado = Apoderado::findOrFail($id);
-        $apoderado->delete();
-        $this->loadApoderados($this->userform);
+        $this->user_apoderados->find($user_apoderado_id)->delete();
+        $this->user_apoderados = $this->userform->user->user_apoderados;
     }
 
     public function addApoderado()
@@ -104,7 +107,7 @@ class Pagos extends Component
         ]);
 
         $apoderado = Apoderado::create($this->editingApoderado);
-        $this->userform
+        $this->userform->user
             ->apoderados()
             ->attach($apoderado->id, [
                 "tapoderado_id" => $this->editingApoderado["tapoderado_id"],
@@ -112,7 +115,7 @@ class Pagos extends Component
 
         $this->editingApoderadoId = null;
         $this->editingApoderado = null;
-        $this->loadApoderados($this->userform);
+        $this->userform->set($this->userform->user->id);
     }
 
     public function updatedNewPerfilImage()
@@ -243,39 +246,12 @@ class Pagos extends Component
         $this->search = $user->name;
         $this->results = []; // Limpiar los resultados
         $this->userform->set($user);
+        $this->user_apoderados = $this->userform->user->user_apoderados;
 
         // Cargar las imágenes actuales del usuario
         $this->perfilUrl = $this->userform->profile_photo_path;
         $this->dniUrl = $this->userform->dni_path;
-
-        // Cargar los apoderados del usuario
-        $this->loadApoderados($user);
-    }
-
-    public function loadApoderados(User $user)
-    {
-        $this->apoderados = $user
-            ->apoderados()
-            ->with("tipoApoderado")
-            ->get()
-            ->map(function ($apoderado) {
-                return [
-                    "id" => $apoderado->id,
-                    "name" =>
-                        $apoderado->name .
-                        " " .
-                        $apoderado->ap_paterno .
-                        " " .
-                        $apoderado->ap_materno,
-                    "celular" => $apoderado->celular1,
-                    "tipo" => $apoderado->tipoApoderado
-                        ? $apoderado->tipoApoderado->name
-                        : "No especificado",
-                    "dni" => $apoderado->nro_documento,
-                    "direccion" => $apoderado->direccion,
-                ];
-            })
-            ->toArray();
+        //dd($this->userform);
     }
 
     public function btnAgregar()
@@ -308,6 +284,12 @@ class Pagos extends Component
     public function save_user()
     {
         $this->userform->store();
+    }
+
+    public function mount()
+    {
+        $this->tipo_apoderados = Tapoderado::all();
+        $this->user_apoderados = collect();
     }
 
     public function render()

@@ -91,11 +91,10 @@ class User extends Authenticatable //implements MustVerifyEmail
         );
     }
 
-    public function apoderados()
+    public function user_apoderados()
     {
-        return $this->belongsToMany(
-            Apoderado::class,
-            "user_apoderados"
-        )->withPivot("tapoderado_id");
+        return $this->hasMany(
+            User_apoderado::class
+        );
     }
 }

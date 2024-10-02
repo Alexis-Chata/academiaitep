@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,8 +28,10 @@ class Apoderado extends Model
         );
     }
 
-    public function tipoApoderado()
+    protected function fullName(): Attribute
     {
-        return $this->belongsTo(Tapoderado::class, "tapoderado_id");
+        return Attribute::make(
+            get: fn () => $this->name . ' ' . $this->ap_paterno . ' ' . $this->ap_materno
+        );
     }
 }
