@@ -39,9 +39,9 @@
                     <input type="radio" id="tab2" name="tab-informacion" />
                     <input type="radio" id="tab3" name="tab-informacion" />
                     <div class="tab-labels">
-                        <label for="tab1" class="tab">Datos</label>
-                        <label for="tab2" class="tab">Apoderados</label>
-                        <label for="tab3" class="tab">Ubicacion</label>
+                        <label for="tab1" class="tab" wire:click='cancelEdit'>Datos</label>
+                        <label for="tab2" class="tab" wire:click='cancelEdit'>Apoderados</label>
+                        <label for="tab3" class="tab" wire:click='cancelEdit'>Ubicacion</label>
                     </div>
 
                     <div class="tab-content-container">
@@ -142,17 +142,25 @@
                                 </div>
                             </div>
                             <div class="actions">
-                                @if (isset($userform->user))
-                                    <button id="btn-editar" onclick="habilitar_Edicion('datos-content')">Editar</button>
-                                @else
-                                    <button id="btn-editar" class="d-none" disabled>Editar</button>
+                                @if (isset($userform->user) and !$editandoUser)
+                                    <button id="btn-editar"
+                                        wire:click="editUser({{ $userform->user->id }})">Editar</button>
                                 @endif
-                                <button id="btn-agregar" class="{{ $d_none_datos }}"
-                                    wire:click="btnAgregar()">Agregar</button>
-                                <button id="btn-guardar" class="btn-guardar guardar {{ $inline_block_datos }}"
-                                    wire:click="btnGuardar()">Guardar</button>
-                                <button id="btn-cancelar" class="btn-cancelar cancelar {{ $inline_block_datos }}"
-                                    wire:click="btnCancelar()">Cancelar</button>
+                                @if ($editandoUser)
+                                    <button id="btn-guardar" class="btn-guardar guardar {{ $inline_block_datos }}"
+                                        wire:click="btnGuardar()">Guardar</button>
+                                    <button id="btn-cancelar" class="btn-cancelar cancelar {{ $inline_block_datos }}"
+                                        wire:click="cancelEdit()">Cancelar</button>
+                                @endif
+                                @if ($agregandoUser)
+                                    <button id="btn-agregar" class="{{ $d_none_datos }}"
+                                        wire:click="btnAgregar()">Agregar</button>
+                                @else
+                                    <button id="btn-guardar" class="btn-guardar guardar {{ $inline_block_datos }}"
+                                        wire:click="btnGuardar()">Guardar</button>
+                                    <button id="btn-cancelar" class="btn-cancelar cancelar {{ $inline_block_datos }}"
+                                        wire:click="cancelEdit()">Cancelar</button>
+                                @endif
                             </div>
                         </div>
                         <div class="tab-content" id="apoderados-content">
@@ -181,8 +189,10 @@
                                                 <td>{{ $user_apoderado->apoderado->direccion }}</td>
                                                 <td>{{ $user_apoderado->apoderado->email }}</td>
                                                 <td>
-                                                    <button wire:click="editApoderado({{ $user_apoderado->apoderado->id }}, {{ $user_apoderado->id }})">Editar</button>
-                                                    <button wire:click="deleteApoderado({{ $user_apoderado->id }})">Eliminar</button>
+                                                    <button
+                                                        wire:click="editApoderado({{ $user_apoderado->apoderado->id }}, {{ $user_apoderado->id }})">Editar</button>
+                                                    <button
+                                                        wire:click="deleteApoderado({{ $user_apoderado->id }})">Eliminar</button>
                                                 </td>
                                             @endif
                                         </tr>
@@ -194,7 +204,6 @@
                                     @if ($editingApoderadoId === 'new')
                                         <tr>
                                             @include('livewire.parts.pagos-apoderado')
-                                            {{ $this->getErrorBag() }}
                                         </tr>
                                     @endif
                                 </tbody>

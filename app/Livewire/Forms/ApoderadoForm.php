@@ -3,7 +3,6 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Apoderado;
-use Illuminate\Support\Arr;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -23,6 +22,7 @@ class ApoderadoForm extends Form
     public $nro_documento;
     #[Validate('required')]
     public $direccion;
+    #[Validate('nullable|email')]
     public $email;
     #[Validate('required')]
     public $f_tipo_documento_id;
@@ -36,14 +36,14 @@ class ApoderadoForm extends Form
         $this->celular1 = $apoderado->celular1;
         $this->nro_documento = $apoderado->nro_documento;
         $this->direccion = $apoderado->direccion;
-        $this->email = $apoderado->email ?? '{$apoderado->nro_documento}@example.com';
+        $this->email = $apoderado->email;
         $this->f_tipo_documento_id = $apoderado->f_tipo_documento_id;
     }
 
     public function update()
     {
         $this->validate();
-        
+
         if ($this->apoderado) {
             $this->apoderado->update($this->all());
         }
@@ -51,6 +51,9 @@ class ApoderadoForm extends Form
 
     public function store()
     {
+        if (empty($this->email)) {
+            $this->email = 'sin_email@ejemplo.com'; // O usa una cadena vacía: ''
+        }
         $this->validate();
 
         if ($this->apoderado) {
