@@ -22,6 +22,9 @@ Route::view("pagos", "administrador.pagos.pagos_index")->name("pagos.index");
 Route::view("turnos", "administrador.turnos.index_turno")->middleware('can:admin.turno.titulo')->name("turnos.index");
 #settings
 Route::view("settings", "administrador.index")->name("settings.index");
+#usuarios
+Route::view("usuarios", "administrador.usuarios.index")->middleware('can:admin.usuarios.titulo')->name("usuarios.index");
+
 
 // Nuevas rutas para el frontend
 #tipo comprobantes

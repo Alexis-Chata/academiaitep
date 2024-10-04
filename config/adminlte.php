@@ -304,7 +304,12 @@ return [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
-
+        [
+            'text' => 'Usuarios',
+            'route'  => 'admin.usuarios.index',
+            'icon' => 'fas fa-user fa-fw',
+            'can' => 'admin.usuarios.titulo'
+        ],
         [
             'text' => 'Academia',
             'icon' => 'fas fa-bookmark',
