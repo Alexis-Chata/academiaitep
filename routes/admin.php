@@ -33,11 +33,8 @@ Route::view("tipo-afectaciones", "administrador.tipo_afectaciones.tipo_afectacio
 #tipo documentos
 Route::view("tipo-documentos", "administrador.tipo_documentos.tipo_documentos_index")->name("tipo_documentos.index");
 
-#series
-Route::view("series", "administrador.series.index")->middleware('can:admin.serie.titulo')->name("series.index");
-
 #empresas
 Route::view("empresas", "administrador.empresas.empresas_index")->name("empresas.index");
 
-#sedes
-Route::view("sedes", "administrador.sedes.index")->middleware('can:admin.sede.titulo')->name("sedes.index");
+#sedes - Series
+Route::view("sedes-series", "administrador.sedes_series.index")->name("sedes_series.index");

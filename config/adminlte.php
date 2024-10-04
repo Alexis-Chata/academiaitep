@@ -413,6 +413,11 @@ return [
                     'url'  => 'admin/empresas',
                     'icon' => 'fas fa-building',
                 ],
+                [
+                    'text' => 'Sedes y Series',
+                    'url'  => 'admin/sedes-series',
+                    'icon' => 'fas fa-map-marker-alt',
+                ],
             ],
         ],
 
