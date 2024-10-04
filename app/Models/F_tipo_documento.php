@@ -9,5 +9,12 @@ class F_tipo_documento extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'id',
+        'descripcion',
+    ];
+
+    // Si estás usando el campo 'id' como string, necesitas especificarlo:
     protected $keyType = 'string';
+    public $incrementing = false;
 }

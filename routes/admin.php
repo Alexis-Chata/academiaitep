@@ -22,3 +22,22 @@ Route::view("pagos", "administrador.pagos.pagos_index")->name("pagos.index");
 Route::view("turnos", "administrador.turnos.index_turno")->middleware('can:admin.turno.titulo')->name("turnos.index");
 #settings
 Route::view("settings", "administrador.index")->name("settings.index");
+
+// Nuevas rutas para el frontend
+#tipo comprobantes
+Route::view("tipo-comprobantes", "administrador.tipo_comprobantes.tipo_comprobantes_index")->name("tipo_comprobantes.index");
+
+#tipo afectaciones
+Route::view("tipo-afectaciones", "administrador.tipo_afectaciones.tipo_afectaciones_index")->name("tipo_afectaciones.index");
+
+#tipo documentos
+Route::view("tipo-documentos", "administrador.tipo_documentos.tipo_documentos_index")->name("tipo_documentos.index");
+
+#series
+Route::view("series", "administrador.series.index")->middleware('can:admin.serie.titulo')->name("series.index");
+
+#empresas
+Route::view("empresas", "administrador.empresas.index")->middleware('can:admin.empresa.titulo')->name("empresas.index");
+
+#sedes
+Route::view("sedes", "administrador.sedes.index")->middleware('can:admin.sede.titulo')->name("sedes.index");

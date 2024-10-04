@@ -389,6 +389,27 @@ return [
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
+        [
+            'text' => 'Configuración',
+            'icon' => 'fas fa-cogs',
+            'submenu' => [
+                [
+                    'text' => 'Tipos de Comprobantes',
+                    'url'  => 'admin/tipo-comprobantes',
+                    'icon' => 'fas fa-file-invoice',
+                ],
+                [
+                    'text' => 'Tipos de Afectaciones',
+                    'url'  => 'admin/tipo-afectaciones',
+                    'icon' => 'fas fa-balance-scale',
+                ],
+                [
+                    'text' => 'Tipos de Documentos',
+                    'url'  => 'admin/tipo-documentos',
+                    'icon' => 'fas fa-id-card',
+                ],
+            ],
+        ],
 
     ],
 
