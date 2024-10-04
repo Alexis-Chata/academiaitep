@@ -37,7 +37,7 @@ Route::view("tipo-documentos", "administrador.tipo_documentos.tipo_documentos_in
 Route::view("series", "administrador.series.index")->middleware('can:admin.serie.titulo')->name("series.index");
 
 #empresas
-Route::view("empresas", "administrador.empresas.index")->middleware('can:admin.empresa.titulo')->name("empresas.index");
+Route::view("empresas", "administrador.empresas.empresas_index")->name("empresas.index");
 
 #sedes
 Route::view("sedes", "administrador.sedes.index")->middleware('can:admin.sede.titulo')->name("sedes.index");
