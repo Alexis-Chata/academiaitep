@@ -408,6 +408,11 @@ return [
                     'url'  => 'admin/tipo-documentos',
                     'icon' => 'fas fa-id-card',
                 ],
+                [
+                    'text' => 'Empresas',
+                    'url'  => 'admin/empresas',
+                    'icon' => 'fas fa-building',
+                ],
             ],
         ],
 
