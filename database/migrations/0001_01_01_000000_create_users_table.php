@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string("ap_materno");
             $table->string("f_tipo_documento_id");
             $table->string("nro_documento");
-            $table->string("direccion");
+            $table->string("direccion")->nullable();
             $table->string("celular1")->nullable();
             $table->string("celular2")->nullable();
             $table->char("id_moodle_user")->nullable();
