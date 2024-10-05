@@ -1,4 +1,4 @@
-<div class="modal show d-block" tabindex="-1" role="dialog">
+<div class="modal show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);backdrop-filter: blur(2px);overflow-x: hidden;overflow-y: auto;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

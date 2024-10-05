@@ -13,7 +13,7 @@
 
     <div class="row mb-4">
         <div class="col-md-12">
-            <button wire:click="create()" class="btn btn-primary">Crear Nueva Empresa</button>
+            <button wire:click="create()" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Crear Nueva Empresa</button>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
     @if ($empresas->count() > 0)
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
-                <thead>
+                <thead class="table-dark">
                     <tr>
                         <th>Nombre</th>
                         <th>RUC</th>
@@ -48,11 +48,11 @@
                             <td>{{ $empresa->telefono }}</td>
                             <td>{{ $empresa->direccion }}</td>
                             <td>
-                                <button wire:click="edit({{ $empresa->id }})" class="btn btn-primary btn-sm">Editar</button>
+                                <button wire:click="edit({{ $empresa->id }})" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
                                 <button wire:click="delete({{ $empresa->id }})" 
                                         class="btn btn-danger btn-sm"
                                         onclick="return confirm('¿Estás seguro de que quieres eliminar esta empresa?')">
-                                    Eliminar
+                                        <i class="fas fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
@@ -68,7 +68,7 @@
     @endif
 
     @if($isOpen)
-        <div class="modal show d-block" tabindex="-1" role="dialog">
+        <div class="modal show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);backdrop-filter: blur(2px);overflow-x: hidden;overflow-y: auto;">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -126,6 +126,23 @@
                             </div>
                         </form>
                     </div>
+                    <style>
+                        /* Estilo para el fondo del modal */
+                        .modal {
+                            cursor: pointer;
+                        }
+                        /* Mantener el cursor normal dentro del contenido del modal */
+                        .modal-content {
+                            cursor: default;
+                        }
+                        /* Asegurar que los elementos interactivos dentro del modal mantengan su cursor */
+                        .modal-content :is(button, select, a){
+                            cursor: pointer;
+                        }
+                        .modal-content input{
+                            cursor: initial;
+                        }
+                    </style>
                     <div class="modal-footer">
     @if($empresa_id)
         <button type="button" wire:click.prevent="update()" class="btn btn-primary">Actualizar</button>
@@ -139,3 +156,24 @@
         </div>
     @endif
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Función para cerrar el modal
+    function cerrarModal() {
+        const botonCerrar = document.querySelector('button[wire\\:click="closeModal()"]');
+        if (botonCerrar) {
+            botonCerrar.click();
+        }
+    }
+
+    // Detectar clic fuera del modal
+    document.addEventListener('click', function(evento) {
+        const modal = document.querySelector('.modal-content');
+        const botonCrear = document.querySelector('button[wire\\:click="create()"]');
+
+        if (modal && !modal.contains(evento.target) && evento.target !== botonCrear) {
+            cerrarModal();
+        }
+    });
+});
+</script>
