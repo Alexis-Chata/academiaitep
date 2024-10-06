@@ -13,45 +13,51 @@ class FSerieSeeder extends Seeder
      */
     public function run(): void
     {
-        $serie = new F_serie(); // Cambia FSerie a F_serie
-        $serie->tipo_comprobante_id = "00";
-        $serie->serie = "0001";
-        $serie->correlativo = 0;
-        $serie->f_sede_id = 1;
-        $serie->save();
+        // $serie = new F_serie(); // Cambia FSerie a F_serie
+        // $serie->tipo_comprobante_id = "8";
+        // $serie->serie = "0001";
+        // $serie->correlativo = 0;
+        // $serie->fecha_emision = date('Y-m-d');
+        // $serie->f_sede_id = 1;
+        // $serie->save();
 
         $serie = new F_serie(); // Cambia FSerie a F_serie
-        $serie->tipo_comprobante_id = "03";
+        $serie->tipo_comprobante_id = "2";
         $serie->serie = "B001";
         $serie->correlativo = 0;
+        $serie->fecha_emision = date('Y-m-d');
         $serie->f_sede_id = 1;
         $serie->save();
 
         $serie = new F_serie(); // Cambia FSerie a F_serie
-        $serie->tipo_comprobante_id = "01";
+        $serie->tipo_comprobante_id = "1";
         $serie->serie = "F001";
         $serie->correlativo = 0;
+        $serie->fecha_emision = date('Y-m-d');
         $serie->f_sede_id = 1;
         $serie->save();
 
-        $serie = new F_serie(); // Cambia FSerie a F_serie
-        $serie->tipo_comprobante_id = "00";
-        $serie->serie = "0101";
-        $serie->correlativo = 0;
-        $serie->f_sede_id = 2;
-        $serie->save();
+        // $serie = new F_serie(); // Cambia FSerie a F_serie
+        // $serie->tipo_comprobante_id = "8";
+        // $serie->serie = "0101";
+        // $serie->correlativo = 0;
+        // $serie->fecha_emision = date('Y-m-d');
+        // $serie->f_sede_id = 2;
+        // $serie->save();
 
         $serie = new F_serie(); // Cambia FSerie a F_serie
-        $serie->tipo_comprobante_id = "03";
+        $serie->tipo_comprobante_id = "2";
         $serie->serie = "B101";
         $serie->correlativo = 0;
+        $serie->fecha_emision = date('Y-m-d');
         $serie->f_sede_id = 2;
         $serie->save();
 
         $serie = new F_serie(); // Cambia FSerie a F_serie
-        $serie->tipo_comprobante_id = "01";
+        $serie->tipo_comprobante_id = "1";
         $serie->serie = "F101";
         $serie->correlativo = 0;
+        $serie->fecha_emision = date('Y-m-d');
         $serie->f_sede_id = 2;
         $serie->save();
     }

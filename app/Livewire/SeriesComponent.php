@@ -30,7 +30,7 @@ class SeriesComponent extends Component
     {
         $series = F_serie::paginate($this->n_pagina_series);
         $sedes = F_sede::all();
-        $tipoComprobantes = F_tipo_comprobante::all();
+        $tipoComprobantes = F_tipo_comprobante::where('estado_pos', true)->get();
         return view('livewire.series-component', compact('series', 'sedes', 'tipoComprobantes'));
     }
 
@@ -67,6 +67,7 @@ class SeriesComponent extends Component
             'tipo_comprobante_id' => $this->tipo_comprobante_id,
             'serie' => $this->serie,
             'correlativo' => $this->correlativo,
+            'fecha_emision' => date('Y-m-d'),
             'f_sede_id' => $this->f_sede_id,
         ]);
 

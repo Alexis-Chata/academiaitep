@@ -19,7 +19,7 @@ class SedesSeries extends Component
 
     // Variables para Sedes
     public $sede_id, $nombre_sede, $telefono, $direccion, $departamento, $provincia, $distrito, $ubigueo, $addresstypecode, $f_empresa_id;
-    
+
     // Variables para Series
     public $serie_id, $tipo_comprobante_id, $serie, $correlativo, $f_sede_id;
 
@@ -50,7 +50,7 @@ class SedesSeries extends Component
         $sedes = F_sede::paginate($this->n_pagina_sedes);
         $series = F_serie::paginate($this->n_pagina_series);
         $empresas = F_empresa::all();
-        $tipoComprobantes = F_tipo_comprobante::all();
+        $tipoComprobantes = F_tipo_comprobante::where('estado_pos', true)->get();
         return view('livewire.sedes-series', compact('sedes', 'series', 'empresas', 'tipoComprobantes'));
     }
 
@@ -207,6 +207,7 @@ class SedesSeries extends Component
             'tipo_comprobante_id' => $this->tipo_comprobante_id,
             'serie' => $this->serie,
             'correlativo' => $this->correlativo,
+            'fecha_emision' => date('Y-m-d'),
             'f_sede_id' => $this->f_sede_id,
         ]);
 

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->char('tipo_comprobante_id');
             $table->string('serie');
             $table->string('correlativo');
+            $table->date('fecha_emision');
             $table->foreignId('f_sede_id')->constrained('f_sedes');
             $table->timestamps();
         });

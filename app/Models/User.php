@@ -77,6 +77,19 @@ class User extends Authenticatable //implements MustVerifyEmail
         ];
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            foreach ($model->getAttributes() as $key => $value) {
+                if (is_string($value)) {
+                    $model->{$key} = trim($value);
+                }
+            }
+        });
+    }
+
     protected function estado(): Attribute
     {
         return Attribute::make(

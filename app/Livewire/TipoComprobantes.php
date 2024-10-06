@@ -15,7 +15,7 @@ class TipoComprobantes extends Component
 
     public function render()
     {
-        $tipoComprobantes = F_tipo_comprobante::paginate($this->n_pagina);
+        $tipoComprobantes = F_tipo_comprobante::where('estado_pos', true)->paginate($this->n_pagina);
         return view('livewire.tipo-comprobantes', compact('tipoComprobantes'));
     }
 }

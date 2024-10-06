@@ -14,29 +14,29 @@ class FTipoComprobanteSeeder extends Seeder
     public function run(): void
     {
         $tipo_comprobante = new F_tipo_comprobante();
-        $tipo_comprobante->tipo_comprobante = "01";
+        $tipo_comprobante->tipo_comprobante = "1";
         $tipo_comprobante->descripcion = 'FACTURA';
         $tipo_comprobante->estado_pos = true;
         $tipo_comprobante->save();
 
         $tipo_comprobante = new F_tipo_comprobante();
-        $tipo_comprobante->tipo_comprobante = "03";
+        $tipo_comprobante->tipo_comprobante = "3";
         $tipo_comprobante->descripcion = 'BOLETA';
         $tipo_comprobante->estado_pos = true;
         $tipo_comprobante->save();
 
         $tipo_comprobante = new F_tipo_comprobante();
-        $tipo_comprobante->tipo_comprobante = "07";
+        $tipo_comprobante->tipo_comprobante = "7";
         $tipo_comprobante->descripcion = 'NOTA DE CREDITO';
         $tipo_comprobante->save();
 
         $tipo_comprobante = new F_tipo_comprobante();
-        $tipo_comprobante->tipo_comprobante = "08";
+        $tipo_comprobante->tipo_comprobante = "8";
         $tipo_comprobante->descripcion = 'NOTA DE DEBITO';
         $tipo_comprobante->save();
 
         $tipo_comprobante = new F_tipo_comprobante();
-        $tipo_comprobante->tipo_comprobante = "09";
+        $tipo_comprobante->tipo_comprobante = "9";
         $tipo_comprobante->descripcion = 'GUIA DE REMISION';
         $tipo_comprobante->save();
 
@@ -51,9 +51,8 @@ class FTipoComprobanteSeeder extends Seeder
         $tipo_comprobante->save();
 
         $tipo_comprobante = new F_tipo_comprobante();
-        $tipo_comprobante->tipo_comprobante = "00";
+        $tipo_comprobante->tipo_comprobante = "0";
         $tipo_comprobante->descripcion = 'TICKET';
-        $tipo_comprobante->estado_pos = true;
         $tipo_comprobante->save();
     }
 }

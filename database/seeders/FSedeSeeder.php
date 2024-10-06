@@ -14,7 +14,7 @@ class FSedeSeeder extends Seeder
     public function run(): void
     {
         $sede = new F_sede(); // Cambia FSede a F_sede
-        $sede->nombre = "GRUPO LEGITHI S.A.C.";
+        $sede->nombre = "Academic A";
         $sede->telefono = "999888777";
         $sede->direccion = "CAL.LOS MERCADERES NRO. 317 URB. CERCADO AREQUIPA";
         $sede->departamento = "arequipa";
@@ -26,7 +26,7 @@ class FSedeSeeder extends Seeder
         $sede->save();
 
         $sede = new F_sede(); // Cambia FSede a F_sede
-        $sede->nombre = "GRUPO LEGITHI S.A.C.";
+        $sede->nombre = "Academic C";
         $sede->telefono = "999777888";
         $sede->direccion = " AV. COLLASUYO 2964 Dpto M Int 119";
         $sede->departamento = "cusco";

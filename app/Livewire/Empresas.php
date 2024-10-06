@@ -70,6 +70,7 @@ class Empresas extends Component
 
         F_empresa::create([
             'nombre' => $this->nombre,
+            'razon_social' => $this->nombre,
             'ruc' => $this->ruc,
             'telefono' => $this->telefono,
             'direccion' => $this->direccion,

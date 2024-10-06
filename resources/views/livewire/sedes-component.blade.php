@@ -21,11 +21,9 @@
                     <th>Nombre</th>
                     <th>Teléfono</th>
                     <th>Dirección</th>
-                    <th>Departamento</th>
-                    <th>Provincia</th>
-                    <th>Distrito</th>
+                    <th>Región</th>
                     <th>Ubigeo</th>
-                    <th>Código de Tipo de Dirección</th>
+                    <th>Anexo</th>
                     <th>Empresa</th>
                     <th>Acciones</th>
                 </tr>
@@ -36,12 +34,10 @@
                         <td>{{ $sede->nombre }}</td>
                         <td>{{ $sede->telefono }}</td>
                         <td>{{ $sede->direccion }}</td>
-                        <td>{{ $sede->departamento }}</td>
-                        <td>{{ $sede->provincia }}</td>
-                        <td>{{ $sede->distrito }}</td>
+                        <td>{{ $sede->region }}</td>
                         <td>{{ $sede->ubigueo }}</td>
                         <td>{{ $sede->addresstypecode }}</td>
-                        <td>{{ $sede->f_empresa_id }}</td>
+                        <td>{{ $sede->empresa->nombre }}</td>
                         <td>
                             <button wire:click="editSede({{ $sede->id }})" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
                             <button wire:click="deleteSede({{ $sede->id }})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>

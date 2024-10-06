@@ -15,6 +15,7 @@
                     <th>Tipo Comprobante</th>
                     <th>Serie</th>
                     <th>Correlativo</th>
+                    <th>Fecha</th>
                     <th>Sede</th>
                     <th>Acciones</th>
                 </tr>
@@ -25,6 +26,7 @@
                         <td>{{ $serie->tipo_comprobante->descripcion ?? 'N/A' }}</td>
                         <td>{{ $serie->serie }}</td>
                         <td>{{ $serie->correlativo }}</td>
+                        <td>{{ $serie->fecha_emision }}</td>
                         <td>{{ $serie->sede->nombre ?? 'N/A' }}</td>
                         <td>
                             <button wire:click="editSerie({{ $serie->id }})" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>

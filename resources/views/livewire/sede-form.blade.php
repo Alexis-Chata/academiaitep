@@ -45,7 +45,7 @@
                         @error('ubigueo') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="form-group">
-                        <label for="addresstypecode">Código de Tipo de Dirección</label>
+                        <label for="addresstypecode">Anexo</label>
                         <input type="text" class="form-control" id="addresstypecode" wire:model="addresstypecode">
                         @error('addresstypecode') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>

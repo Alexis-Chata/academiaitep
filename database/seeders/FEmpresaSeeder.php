@@ -14,7 +14,8 @@ class FEmpresaSeeder extends Seeder
     public function run(): void
     {
         $empresa = new F_empresa(); // Crea una nueva instancia del modelo
-        $empresa->nombre = "GRUPO LEGITHI S.A.C.";
+        $empresa->nombre = "Academic";
+        $empresa->razon_social = "Academic S.A.C.";
         $empresa->ruc = "20611995998";
         $empresa->telefono = "0123456789";
         $empresa->direccion = "CAL.LOS MERCADERES NRO. 317 URB. CERCADO AREQUIPA";

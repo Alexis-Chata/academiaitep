@@ -1,6 +1,6 @@
 <div class="container">
     <h1 class="mb-4">Gestión de Tipos de Comprobantes</h1>
-    
+
     <div class="row mb-3">
         <div class="col-auto">
             <select class="form-select" wire:model.live="n_pagina">
@@ -19,7 +19,7 @@
                     <tr>
                         <th>Tipo</th>
                         <th>Descripción</th>
-                        <th>Estado POS</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
