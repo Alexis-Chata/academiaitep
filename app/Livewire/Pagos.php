@@ -15,6 +15,7 @@ use App\Models\Apoderado;
 use App\Models\Cuenta;
 use App\Models\F_serie;
 use App\Models\F_tipo_documento;
+use App\Models\Grupo;
 use App\Models\Tapoderado;
 use App\Models\User_apoderado;
 
@@ -24,6 +25,7 @@ class Pagos extends Component
 
     public $series;
     public $cuentas;
+    public $grupos;
     public $user_apoderados;
     public $tipo_apoderados;
     public $tipo_documentos;
@@ -278,11 +280,13 @@ class Pagos extends Component
         $this->tipo_documentos = F_tipo_documento::all();
         $this->series = F_serie::all();
         $this->cuentas = Cuenta::all();
+        $this->grupos = Grupo::with('cgrupo')->get();
         $this->user_apoderados = collect();
     }
 
     public function render()
     {
+        dd($this->grupos);
         return view("livewire.pagos");
     }
 }

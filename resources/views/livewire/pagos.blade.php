@@ -9,26 +9,22 @@
                         <label for="search" style="margin-right: 5px;">Buscar:</label>
 
                         <div style="position: relative; width: 100%;">
-                            <input type="text" id="search" wire:model.live="search" placeholder="DNI ..."
-                                autocomplete="off" style="flex: 1;" @keydown.arrow-down.prevent="$wire.incrementIndex()"
-                                @keydown.arrow-up.prevent="$wire.decrementIndex()"
-                                @keydown.enter.prevent="$wire.selectCurrent()">
+                            <input type="text" id="search" wire:model.live="search" placeholder="DNI ..." autocomplete="off" style="flex: 1;" @keydown.arrow-down.prevent="$wire.incrementIndex()" @keydown.arrow-up.prevent="$wire.decrementIndex()" @keydown.enter.prevent="$wire.selectCurrent()">
 
                             <!-- Lista de resultados -->
                             @if (!empty($results))
-                                <ul class="list-group position-absolute w-100" style="top: 100%; z-index: 1000;">
-                                    @forelse ($results as $index => $result)
-                                        <li class="list-group-item list-group-item-action text-sm py-2
-                                            {{ $selectedIndex === $index ? 'active' : '' }}"
-                                            role="button" wire:click="selectResult('{{ $result->id }}')">
-                                            {{ $result->name }}
-                                        </li>
-                                    @empty
-                                        <li class="list-group-item list-group-item-action text-sm py-2" role="button">
-                                            No encontrado
-                                        </li>
-                                    @endforelse
-                                </ul>
+                            <ul class="list-group position-absolute w-100" style="top: 100%; z-index: 1000;">
+                                @forelse ($results as $index => $result)
+                                <li class="list-group-item list-group-item-action text-sm py-2
+                                            {{ $selectedIndex === $index ? 'active' : '' }}" role="button" wire:click="selectResult('{{ $result->id }}')">
+                                    {{ $result->name }}
+                                </li>
+                                @empty
+                                <li class="list-group-item list-group-item-action text-sm py-2" role="button">
+                                    No encontrado
+                                </li>
+                                @endforelse
+                            </ul>
                             @endif
                         </div>
                     </div>
@@ -49,117 +45,102 @@
                             <div class="datos-container">
                                 <div class="input-group">
                                     <label for="nombres">Nombres:</label>
-                                    <input type="text" id="nombres" {{ $readonly_datos }}
-                                        wire:model="userform.name">
+                                    <input type="text" id="nombres" {{ $readonly_datos }} wire:model="userform.name">
                                     <div>
                                         @error('userform.name')
-                                            {{ $message }}
+                                        {{ $message }}
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="apPaterno">Ap. Paterno:</label>
-                                    <input type="text" id="apPaterno" {{ $readonly_datos }}
-                                        wire:model="userform.ap_paterno">
+                                    <input type="text" id="apPaterno" {{ $readonly_datos }} wire:model="userform.ap_paterno">
                                     <div>
                                         @error('userform.ap_paterno')
-                                            {{ $message }}
+                                        {{ $message }}
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="apMaterno">Ap. Materno:</label>
-                                    <input type="text" id="apMaterno" {{ $readonly_datos }}
-                                        wire:model="userform.ap_materno">
+                                    <input type="text" id="apMaterno" {{ $readonly_datos }} wire:model="userform.ap_materno">
                                     <div>
                                         @error('userform.ap_materno')
-                                            {{ $message }}
+                                        {{ $message }}
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="tipo_doc_identidad">Tipo Doc.:</label>
-                                    <select id="tipo_doc_identidad" class="form-control w-100" {{ $disabled_datos }}
-                                        wire:model="userform.f_tipo_documento_id">
+                                    <select id="tipo_doc_identidad" class="form-control w-100" {{ $disabled_datos }} wire:model="userform.f_tipo_documento_id">
                                         <option value="DNI">DNI</option>
                                         <option value="CE">C.E</option>
                                     </select>
                                     <div>
                                         @error('userform.f_tipo_documento_id')
-                                            {{ $message }}
+                                        {{ $message }}
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="nro_doc_identidad">Nro. Doc.:</label>
-                                    <input type="text" id="nro_doc_identidad" {{ $readonly_datos }}
-                                        wire:model="userform.nro_documento">
+                                    <input type="text" id="nro_doc_identidad" {{ $readonly_datos }} wire:model="userform.nro_documento">
                                     <div>
                                         @error('userform.userform')
-                                            {{ $message }}
+                                        {{ $message }}
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="direccion">Dirección:</label>
-                                    <input type="text" id="direccion" {{ $readonly_datos }}
-                                        wire:model="userform.direccion">
+                                    <input type="text" id="direccion" {{ $readonly_datos }} wire:model="userform.direccion">
                                     <div>
                                         @error('userform.direccion')
-                                            {{ $message }}
+                                        {{ $message }}
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="email">Email:</label>
-                                    <input type="text" id="email" {{ $readonly_datos }}
-                                        wire:model="userform.email">
+                                    <input type="text" id="email" {{ $readonly_datos }} wire:model="userform.email">
                                     <div>
                                         @error('userform.email')
-                                            {{ $message }}
+                                        {{ $message }}
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="celular">Celular:</label>
-                                    <input type="text" id="celular" {{ $readonly_datos }}
-                                        wire:model="userform.celular1">
+                                    <input type="text" id="celular" {{ $readonly_datos }} wire:model="userform.celular1">
                                     <div>
                                         @error('userform.celular1')
-                                            {{ $message }}
+                                        {{ $message }}
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="input-group">
                                     <label for="celular2">Celular 2:</label>
-                                    <input type="text" id="celular2" {{ $readonly_datos }}
-                                        wire:model="userform.celular2">
+                                    <input type="text" id="celular2" {{ $readonly_datos }} wire:model="userform.celular2">
                                     <div>
                                         @error('userform.celular2')
-                                            {{ $message }}
+                                        {{ $message }}
                                         @enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="actions">
                                 @if (isset($userform->user) and !$editandoUser)
-                                    <button id="btn-editar"
-                                        wire:click="editUser({{ $userform->user->id }})">Editar</button>
+                                <button id="btn-editar" wire:click="editUser({{ $userform->user->id }})">Editar</button>
                                 @endif
                                 @if ($editandoUser)
-                                    <button id="btn-guardar" class="btn-guardar guardar {{ $inline_block_datos }}"
-                                        wire:click="btnGuardar()">Guardar</button>
-                                    <button id="btn-cancelar" class="btn-cancelar cancelar {{ $inline_block_datos }}"
-                                        wire:click="cancelEdit()">Cancelar</button>
+                                <button id="btn-guardar" class="btn-guardar guardar {{ $inline_block_datos }}" wire:click="btnGuardar()">Guardar</button>
+                                <button id="btn-cancelar" class="btn-cancelar cancelar {{ $inline_block_datos }}" wire:click="cancelEdit()">Cancelar</button>
                                 @endif
                                 @if ($agregandoUser)
-                                    <button id="btn-agregar" class="{{ $d_none_datos }}"
-                                        wire:click="btnAgregar()">Agregar</button>
+                                <button id="btn-agregar" class="{{ $d_none_datos }}" wire:click="btnAgregar()">Agregar</button>
                                 @else
-                                    <button id="btn-guardar" class="btn-guardar guardar {{ $inline_block_datos }}"
-                                        wire:click="btnGuardar()">Guardar</button>
-                                    <button id="btn-cancelar" class="btn-cancelar cancelar {{ $inline_block_datos }}"
-                                        wire:click="cancelEdit()">Cancelar</button>
+                                <button id="btn-guardar" class="btn-guardar guardar {{ $inline_block_datos }}" wire:click="btnGuardar()">Guardar</button>
+                                <button id="btn-cancelar" class="btn-cancelar cancelar {{ $inline_block_datos }}" wire:click="cancelEdit()">Cancelar</button>
                                 @endif
                             </div>
                         </div>
@@ -178,33 +159,31 @@
                                 </thead>
                                 <tbody>
                                     @forelse ($user_apoderados as $user_apoderado)
-                                        <tr>
-                                            @if ($editingApoderadoId === $user_apoderado->apoderado->id)
-                                                @include('livewire.parts.pagos-apoderado')
-                                            @else
-                                                <td>{{ $user_apoderado->apoderado->full_name }}</td>
-                                                <td>{{ $user_apoderado->apoderado->celular1 }}</td>
-                                                <td>{{ $user_apoderado->tipo_apoderado->name }}</td>
-                                                <td>{{ $user_apoderado->apoderado->nro_documento }}</td>
-                                                <td>{{ $user_apoderado->apoderado->direccion }}</td>
-                                                <td>{{ $user_apoderado->apoderado->email }}</td>
-                                                <td>
-                                                    <button
-                                                        wire:click="editApoderado({{ $user_apoderado->apoderado->id }}, {{ $user_apoderado->id }})">Editar</button>
-                                                    <button
-                                                        wire:click="deleteApoderado({{ $user_apoderado->id }})">Eliminar</button>
-                                                </td>
-                                            @endif
-                                        </tr>
+                                    <tr>
+                                        @if ($editingApoderadoId === $user_apoderado->apoderado->id)
+                                        @include('livewire.parts.pagos-apoderado')
+                                        @else
+                                        <td>{{ $user_apoderado->apoderado->full_name }}</td>
+                                        <td>{{ $user_apoderado->apoderado->celular1 }}</td>
+                                        <td>{{ $user_apoderado->tipo_apoderado->name }}</td>
+                                        <td>{{ $user_apoderado->apoderado->nro_documento }}</td>
+                                        <td>{{ $user_apoderado->apoderado->direccion }}</td>
+                                        <td>{{ $user_apoderado->apoderado->email }}</td>
+                                        <td>
+                                            <button wire:click="editApoderado({{ $user_apoderado->apoderado->id }}, {{ $user_apoderado->id }})">Editar</button>
+                                            <button wire:click="deleteApoderado({{ $user_apoderado->id }})">Eliminar</button>
+                                        </td>
+                                        @endif
+                                    </tr>
                                     @empty
-                                        <tr>
-                                            <td colspan="6">Sin registro</td>
-                                        </tr>
+                                    <tr>
+                                        <td colspan="6">Sin registro</td>
+                                    </tr>
                                     @endforelse
                                     @if ($editingApoderadoId === 'new')
-                                        <tr>
-                                            @include('livewire.parts.pagos-apoderado')
-                                        </tr>
+                                    <tr>
+                                        @include('livewire.parts.pagos-apoderado')
+                                    </tr>
                                     @endif
                                 </tbody>
                             </table>
@@ -220,8 +199,7 @@
                                 </div>
                                 <div class="input-group">
                                     <label for="referencia">Referencia:</label>
-                                    <input type="text" id="referencia" value="Espalda del hospital del niño"
-                                        readonly>
+                                    <input type="text" id="referencia" value="Espalda del hospital del niño" readonly>
                                 </div>
                                 <div class="input-group">
                                     <label for="celular">Celular:</label>
@@ -236,10 +214,8 @@
                         <div class="actions" style="display: none">
                             <button id="btn-editar" onclick="habilitarEdicion()">Editar</button>
                             <button id="btn-agregar" onclick="limpiarInputs()">Agregar</button>
-                            <button id="btn-guardar" class="btn-guardar guardar"
-                                onclick="guardarCambios()">Guardar</button>
-                            <button id="btn-cancelar" class="btn-cancelar cancelar"
-                                onclick="cancelarEdicion()">Cancelar</button>
+                            <button id="btn-guardar" class="btn-guardar guardar" onclick="guardarCambios()">Guardar</button>
+                            <button id="btn-cancelar" class="btn-cancelar cancelar" onclick="cancelarEdicion()">Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -261,16 +237,12 @@
                                 <img id="perfil-img" src="{{ $perfilUrl }}" alt="Perfil">
                                 <div class="btn-group" id="perfil-btn-group">
                                     @if (!$newPerfilImage)
-                                        <button id="add-image-perfil" class="btn-icon"
-                                            onclick="document.getElementById('perfil-upload').click()">➕</button>
-                                        <input type="file" id="perfil-upload" wire:model="newPerfilImage"
-                                            style="display: none;" accept="image/*">
+                                    <button id="add-image-perfil" class="btn-icon" onclick="document.getElementById('perfil-upload').click()">➕</button>
+                                    <input type="file" id="perfil-upload" wire:model="newPerfilImage" style="display: none;" accept="image/*">
                                     @endif
                                     @if ($newPerfilImage)
-                                        <button id="save-image-perfil" class="btn-icon"
-                                            wire:click="saveImage('perfil')">💾</button>
-                                        <button id="cancel-image-perfil" class="btn-icon"
-                                            wire:click="cancelImage('perfil')">❌</button>
+                                    <button id="save-image-perfil" class="btn-icon" wire:click="saveImage('perfil')">💾</button>
+                                    <button id="cancel-image-perfil" class="btn-icon" wire:click="cancelImage('perfil')">❌</button>
                                     @endif
                                 </div>
                             </div>
@@ -282,16 +254,12 @@
                                 <img id="dni-img" src="{{ $dniUrl }}" alt="DNI">
                                 <div class="btn-group" id="dni-btn-group">
                                     @if (!$newDniImage)
-                                        <button id="add-image-dni" class="btn-icon"
-                                            onclick="document.getElementById('dni-upload').click()">➕</button>
-                                        <input type="file" id="dni-upload" wire:model="newDniImage"
-                                            style="display: none;" accept="image/*">
+                                    <button id="add-image-dni" class="btn-icon" onclick="document.getElementById('dni-upload').click()">➕</button>
+                                    <input type="file" id="dni-upload" wire:model="newDniImage" style="display: none;" accept="image/*">
                                     @endif
                                     @if ($newDniImage)
-                                        <button id="save-image-dni" class="btn-icon"
-                                            wire:click="saveImage('dni')">💾</button>
-                                        <button id="cancel-image-dni" class="btn-icon"
-                                            wire:click="cancelImage('dni')">❌</button>
+                                    <button id="save-image-dni" class="btn-icon" wire:click="saveImage('dni')">💾</button>
+                                    <button id="cancel-image-dni" class="btn-icon" wire:click="cancelImage('dni')">❌</button>
                                     @endif
                                 </div>
                             </div>
@@ -305,81 +273,68 @@
         <div class="matricula-section">
             <div class="columnFull mt-5 p-4 border rounded">
                 @if (isset($userform->user->id))
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <button class="matA">MAT-A</button>
-                            <button class="matB">MAT-B</button>
-                            <button class="btn btn-light me-3"
-                                style="margin-top: -15px;border: 2px solid #9a9a9a;border-radius: 0">
-                                <img src="https://cdn-icons-png.flaticon.com/512/0/532.png" alt="Descargar"
-                                    width="20px" />
-                            </button>
-                        </div>
-                        <div class="vencimiento">v: 30-09-2024</div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <button class="matA">MAT-A</button>
+                        <button class="matB">MAT-B</button>
+                        <button class="btn btn-light me-3" style="margin-top: -15px;border: 2px solid #9a9a9a;border-radius: 0">
+                            <img src="https://cdn-icons-png.flaticon.com/512/0/532.png" alt="Descargar" width="20px" />
+                        </button>
+                    </div>
+                    <div class="vencimiento">v: 30-09-2024</div>
+                </div>
+
+                <!-- Contenedor de inputs en 3 columnas -->
+                <div class="row grid-input">
+                    <div class="col-md-4 mb-3">
+                        <label for="anio" class="form-label"><strong>Año:</strong></label>
+                        <input type="text" id="anio" name="anio" class="form-control" value="2023" readonly>
                     </div>
 
-                    <!-- Contenedor de inputs en 3 columnas -->
-                    <div class="row grid-input">
-                        <div class="col-md-4 mb-3">
-                            <label for="anio" class="form-label"><strong>Año:</strong></label>
-                            <input type="text" id="anio" name="anio" class="form-control" value="2023"
-                                readonly>
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <label for="ciclo" class="form-label"><strong>Ciclo:</strong></label>
-                            <input type="text" id="ciclo" name="ciclo" class="form-control"
-                                value="Primera Fase" readonly>
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <label for="proceso" class="form-label"><strong>Proceso:</strong></label>
-                            <input type="text" id="proceso" name="proceso" class="form-control"
-                                value="Primera Ceprunsa" readonly>
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <label for="modalidad" class="form-label"><strong>Modalidad:</strong></label>
-                            <input type="text" id="modalidad" name="modalidad" class="form-control"
-                                value="Presencial" readonly>
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <label for="area" class="form-label"><strong>Área:</strong></label>
-                            <input type="text" id="area" name="area" class="form-control"
-                                value="Ingenierías" readonly>
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <label for="carrera" class="form-label"><strong>Carrera:</strong></label>
-                            <input type="text" id="carrera" name="carrera" class="form-control"
-                                value="Ingeniería de Sistemas" readonly>
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <label for="sede" class="form-label"><strong>Sede:</strong></label>
-                            <input type="text" id="sede" name="sede" class="form-control"
-                                value="Local 1" readonly>
-                        </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="ciclo" class="form-label"><strong>Ciclo:</strong></label>
+                        <input type="text" id="ciclo" name="ciclo" class="form-control" value="Primera Fase" readonly>
                     </div>
 
-                    <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-outline-secondary">Editar</button>
+                    <div class="col-md-4 mb-3">
+                        <label for="proceso" class="form-label"><strong>Proceso:</strong></label>
+                        <input type="text" id="proceso" name="proceso" class="form-control" value="Primera Ceprunsa" readonly>
                     </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="modalidad" class="form-label"><strong>Modalidad:</strong></label>
+                        <input type="text" id="modalidad" name="modalidad" class="form-control" value="Presencial" readonly>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="area" class="form-label"><strong>Área:</strong></label>
+                        <input type="text" id="area" name="area" class="form-control" value="Ingenierías" readonly>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="carrera" class="form-label"><strong>Carrera:</strong></label>
+                        <input type="text" id="carrera" name="carrera" class="form-control" value="Ingeniería de Sistemas" readonly>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="sede" class="form-label"><strong>Sede:</strong></label>
+                        <input type="text" id="sede" name="sede" class="form-control" value="Local 1" readonly>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-outline-secondary">Editar</button>
+                </div>
                 @else
-                    <div class="noMat">
-                        <svg width="800px" height="800px" viewBox="0 0 36 36" version="1.1"
-                            preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                            style="width: 1em;height: auto;fill: #ffffff; ">
-                            <title>alert-solid</title>
-                            <path class="clr-i-solid clr-i-solid-path-1"
-                                d="M18,2.5c-8.82,0-16,6.28-16,14s7.18,14,16,14a18,18,0,0,0,4.88-.68l5.53,3.52a1,1,0,0,0,1.54-.84l0-6.73a13,13,0,0,0,4-9.27C34,8.78,26.82,2.5,18,2.5ZM16.93,9.13a1.41,1.41,0,1,1,2.81,0V18.9a1.41,1.41,0,1,1-2.81,0Zm1.41,17.35a1.87,1.87,0,1,1,1.87-1.87A1.87,1.87,0,0,1,18.34,26.47Z">
-                            </path>
-                            <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
-                        </svg>
-                        <b>No se encontro matricula</b>
-                    </div>
+                <div class="noMat">
+                    <svg width="800px" height="800px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="width: 1em;height: auto;fill: #ffffff; ">
+                        <title>alert-solid</title>
+                        <path class="clr-i-solid clr-i-solid-path-1" d="M18,2.5c-8.82,0-16,6.28-16,14s7.18,14,16,14a18,18,0,0,0,4.88-.68l5.53,3.52a1,1,0,0,0,1.54-.84l0-6.73a13,13,0,0,0,4-9.27C34,8.78,26.82,2.5,18,2.5ZM16.93,9.13a1.41,1.41,0,1,1,2.81,0V18.9a1.41,1.41,0,1,1-2.81,0Zm1.41,17.35a1.87,1.87,0,1,1,1.87-1.87A1.87,1.87,0,0,1,18.34,26.47Z">
+                        </path>
+                        <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
+                    </svg>
+                    <b>No se encontro matricula</b>
+                </div>
                 @endif
             </div>
         </div>
@@ -404,7 +359,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="femision">F. Emisión:</label>
-                            <input type="date" class="form-control" id="femision" min="2024-10-02">
+                            <input type="date" class="form-control" id="femision" min="{{$serie->min('fecha_emision')}}">
                         </div>
                     </div>
 
@@ -424,10 +379,11 @@
                             <label for="mpago">M. Pago:</label>
                             <select id="mpago" class="form-control">
                                 <option>Elegir</option>
+                                <option>Efectivo</option>
                             </select>
                         </div>
                     </div>
-
+                    @if (isset($cuent))
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="vaucher">Vaucher:</label>
@@ -438,7 +394,7 @@
                             <input type="text" class="form-control" id="noperacion">
                         </div>
                     </div>
-
+                    @endif
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <select id="concepto" class="form-control">
@@ -446,8 +402,7 @@
                             </select>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="number" class="form-control" id="cantidad" value="0"
-                                min="0">
+                            <input type="number" class="form-control" id="cantidad" value="0" min="0">
                         </div>
                         <div class="form-group col-md-4 d-flex align-items-end">
                             <button type="button" class="btn btn-primary">Agregar</button>

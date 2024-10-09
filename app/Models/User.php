@@ -37,6 +37,7 @@ class User extends Authenticatable //implements MustVerifyEmail
         "celular1",
         "celular2",
         "email",
+        "deuda_pendiente",
         "id_moodle_user",
         "estado",
         "locked",

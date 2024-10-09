@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->char("estado", 1);
             $table->char("locked", 1);
             $table->string("email")->unique();
+            $table->string("deuda_pendiente");
             $table->timestamp("email_verified_at")->nullable();
             $table->string("password");
             $table->rememberToken();
