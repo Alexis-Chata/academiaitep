@@ -13,7 +13,6 @@ return new class extends Migration {
         Schema::create("detalles", function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->foreignId("comprobante_id")->constrained("comprobantes");
             $table->string("concepto");
             $table->double("costo");
             $table->double("pago");

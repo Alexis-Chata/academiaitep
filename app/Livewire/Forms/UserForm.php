@@ -33,7 +33,7 @@ class UserForm extends Form
     public $dni_path;
 
     public function set(User $user){
-        $this->user = $user->load(["user_apoderados", "user_apoderados.apoderado", "user_apoderados.tipo_apoderado"]);
+        $this->user = $user->load(["user_apoderados", "user_apoderados.apoderado", "user_apoderados.tipo_apoderado", "matriculas"]);
         $this->name = $user->name;
         $this->ap_paterno = $user->ap_paterno;
         $this->ap_materno = $user->ap_materno;

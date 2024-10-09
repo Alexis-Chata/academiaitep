@@ -304,80 +304,83 @@
         <!-- matricula-section -->
         <div class="matricula-section">
             <div class="columnFull mt-5 p-4 border rounded">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                        <button class="matA">MAT-A</button>
-                        <button class="matB">MAT-B</button>
-                        <button class="btn btn-light me-3"
-                            style="margin-top: -15px;border: 2px solid #9a9a9a;border-radius: 0">
-                            <img src="https://cdn-icons-png.flaticon.com/512/0/532.png" alt="Descargar"
-                                width="20px" />
-                        </button>
-                    </div>
-                    <div class="vencimiento">v: 30-09-2024</div>
-                </div>
-
-                <!-- Contenedor de inputs en 3 columnas -->
-                <div class="row grid-input">
-                    <div class="col-md-4 mb-3">
-                        <label for="anio" class="form-label"><strong>Año:</strong></label>
-                        <input type="text" id="anio" name="anio" class="form-control" value="2023"
-                            readonly>
+                @if (isset($userform->user->id))
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <button class="matA">MAT-A</button>
+                            <button class="matB">MAT-B</button>
+                            <button class="btn btn-light me-3"
+                                style="margin-top: -15px;border: 2px solid #9a9a9a;border-radius: 0">
+                                <img src="https://cdn-icons-png.flaticon.com/512/0/532.png" alt="Descargar"
+                                    width="20px" />
+                            </button>
+                        </div>
+                        <div class="vencimiento">v: 30-09-2024</div>
                     </div>
 
-                    <div class="col-md-4 mb-3">
-                        <label for="ciclo" class="form-label"><strong>Ciclo:</strong></label>
-                        <input type="text" id="ciclo" name="ciclo" class="form-control"
-                            value="Primera Fase" readonly>
+                    <!-- Contenedor de inputs en 3 columnas -->
+                    <div class="row grid-input">
+                        <div class="col-md-4 mb-3">
+                            <label for="anio" class="form-label"><strong>Año:</strong></label>
+                            <input type="text" id="anio" name="anio" class="form-control" value="2023"
+                                readonly>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="ciclo" class="form-label"><strong>Ciclo:</strong></label>
+                            <input type="text" id="ciclo" name="ciclo" class="form-control"
+                                value="Primera Fase" readonly>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="proceso" class="form-label"><strong>Proceso:</strong></label>
+                            <input type="text" id="proceso" name="proceso" class="form-control"
+                                value="Primera Ceprunsa" readonly>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="modalidad" class="form-label"><strong>Modalidad:</strong></label>
+                            <input type="text" id="modalidad" name="modalidad" class="form-control"
+                                value="Presencial" readonly>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="area" class="form-label"><strong>Área:</strong></label>
+                            <input type="text" id="area" name="area" class="form-control"
+                                value="Ingenierías" readonly>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="carrera" class="form-label"><strong>Carrera:</strong></label>
+                            <input type="text" id="carrera" name="carrera" class="form-control"
+                                value="Ingeniería de Sistemas" readonly>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="sede" class="form-label"><strong>Sede:</strong></label>
+                            <input type="text" id="sede" name="sede" class="form-control"
+                                value="Local 1" readonly>
+                        </div>
                     </div>
 
-                    <div class="col-md-4 mb-3">
-                        <label for="proceso" class="form-label"><strong>Proceso:</strong></label>
-                        <input type="text" id="proceso" name="proceso" class="form-control"
-                            value="Primera Ceprunsa" readonly>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary">Editar</button>
                     </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="modalidad" class="form-label"><strong>Modalidad:</strong></label>
-                        <input type="text" id="modalidad" name="modalidad" class="form-control"
-                            value="Presencial" readonly>
+                @else
+                    <div class="noMat">
+                        <svg width="800px" height="800px" viewBox="0 0 36 36" version="1.1"
+                            preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            style="width: 1em;height: auto;fill: #ffffff; ">
+                            <title>alert-solid</title>
+                            <path class="clr-i-solid clr-i-solid-path-1"
+                                d="M18,2.5c-8.82,0-16,6.28-16,14s7.18,14,16,14a18,18,0,0,0,4.88-.68l5.53,3.52a1,1,0,0,0,1.54-.84l0-6.73a13,13,0,0,0,4-9.27C34,8.78,26.82,2.5,18,2.5ZM16.93,9.13a1.41,1.41,0,1,1,2.81,0V18.9a1.41,1.41,0,1,1-2.81,0Zm1.41,17.35a1.87,1.87,0,1,1,1.87-1.87A1.87,1.87,0,0,1,18.34,26.47Z">
+                            </path>
+                            <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
+                        </svg>
+                        <b>No se encontro matricula</b>
                     </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="area" class="form-label"><strong>Área:</strong></label>
-                        <input type="text" id="area" name="area" class="form-control"
-                            value="Ingenierías" readonly>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="carrera" class="form-label"><strong>Carrera:</strong></label>
-                        <input type="text" id="carrera" name="carrera" class="form-control"
-                            value="Ingeniería de Sistemas" readonly>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="sede" class="form-label"><strong>Sede:</strong></label>
-                        <input type="text" id="sede" name="sede" class="form-control" value="Local 1"
-                            readonly>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-outline-secondary">Editar</button>
-                </div>
-                <div class="noMat">
-                    <svg width="800px" height="800px" viewBox="0 0 36 36" version="1.1"
-                        preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" style="width: 1em;height: auto;fill: #ffffff; ">
-                        <title>alert-solid</title>
-                        <path class="clr-i-solid clr-i-solid-path-1"
-                            d="M18,2.5c-8.82,0-16,6.28-16,14s7.18,14,16,14a18,18,0,0,0,4.88-.68l5.53,3.52a1,1,0,0,0,1.54-.84l0-6.73a13,13,0,0,0,4-9.27C34,8.78,26.82,2.5,18,2.5ZM16.93,9.13a1.41,1.41,0,1,1,2.81,0V18.9a1.41,1.41,0,1,1-2.81,0Zm1.41,17.35a1.87,1.87,0,1,1,1.87-1.87A1.87,1.87,0,0,1,18.34,26.47Z">
-                        </path>
-                        <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
-                    </svg>
-                    <b>No se encontro matricula --></b>
-                    <button type="button">AGREGAR</button>
-                </div>
+                @endif
             </div>
         </div>
 
@@ -389,14 +392,19 @@
                 <form>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="femision">F. Emisión:</label>
-                            <input type="date" class="form-control" id="femision">
-                        </div>
-                        <div class="form-group col-md-6">
                             <label for="doc">Doc:</label>
                             <select id="doc" class="form-control">
                                 <option>Elegir</option>
+                                @forelse ( $series as $serie)
+                                <option value="{{ $serie->id }}">{{ $serie->serie }}</option>
+                                @empty
+                                <option>sin registro</option>
+                                @endforelse
                             </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="femision">F. Emisión:</label>
+                            <input type="date" class="form-control" id="femision" min="2024-10-02">
                         </div>
                     </div>
 
@@ -405,6 +413,11 @@
                             <label for="cuenta">Cuenta:</label>
                             <select id="cuenta" class="form-control">
                                 <option>Elegir</option>
+                                @forelse ( $cuentas as $cuenta)
+                                <option value="{{ $cuenta->id }}">{{ $cuenta->name }}</option>
+                                @empty
+                                <option>sin registro</option>
+                                @endforelse
                             </select>
                         </div>
                         <div class="form-group col-md-6">

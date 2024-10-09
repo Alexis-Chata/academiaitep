@@ -106,8 +106,11 @@ class User extends Authenticatable //implements MustVerifyEmail
 
     public function user_apoderados()
     {
-        return $this->hasMany(
-            User_apoderado::class
-        );
+        return $this->hasMany(User_apoderado::class);
+    }
+
+    public function matriculas()
+    {
+        return $this->hasMany(Matricula::class);
     }
 }

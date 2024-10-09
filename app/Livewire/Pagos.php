@@ -12,6 +12,8 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Apoderado;
+use App\Models\Cuenta;
+use App\Models\F_serie;
 use App\Models\F_tipo_documento;
 use App\Models\Tapoderado;
 use App\Models\User_apoderado;
@@ -20,6 +22,8 @@ class Pagos extends Component
 {
     use WithFileUploads; // UpLoad Perfil & DNI
 
+    public $series;
+    public $cuentas;
     public $user_apoderados;
     public $tipo_apoderados;
     public $tipo_documentos;
@@ -265,13 +269,15 @@ class Pagos extends Component
     public function refreshComponent()
     {
         $this->userform->reset();
-        $this->reset(array_keys(Arr::except($this->all(), ["userform", "user_apoderados"])));
+        $this->reset(['apoderadoform', 'user_apoderadoform', 'readonly_datos', 'disabled_datos', 'd_none_datos', 'inline_block_datos', 'perfilUrl', 'dniUrl', 'newPerfilImage', 'newDniImage', 'editingApoderadoId', 'editingApoderado', 'editandoUser', 'agregandoUser']);
     }
 
     public function mount()
     {
         $this->tipo_apoderados = Tapoderado::all();
         $this->tipo_documentos = F_tipo_documento::all();
+        $this->series = F_serie::all();
+        $this->cuentas = Cuenta::all();
         $this->user_apoderados = collect();
     }
 

@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string("entidad_bancaria");
             $table->string("tipo_cuenta");
             $table->tinyInteger("estado");
-            $table->foreignId("empresa_id")->constrained("empresas");
+            $table->foreignId("f_empresa_id")->constrained("f_empresas");
             $table->timestamps();
         });
     }

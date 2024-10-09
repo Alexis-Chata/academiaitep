@@ -13,6 +13,18 @@ return new class extends Migration
     {
         Schema::create('f_comprobantes_sunats', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("matricula_id")->constrained("matriculas");
+            $table->foreignId("user_id")->constrained("users");
+            $table->foreignId("cajero_id")->constrained("users");
+            $table->string("noperacion");
+            $table->string("entidad");
+            $table->char("cestado", 1);
+            $table->foreignId("cuenta_id")->constrained("cuentas");
+            $table->string("sede");
+            $table->string("imagen_deposito");
+            $table->string("nombreticketpdf");
+            $table->string("metodopago");
+
             $table->string('ublVersion')->default('2.1');
             $table->string('tipoDoc')->default('03');
             $table->string('tipoDoc_name')->default('BOLETA ELECTRONICA');
