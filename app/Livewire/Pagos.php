@@ -6,8 +6,6 @@ use App\Livewire\Forms\ApoderadoForm;
 use App\Livewire\Forms\UserApoderadoForm;
 use App\Livewire\Forms\UserForm;
 use App\Models\User;
-use Illuminate\Support\Arr;
-use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +14,7 @@ use App\Models\Cuenta;
 use App\Models\F_serie;
 use App\Models\F_tipo_documento;
 use App\Models\Grupo;
+use App\Models\MetodoPago;
 use App\Models\Tapoderado;
 use App\Models\User_apoderado;
 
@@ -23,6 +22,11 @@ class Pagos extends Component
 {
     use WithFileUploads; // UpLoad Perfil & DNI
 
+    public $slctMetodoPago;
+    public $metodoPagos;
+    public $slctCuenta;
+    public $montoCobro;
+    public $slctConceptoCobro;
     public $series;
     public $cuentas;
     public $grupos;
@@ -274,6 +278,22 @@ class Pagos extends Component
         $this->reset(['apoderadoform', 'user_apoderadoform', 'readonly_datos', 'disabled_datos', 'd_none_datos', 'inline_block_datos', 'perfilUrl', 'dniUrl', 'newPerfilImage', 'newDniImage', 'editingApoderadoId', 'editingApoderado', 'editandoUser', 'agregandoUser']);
     }
 
+    public function updatedSlctCuenta()
+    {
+        //dd($this->slctCuenta, $this->cuentas->find($this->slctCuenta));
+        $cuenta = optional($this->cuentas->find($this->slctCuenta))->tipo_cuenta;
+        $this->metodoPagos = collect();
+        $this->slctMetodoPago = null;
+        if($cuenta){
+            $this->metodoPagos =MetodoPago::where('tipo', $cuenta)->get();
+        }
+    }
+
+    public function updatedSlctConceptoCobro()
+    {
+        $this->montoCobro = strtolower($this->grupos->find($this->slctConceptoCobro)->costo);
+    }
+
     public function mount()
     {
         $this->tipo_apoderados = Tapoderado::all();
@@ -282,11 +302,11 @@ class Pagos extends Component
         $this->cuentas = Cuenta::all();
         $this->grupos = Grupo::with('cgrupo')->get();
         $this->user_apoderados = collect();
+        $this->metodoPagos = collect();
     }
 
     public function render()
     {
-        dd($this->grupos);
         return view("livewire.pagos");
     }
 }

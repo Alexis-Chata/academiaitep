@@ -21,5 +21,14 @@ class CuentaSeeder extends Seeder
         $cuenta->f_empresa_id = '1';
         $cuenta->estado = '1';
         $cuenta->save();
+
+        Cuenta::create([
+            "name" => "CUENTA DIGITAL ITEP",
+            "numero_cuenta" => "0007 0958 4021 0000 2012",
+            "entidad_bancaria" => "C_AREQUIPA",
+            "tipo_cuenta" => "Virtual",
+            "f_empresa_id" => "1",
+            "estado" => "1"
+        ]);
     }
 }

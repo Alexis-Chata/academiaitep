@@ -50,5 +50,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FSerieSeeder::class);
         $this->call(TempresaSeeder::class);
         $this->call(CuentaSeeder::class);
+        $this->call(MetodoPagoSeeder::class);
     }
 }
