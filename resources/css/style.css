@@ -1,3 +1,15 @@
 [x-cloak] {
     display: none;
 }
+
+.cursor-not-allowed {
+    cursor: not-allowed;
+}
+
+.cursor-not-allowed-important {
+    cursor: not-allowed !important;
+}
+
+.medio-opaco {
+    opacity: 0.5;
+}

@@ -28,7 +28,7 @@
 </td>
 <td>
     <select wire:model.defer="user_apoderadoform.tapoderado_id">
-        @foreach($tipo_apoderados as $tapoderado)
+        @foreach ($tipo_apoderados as $tapoderado)
             <option value="{{ $tapoderado->id }}">{{ $tapoderado->name }}</option>
         @endforeach
     </select>
@@ -40,7 +40,7 @@
 </td>
 <td>
     <select wire:model.defer="apoderadoform.f_tipo_documento_id" class="text-xs">
-        @foreach($tipo_documentos as $tipo_documento)
+        @foreach ($tipo_documentos as $tipo_documento)
             <option value="{{ $tipo_documento->id }}">{{ $tipo_documento->descripcion }}</option>
         @endforeach
     </select>
@@ -73,6 +73,9 @@
     </div>
 </td>
 <td>
-    <button wire:click="updateApoderado">Guardar</button>
-    <button wire:click="cancelEdit">Cancelar</button>
+    <button wire:click="updateApoderado" wire:loading.attr="disabled"
+        wire:loading.class="cursor-not-allowed medio-opaco"
+        wire:target="editApoderado, deleteApoderado, addApoderado, updateApoderado, cancelEdit">Guardar</button>
+    <button wire:click="cancelEdit" wire:loading.attr="disabled" wire:loading.class="cursor-not-allowed medio-opaco"
+        wire:target="editApoderado, deleteApoderado, addApoderado, updateApoderado, cancelEdit">Cancelar</button>
 </td>

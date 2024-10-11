@@ -22,6 +22,11 @@ class Pagos extends Component
 {
     use WithFileUploads; // UpLoad Perfil & DNI
 
+    public $tipoCuentaVirtual;
+    public $conceptoName;
+    public $montoTotalConcepto;
+    public $comprobanteDetalles;
+    public $disabledAddConcepto;
     public $slctMetodoPago;
     public $metodoPagos;
     public $slctCuenta;
@@ -116,6 +121,15 @@ class Pagos extends Component
     }
     public function saveImage($type)
     {
+        if (!isset($this->userform->user)) {
+            // Mostrar un mensaje de error si no hay usuario seleccionado
+            session()->flash(
+                "error",
+                "Por favor, seleccione un usuario primero."
+            );
+            return;
+        }
+        //dd(isset($this->userform->user->id), $this->userform);
         if (!$this->userform->user) {
             // Mostrar un mensaje de error si no hay usuario seleccionado
             session()->flash(
@@ -229,6 +243,7 @@ class Pagos extends Component
 
     public function selectResult(User $user)
     {
+        $this->cancelEdit();
         $this->editingApoderadoId = null;
         $this->search = $user->name;
         $this->results = []; // Limpiar los resultados
@@ -280,18 +295,49 @@ class Pagos extends Component
 
     public function updatedSlctCuenta()
     {
-        //dd($this->slctCuenta, $this->cuentas->find($this->slctCuenta));
         $cuenta = optional($this->cuentas->find($this->slctCuenta))->tipo_cuenta;
         $this->metodoPagos = collect();
         $this->slctMetodoPago = null;
-        if($cuenta){
-            $this->metodoPagos =MetodoPago::where('tipo', $cuenta)->get();
+        $this->tipoCuentaVirtual = null;
+        if ($cuenta) {
+            $this->metodoPagos = MetodoPago::where('tipo', $cuenta)->get();
+        }
+        if ($cuenta == "Virtual") {
+            $this->tipoCuentaVirtual = "Virtual";
         }
     }
 
     public function updatedSlctConceptoCobro()
     {
-        $this->montoCobro = strtolower($this->grupos->find($this->slctConceptoCobro)->costo);
+        $this->montoCobro = 0;
+        $this->montoTotalConcepto = 0;
+        $this->disabledAddConcepto = "disabled";
+        $this->conceptoName = null;
+        if ($this->grupos->find($this->slctConceptoCobro)) {
+            $this->montoCobro = $this->grupos->find($this->slctConceptoCobro)->costo;
+            $this->montoTotalConcepto = $this->montoCobro;
+            $this->disabledAddConcepto = null;
+            $this->conceptoName = ucfirst($this->grupos->find($this->slctConceptoCobro)->concepto_cobro_name);
+        }
+    }
+
+    public function addConceptoCobro()
+    {
+        $this->comprobanteDetalles->push((object)[
+            'codigo' => $this->slctConceptoCobro,
+            'concepto' => $this->conceptoName,
+            'importeConceptoPendiente' => $this->montoTotalConcepto - $this->montoCobro,
+            'importeConceptoPagar' => $this->montoCobro,
+        ]);
+        $this->slctConceptoCobro = null;
+        $this->updatedSlctConceptoCobro();
+    }
+
+    public function removeConceptoCobro($codigo)
+    {
+        $this->comprobanteDetalles = $this->comprobanteDetalles->reject(function ($item) use ($codigo) {
+            return $item->codigo === $codigo;
+        });
     }
 
     public function mount()
@@ -303,6 +349,8 @@ class Pagos extends Component
         $this->grupos = Grupo::with('cgrupo')->get();
         $this->user_apoderados = collect();
         $this->metodoPagos = collect();
+        $this->disabledAddConcepto = "disabled";
+        $this->comprobanteDetalles = collect();
     }
 
     public function render()

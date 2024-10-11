@@ -143,23 +143,35 @@
                             </div>
                             <div class="actions">
                                 @if (isset($userform->user) and !$editandoUser)
-                                    <button id="btn-editar"
-                                        wire:click="editUser({{ $userform->user->id }})">Editar</button>
+                                    <button id="btn-editar" wire:click="editUser({{ $userform->user->id }})"
+                                        wire:loading.attr="disabled"
+                                        wire:loading.class="cursor-not-allowed medio-opaco"
+                                        wire:target="editUser, btnGuardar, cancelEdit, btnAgregar">Editar</button>
                                 @endif
                                 @if ($editandoUser)
                                     <button id="btn-guardar" class="btn-guardar guardar {{ $inline_block_datos }}"
-                                        wire:click="btnGuardar()">Guardar</button>
+                                        wire:click="btnGuardar()" wire:loading.attr="disabled"
+                                        wire:loading.class="cursor-not-allowed medio-opaco"
+                                        wire:target="editUser, btnGuardar, cancelEdit, btnAgregar">Guardar</button>
                                     <button id="btn-cancelar" class="btn-cancelar cancelar {{ $inline_block_datos }}"
-                                        wire:click="cancelEdit()">Cancelar</button>
+                                        wire:click="cancelEdit()" wire:loading.attr="disabled"
+                                        wire:loading.class="cursor-not-allowed medio-opaco"
+                                        wire:target="editUser, btnGuardar, cancelEdit, btnAgregar">Cancelar</button>
                                 @endif
                                 @if ($agregandoUser)
-                                    <button id="btn-agregar" class="{{ $d_none_datos }}"
-                                        wire:click="btnAgregar()">Agregar</button>
+                                    <button id="btn-agregar" class="{{ $d_none_datos }}" wire:click="btnAgregar()"
+                                        wire:loading.attr="disabled"
+                                        wire:loading.class="cursor-not-allowed medio-opaco"
+                                        wire:target="editUser, btnGuardar, cancelEdit, btnAgregar">Agregar</button>
                                 @else
                                     <button id="btn-guardar" class="btn-guardar guardar {{ $inline_block_datos }}"
-                                        wire:click="btnGuardar()">Guardar</button>
+                                        wire:click="btnGuardar()" wire:loading.attr="disabled"
+                                        wire:loading.class="cursor-not-allowed medio-opaco"
+                                        wire:target="editUser, btnGuardar, cancelEdit, btnAgregar">Guardar</button>
                                     <button id="btn-cancelar" class="btn-cancelar cancelar {{ $inline_block_datos }}"
-                                        wire:click="cancelEdit()">Cancelar</button>
+                                        wire:click="cancelEdit()" wire:loading.attr="disabled"
+                                        wire:loading.class="cursor-not-allowed medio-opaco"
+                                        wire:target="editUser, btnGuardar, cancelEdit, btnAgregar">Cancelar</button>
                                 @endif
                             </div>
                         </div>
@@ -190,9 +202,14 @@
                                                 <td>{{ $user_apoderado->apoderado->email }}</td>
                                                 <td>
                                                     <button
-                                                        wire:click="editApoderado({{ $user_apoderado->apoderado->id }}, {{ $user_apoderado->id }})">Editar</button>
-                                                    <button
-                                                        wire:click="deleteApoderado({{ $user_apoderado->id }})">Eliminar</button>
+                                                        wire:click="editApoderado({{ $user_apoderado->apoderado->id }}, {{ $user_apoderado->id }})"
+                                                        wire:loading.attr="disabled"
+                                                        wire:loading.class="cursor-not-allowed medio-opaco"
+                                                        wire:target="editApoderado, deleteApoderado, addApoderado, updateApoderado, cancelEdit">Editar</button>
+                                                    <button wire:click="deleteApoderado({{ $user_apoderado->id }})"
+                                                        wire:loading.attr="disabled"
+                                                        wire:loading.class="cursor-not-allowed medio-opaco"
+                                                        wire:target="editApoderado, deleteApoderado, addApoderado, updateApoderado, cancelEdit">Eliminar</button>
                                                 </td>
                                             @endif
                                         </tr>
@@ -209,7 +226,9 @@
                                 </tbody>
                             </table>
                             <div class="actions">
-                                <button id="btn-agregar" wire:click="addApoderado">Agregar</button>
+                                <button id="btn-agregar" wire:click="addApoderado" wire:loading.attr="disabled"
+                                    wire:loading.class="cursor-not-allowed medio-opaco"
+                                    wire:target="editApoderado, deleteApoderado, addApoderado, updateApoderado, cancelEdit">Agregar</button>
                             </div>
                         </div>
                         <div class="tab-content" id="ubicacion-content">
@@ -260,17 +279,25 @@
                             <div class="image-container">
                                 <img id="perfil-img" src="{{ $perfilUrl }}" alt="Perfil">
                                 <div class="btn-group" id="perfil-btn-group">
+                                    <div wire:loading wire:target="newPerfilImage">Loading...</div>
                                     @if (!$newPerfilImage)
                                         <button id="add-image-perfil" class="btn-icon"
-                                            onclick="document.getElementById('perfil-upload').click()">➕</button>
+                                            onclick="document.getElementById('perfil-upload').click()"
+                                            wire:loading.attr="disabled"
+                                            wire:loading.class="cursor-not-allowed-important medio-opaco"
+                                            wire:target="saveImage, cancelImage, newPerfilImage">➕</button>
                                         <input type="file" id="perfil-upload" wire:model="newPerfilImage"
                                             style="display: none;" accept="image/*">
                                     @endif
                                     @if ($newPerfilImage)
                                         <button id="save-image-perfil" class="btn-icon"
-                                            wire:click="saveImage('perfil')">💾</button>
+                                            wire:click="saveImage('perfil')" wire:loading.attr="disabled"
+                                            wire:loading.class="cursor-not-allowed-important medio-opaco"
+                                            wire:target="saveImage, cancelImage, newPerfilImage">💾</button>
                                         <button id="cancel-image-perfil" class="btn-icon"
-                                            wire:click="cancelImage('perfil')">❌</button>
+                                            wire:click="cancelImage('perfil')" wire:loading.attr="disabled"
+                                            wire:loading.class="cursor-not-allowed-important medio-opaco"
+                                            wire:target="saveImage, cancelImage, newPerfilImage">❌</button>
                                     @endif
                                 </div>
                             </div>
@@ -281,17 +308,25 @@
                             <div class="image-container">
                                 <img id="dni-img" src="{{ $dniUrl }}" alt="DNI">
                                 <div class="btn-group" id="dni-btn-group">
+                                    <div wire:loading wire:target="newDniImage">Loading...</div>
                                     @if (!$newDniImage)
                                         <button id="add-image-dni" class="btn-icon"
-                                            onclick="document.getElementById('dni-upload').click()">➕</button>
+                                            onclick="document.getElementById('dni-upload').click()"
+                                            wire:loading.attr="disabled"
+                                            wire:loading.class="cursor-not-allowed-important medio-opaco"
+                                            wire:target="saveImage, cancelImage, newDniImage">➕</button>
                                         <input type="file" id="dni-upload" wire:model="newDniImage"
                                             style="display: none;" accept="image/*">
                                     @endif
                                     @if ($newDniImage)
-                                        <button id="save-image-dni" class="btn-icon"
-                                            wire:click="saveImage('dni')">💾</button>
+                                        <button id="save-image-dni" class="btn-icon" wire:click="saveImage('dni')"
+                                            wire:loading.attr="disabled"
+                                            wire:loading.class="cursor-not-allowed-important medio-opaco"
+                                            wire:target="saveImage, cancelImage, newDniImage">💾</button>
                                         <button id="cancel-image-dni" class="btn-icon"
-                                            wire:click="cancelImage('dni')">❌</button>
+                                            wire:click="cancelImage('dni')" wire:loading.attr="disabled"
+                                            wire:loading.class="cursor-not-allowed-important medio-opaco"
+                                            wire:target="saveImage, cancelImage, newDniImage">❌</button>
                                     @endif
                                 </div>
                             </div>
@@ -389,12 +424,12 @@
             <div class="columnLeft mt-4">
                 <h2>Comprobante de Pago</h2>
 
-                <form>
+                <form id="formComprobantePago">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="doc">Doc:</label>
-                            <select id="doc" class="form-control">
-                                <option>Elegir</option>
+                            <select id="doc" class="form-control" required>
+                                <option value="">Elegir</option>
                                 @forelse ($series as $serie)
                                     <option value="{{ $serie->id }}">{{ $serie->serie }}</option>
                                 @empty
@@ -405,15 +440,15 @@
                         <div class="form-group col-md-6">
                             <label for="femision">F. Emisión:</label>
                             <input type="date" class="form-control" id="femision"
-                                min="{{ $serie->min('fecha_emision') }}">
+                                min="{{ $serie->min('fecha_emision') }}" required>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="cuenta">Cuenta:</label>
-                            <select id="cuenta" class="form-control" wire:model.live='slctCuenta'>
-                                <option>Elegir</option>
+                            <select id="cuenta" class="form-control" wire:model.live='slctCuenta' required>
+                                <option value="">Elegir</option>
                                 @forelse ($cuentas as $cuenta)
                                     <option value="{{ $cuenta->id }}">{{ $cuenta->name }}</option>
                                 @empty
@@ -423,8 +458,8 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="mpago">M. Pago:</label>
-                            <select id="mpago" class="form-control" wire:model='slctMetodoPago'>
-                                <option>Elegir</option>
+                            <select id="mpago" class="form-control" wire:model='slctMetodoPago' required>
+                                <option value="">Elegir</option>
                                 @forelse ($metodoPagos as $metodoPago)
                                     <option value="{{ $metodoPago->name }}">{{ $metodoPago->name }}</option>
                                 @empty
@@ -433,15 +468,15 @@
                             </select>
                         </div>
                     </div>
-                    @if (isset($cuent))
+                    @if ($tipoCuentaVirtual)
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="vaucher">Vaucher:</label>
-                                <input type="text" class="form-control" id="vaucher">
+                                <input type="text" class="form-control" id="vaucher" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="noperacion">N. Operación:</label>
-                                <input type="text" class="form-control" id="noperacion">
+                                <input type="text" class="form-control" id="noperacion" required>
                             </div>
                         </div>
                     @endif
@@ -458,14 +493,24 @@
                         </div>
                         <div class="form-group col-md-2">
                             <input type="number" class="form-control" id="cantidad" value="0" min="0"
-                                wire:model='montoCobro'>
+                                wire:model='montoCobro'
+                                wire:loading.attr="disabled"
+                                wire:loading.class="cursor-not-allowed-important medio-opaco"
+                                wire:target="slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro">
+
+                            <input type="hidden" class="form-control" id="montoTotalConcepto"
+                                wire:model='montoTotalConcepto'>
+                            <input type="hidden" class="form-control" id="conceptoName" wire:model='conceptoName'>
                         </div>
                         <div class="form-group col-md-4 d-flex align-items-end">
-                            <button type="button" class="btn btn-primary">Agregar</button>
+                            <button type="button" class="btn btn-primary" {{ $disabledAddConcepto }}
+                                wire:click='addConceptoCobro'
+                                wire:loading.class="cursor-not-allowed-important medio-opaco"
+                                wire:target="slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro">Agregar</button>
                         </div>
                     </div>
                 </form>
-
+                <div wire:loading wire:target="addConceptoCobro">Loading...</div>
                 <table class="table table-bordered mt-4">
                     <thead>
                         <tr>
@@ -477,19 +522,38 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @forelse ($comprobanteDetalles as $comprobanteDetalle)
+                            <tr>
+                                <td>{{ $comprobanteDetalle->codigo }}</td>
+                                <td>{{ $comprobanteDetalle->concepto }}</td>
+                                <td>{{ $comprobanteDetalle->importeConceptoPendiente }}</td>
+                                <td>{{ $comprobanteDetalle->importeConceptoPagar }}</td>
+                                <td><button id="cancel-image-perfil" class="btn-icon"
+                                        wire:click="removeConceptoCobro('{{ $comprobanteDetalle->codigo }}')"
+                                        wire:loading.class="cursor-not-allowed-important medio-opaco"
+                                        wire:target="slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro">❌</button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td>-</td>
+                                <td>Agregue conceptos</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        @endforelse
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><b>Total:</b> S/.
+                                {{ number_format($comprobanteDetalles->sum('importeConceptoPagar'), 2) }}</td>
+                            <td>
+                                @if ($comprobanteDetalles->count())
+                                    <button form="formComprobantePago">Guardar</button>
+                                @endif
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -568,50 +632,6 @@
             </div>
         </div>
     </div>
-    <script>
-        var inputs, btnEditar, btnAgregar, btnGuardar, btnCancelar;
-
-        function inicializar_inputs(parent) {
-            inputs = parent.querySelectorAll('.tabsSection input');
-            selects = parent.querySelectorAll('.tabsSection select');
-            btnEditar = parent.querySelector('#btn-editar');
-            btnAgregar = parent.querySelector('#btn-agregar');
-            btnGuardar = parent.querySelector('#btn-guardar');
-            btnCancelar = parent.querySelector('#btn-cancelar');
-        }
-
-        function habilitar_Edicion(parentid) {
-            inicializar_inputs(document.getElementById(parentid))
-            habilitarEdicion()
-        }
-
-        // Almacenar valores originales para restaurarlos en caso de cancelación
-        let valoresOriginales = {};
-
-        function habilitarEdicion() {
-            guardarValores()
-
-            // Cambiar la visibilidad de los botones
-            btnEditar.style.display = 'none';
-            btnAgregar.style.display = 'none';
-            btnGuardar.style.display = 'inline-block';
-            btnCancelar.style.display = 'inline-block';
-        }
-
-        function guardarValores() {
-            // Guardar los valores originales de los inputs
-            valoresOriginales = {};
-            inputs.forEach(input => {
-                valoresOriginales[input.id] = input.value;
-                input.removeAttribute('readonly');
-            });
-            selects.forEach(select => {
-                valoresOriginales[select.id] = select.value;
-                select.removeAttribute('disabled');
-            });
-            console.log(valoresOriginales);
-        }
-    </script>
     <style>
         .mainContainer {
             display: grid;
