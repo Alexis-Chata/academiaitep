@@ -14,6 +14,8 @@ Route::view("ciclos", "administrador.ciclos.index_ciclo")->middleware('can:admin
 Route::view("grupos", "administrador.grupos.index_grupo")->middleware('can:admin.grupo.titulo')->name("grupos.index");
 #cgrupos
 Route::view("cgrupos", "administrador.cgrupos.index_cgrupo")->middleware('can:admin.cgrupo.titulo')->name("cgrupos.index");
+#cstandar
+Route::view("cstandars", "administrador.cstandars.index_cstandar")->middleware('can:admin.cstandar.titulo')->name("cstandars.index");
 #modalidads
 Route::view("modalidads", "administrador.modalidads.index_modalidad")->middleware('can:admin.modalidad.titulo')->name("modalidads.index");
 #pagos

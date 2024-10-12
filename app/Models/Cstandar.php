@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cstandar extends Model
 {
+    protected $fillable = ['name','precio'];
     use HasFactory;
 }

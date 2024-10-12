@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ModalidadSeeder::class);
         $this->call(AulaSeeder::class);
         $this->call(CgrupoSeeder::class);
+        $this->call(CstandarSeeder::class);
         $this->call(GrupoSeeder::class);
         $this->call(UserSeeder::class);
         $user = User::factory()->create([
@@ -51,6 +52,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TempresaSeeder::class);
         $this->call(CuentaSeeder::class);
         $this->call(MetodoPagoSeeder::class);
-        $this->call(MatriculaSeeder::class);
+       //$this->call(MatriculaSeeder::class);
     }
 }

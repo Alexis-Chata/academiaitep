@@ -330,6 +330,11 @@ return [
                     'can' => 'admin.cgrupo.titulo'
                 ],
                 [
+                    'text' => 'Costos-Estandar',
+                    'route' => 'admin.cstandars.index',
+                    'can' => 'admin.cstandar.titulo'
+                ],
+                [
                     'text' => 'Ciclos',
                     'route' => 'admin.ciclos.index',
                     'can' => 'admin.ciclo.titulo'

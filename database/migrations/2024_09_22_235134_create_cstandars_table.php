@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create("cstandars", function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->double("precio");
             $table->timestamps();
         });
     }
