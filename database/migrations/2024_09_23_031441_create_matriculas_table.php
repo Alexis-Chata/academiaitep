@@ -13,10 +13,16 @@ return new class extends Migration {
         Schema::create("matriculas", function (Blueprint $table) {
             $table->id();
             $table->foreignId("user_id")->constrained("users");
-            $table->string("carrera");
-            $table->tinyInteger("estado");
             $table->foreignId("grupo_id")->constrained("grupos");
+            $table->foreignId("carrera_id")->constrained("carreras");
+            $table->string("ciclo");
+            $table->string("turno");
+            $table->string("modalidad");
+            $table->string("aula");
+            $table->string("sede");
             $table->date("fvencimiento");
+            $table->string("anio");
+            $table->tinyInteger("estado");
             $table->timestamps();
         });
     }

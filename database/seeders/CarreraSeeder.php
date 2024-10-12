@@ -2,16 +2,29 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Carrera;
+use App\Models\Area;
 use Illuminate\Database\Seeder;
 
 class CarreraSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        $areas = Area::pluck('id');
+
+        $carreras = [
+            'Ingeniería de Sistemas',
+            'Administración de Empresas',
+            'Contabilidad',
+            'Psicología',
+            'Derecho',
+        ];
+
+        foreach ($carreras as $carrera) {
+            Carrera::create([
+                'name' => $carrera,
+                'area_id' => $areas->random(),
+            ]);
+        }
     }
 }
