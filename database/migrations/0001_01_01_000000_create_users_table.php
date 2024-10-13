@@ -33,7 +33,9 @@ return new class extends Migration {
             $table->string("dni_path", 2048)->nullable();
             $table->timestamps();
 
-            $table->fullText(["name", "ap_paterno", "ap_materno", "nro_documento"]);
+            if(env('DB_CONNECTION')!="sqlite"){
+                $table->fullText(["name", "ap_paterno", "ap_materno", "nro_documento"]);
+            }
         });
 
         Schema::create("password_reset_tokens", function (Blueprint $table) {

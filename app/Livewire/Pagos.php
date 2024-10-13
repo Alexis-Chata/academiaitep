@@ -15,7 +15,6 @@ use App\Models\Cgrupo;
 use App\Models\Cuenta;
 use App\Models\F_serie;
 use App\Models\F_tipo_documento;
-use App\Models\Grupo;
 use App\Models\MetodoPago;
 use App\Models\Tapoderado;
 use App\Models\User_apoderado;
@@ -190,8 +189,8 @@ class Pagos extends Component
 
         if (!empty($this->search)) {
             $this->results = User::when($this->search, function ($q) {
-                $q->where("name", "like", "%%" . $this->search . "%%");
-            })
+                    $q->where("name", "like", "%%" . $this->search . "%%");
+                })
                 ->when($this->search, function ($q) {
                     $q->orWhere(
                         "ap_paterno",
@@ -214,12 +213,14 @@ class Pagos extends Component
                     );
                 })
                 ->when($this->search, function ($q) {
-                    $q->orWhereFullText(
-                        ["name", "ap_paterno", "ap_materno", "nro_documento"],
-                        $this->search
-                    );
+                    if(env('DB_CONNECTION')!="sqlite"){
+                        $q->orWhereFullText(
+                            ["name", "ap_paterno", "ap_materno", "nro_documento"],
+                            $this->search
+                        );
+                    }
                 })
-                ->take(5)
+                ->take(8)
                 ->get();
         } else {
             $this->results = [];
@@ -302,7 +303,8 @@ class Pagos extends Component
         $this->reset(['apoderadoform', 'user_apoderadoform', 'readonly_datos', 'disabled_datos', 'd_none_datos', 'inline_block_datos', 'perfilUrl', 'dniUrl', 'newPerfilImage', 'newDniImage', 'editingApoderadoId', 'editingApoderado', 'editandoUser', 'agregandoUser']);
     }
 
-    public function updatedSlctSerie(){
+    public function updatedSlctSerie()
+    {
         $fecha = optional($this->series->find($this->slctSerie))->fecha_emision;
         $date1 = Carbon::parse(now()->subDays(3));
         $date2 = Carbon::parse($fecha);
@@ -355,9 +357,7 @@ class Pagos extends Component
         });
     }
 
-    public function saveComprobantePago() : void {
-
-    }
+    public function saveComprobantePago(): void {}
 
     public function mount()
     {
