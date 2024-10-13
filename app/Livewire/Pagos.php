@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Livewire\Forms\ApoderadoForm;
+use App\Livewire\Forms\DtoComprobantePago;
 use App\Livewire\Forms\UserApoderadoForm;
 use App\Livewire\Forms\UserForm;
 use App\Models\User;
@@ -10,6 +11,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Apoderado;
+use App\Models\Cgrupo;
 use App\Models\Cuenta;
 use App\Models\F_serie;
 use App\Models\F_tipo_documento;
@@ -17,11 +19,14 @@ use App\Models\Grupo;
 use App\Models\MetodoPago;
 use App\Models\Tapoderado;
 use App\Models\User_apoderado;
+use Carbon\Carbon;
 
 class Pagos extends Component
 {
     use WithFileUploads; // UpLoad Perfil & DNI
 
+    public $nro_operacion;
+    public $file_vaucher;
     public $tipoCuentaVirtual;
     public $conceptoName;
     public $montoTotalConcepto;
@@ -30,17 +35,21 @@ class Pagos extends Component
     public $slctMetodoPago;
     public $metodoPagos;
     public $slctCuenta;
+    public $fecha_minima;
+    public $fecha_emision;
+    public $slctSerie;
     public $montoCobro;
     public $slctConceptoCobro;
     public $series;
     public $cuentas;
-    public $grupos;
+    public $cgrupos;
     public $user_apoderados;
     public $tipo_apoderados;
     public $tipo_documentos;
     public UserForm $userform;
     public ApoderadoForm $apoderadoform;
     public UserApoderadoForm $user_apoderadoform;
+    public DtoComprobantePago $dto_comprobante_pago;
     public $readonly_datos = "readonly";
     public $disabled_datos = "disabled";
     public $d_none_datos = "";
@@ -293,6 +302,12 @@ class Pagos extends Component
         $this->reset(['apoderadoform', 'user_apoderadoform', 'readonly_datos', 'disabled_datos', 'd_none_datos', 'inline_block_datos', 'perfilUrl', 'dniUrl', 'newPerfilImage', 'newDniImage', 'editingApoderadoId', 'editingApoderado', 'editandoUser', 'agregandoUser']);
     }
 
+    public function updatedSlctSerie(){
+        $fecha = optional($this->series->find($this->slctSerie))->fecha_emision;
+        $date1 = Carbon::parse(now()->subDays(3));
+        $date2 = Carbon::parse($fecha);
+        $this->fecha_minima = $date1->max($date2)->toDateString();
+    }
     public function updatedSlctCuenta()
     {
         $cuenta = optional($this->cuentas->find($this->slctCuenta))->tipo_cuenta;
@@ -313,11 +328,11 @@ class Pagos extends Component
         $this->montoTotalConcepto = 0;
         $this->disabledAddConcepto = "disabled";
         $this->conceptoName = null;
-        if ($this->grupos->find($this->slctConceptoCobro)) {
-            $this->montoCobro = $this->grupos->find($this->slctConceptoCobro)->costo;
+        if ($this->cgrupos->find($this->slctConceptoCobro)) {
+            $this->montoCobro = $this->cgrupos->find($this->slctConceptoCobro)->costo;
             $this->montoTotalConcepto = $this->montoCobro;
             $this->disabledAddConcepto = null;
-            $this->conceptoName = ucfirst($this->grupos->find($this->slctConceptoCobro)->concepto_cobro_name);
+            $this->conceptoName = ucfirst($this->cgrupos->find($this->slctConceptoCobro)->concepto_cobro_name);
         }
     }
 
@@ -340,17 +355,23 @@ class Pagos extends Component
         });
     }
 
+    public function saveComprobantePago() : void {
+
+    }
+
     public function mount()
     {
         $this->tipo_apoderados = Tapoderado::all();
         $this->tipo_documentos = F_tipo_documento::all();
         $this->series = F_serie::all();
         $this->cuentas = Cuenta::all();
-        $this->grupos = Grupo::with('cgrupo')->get();
+        $this->cgrupos = Cgrupo::with('turno', 'ciclo', 'modalidad')->get();
         $this->user_apoderados = collect();
         $this->metodoPagos = collect();
         $this->disabledAddConcepto = "disabled";
         $this->comprobanteDetalles = collect();
+        $this->fecha_emision = now()->format('Y-m-d');
+        $this->fecha_minima = now()->format('Y-m-d');
     }
 
     public function render()

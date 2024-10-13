@@ -5,21 +5,20 @@
             <div class="columnLeft">
                 <!-- upload-section -->
                 <div class="uploadSection">
-                    <div class="buscar" style="display: flex;align-items: center;">
-                        <label for="search" style="margin-right: 5px;">Buscar:</label>
+                    <div class="buscar d-flex align-items-center">
+                        <label for="search" class="mr-2">Buscar:</label>
 
-                        <div style="position: relative; width: 100%;">
+                        <div class="position-relative w-auto">
                             <input type="text" id="search" wire:model.live="search" placeholder="DNI ..."
-                                autocomplete="off" style="flex: 1;" @keydown.arrow-down.prevent="$wire.incrementIndex()"
+                                autocomplete="off" @keydown.arrow-down.prevent="$wire.incrementIndex()"
                                 @keydown.arrow-up.prevent="$wire.decrementIndex()"
                                 @keydown.enter.prevent="$wire.selectCurrent()">
 
                             <!-- Lista de resultados -->
                             @if (!empty($results))
-                                <ul class="list-group position-absolute w-100" style="top: 100%; z-index: 1000;">
+                                <ul class="list-group position-absolute w-100 top-100-zindex-1000">
                                     @forelse ($results as $index => $result)
-                                        <li class="list-group-item list-group-item-action text-sm py-2
-                                            {{ $selectedIndex === $index ? 'active' : '' }}"
+                                        <li class="list-group-item list-group-item-action text-sm py-2 {{ $selectedIndex === $index ? 'active' : '' }}"
                                             role="button" wire:click="selectResult('{{ $result->id }}')">
                                             {{ $result->name }}
                                         </li>
@@ -144,8 +143,7 @@
                             <div class="actions">
                                 @if (isset($userform->user) and !$editandoUser)
                                     <button id="btn-editar" wire:click="editUser({{ $userform->user->id }})"
-                                        wire:loading.attr="disabled"
-                                        wire:loading.class="cursor-not-allowed medio-opaco"
+                                        wire:loading.attr="disabled" wire:loading.class="cursor-not-allowed medio-opaco"
                                         wire:target="editUser, btnGuardar, cancelEdit, btnAgregar">Editar</button>
                                 @endif
                                 @if ($editandoUser)
@@ -252,7 +250,7 @@
                                 <button id="btn-agregar">Agregar</button>
                             </div>
                         </div>
-                        <div class="actions" style="display: none">
+                        <div class="actions d-none">
                             <button id="btn-editar" onclick="habilitarEdicion()">Editar</button>
                             <button id="btn-agregar" onclick="limpiarInputs()">Agregar</button>
                             <button id="btn-guardar" class="btn-guardar guardar"
@@ -268,7 +266,7 @@
                 <div class="tabs-toggle_perfil-dni">
                     <input type="radio" id="toggle-perfil" name="tab-toggle" checked />
                     <input type="radio" id="toggle-dni" name="tab-toggle" />
-                    <div class="tab-labels" style="margin-bottom: 5px">
+                    <div class="tab-labels mb-2">
                         <label for="toggle-perfil" class="tab">Perfil</label>
                         <label for="toggle-dni" class="tab">DNI</label>
                     </div>
@@ -281,13 +279,13 @@
                                 <div class="btn-group" id="perfil-btn-group">
                                     <div wire:loading wire:target="newPerfilImage">Loading...</div>
                                     @if (!$newPerfilImage)
-                                        <button id="add-image-perfil" class="btn-icon"
+                                        <button id="add-image-perfil" class="btn-icon d-none"
                                             onclick="document.getElementById('perfil-upload').click()"
                                             wire:loading.attr="disabled"
                                             wire:loading.class="cursor-not-allowed-important medio-opaco"
                                             wire:target="saveImage, cancelImage, newPerfilImage">➕</button>
                                         <input type="file" id="perfil-upload" wire:model="newPerfilImage"
-                                            style="display: none;" accept="image/*">
+                                            accept="image/*">
                                     @endif
                                     @if ($newPerfilImage)
                                         <button id="save-image-perfil" class="btn-icon"
@@ -310,13 +308,13 @@
                                 <div class="btn-group" id="dni-btn-group">
                                     <div wire:loading wire:target="newDniImage">Loading...</div>
                                     @if (!$newDniImage)
-                                        <button id="add-image-dni" class="btn-icon"
+                                        <button id="add-image-dni" class="btn-icon d-none"
                                             onclick="document.getElementById('dni-upload').click()"
                                             wire:loading.attr="disabled"
                                             wire:loading.class="cursor-not-allowed-important medio-opaco"
                                             wire:target="saveImage, cancelImage, newDniImage">➕</button>
                                         <input type="file" id="dni-upload" wire:model="newDniImage"
-                                            style="display: none;" accept="image/*">
+                                            accept="image/*">
                                     @endif
                                     @if ($newDniImage)
                                         <button id="save-image-dni" class="btn-icon" wire:click="saveImage('dni')"
@@ -344,8 +342,7 @@
                         <div>
                             <button class="matA">MAT-A</button>
                             <button class="matB">MAT-B</button>
-                            <button class="btn btn-light me-3"
-                                style="margin-top: -15px;border: 2px solid #9a9a9a;border-radius: 0">
+                            <button class="btn btn-light me-3 mt-n3 rounded-0 custom-border">
                                 <img src="https://cdn-icons-png.flaticon.com/512/0/532.png" alt="Descargar"
                                     width="20px" />
                             </button>
@@ -415,11 +412,11 @@
             <div class="columnLeft mt-4">
                 <h2>Comprobante de Pago</h2>
 
-                <form id="formComprobantePago">
+                <form id="formComprobantePago" wire:submit="saveComprobantePago">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="doc">Doc:</label>
-                            <select id="doc" class="form-control" required>
+                            <select id="doc" class="form-control" wire:model.live='slctSerie' required>
                                 <option value="">Elegir</option>
                                 @forelse ($series as $serie)
                                     <option value="{{ $serie->id }}">{{ $serie->serie }}</option>
@@ -430,8 +427,11 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="femision">F. Emisión:</label>
-                            <input type="date" class="form-control" id="femision"
-                                min="{{ $serie->min('fecha_emision') }}" required>
+                            <input type="date" class="form-control" id="femision" min="{{ $fecha_minima }}"
+                                wire:model.live='fecha_emision'
+                                wire:loading.class="cursor-not-allowed-important medio-opaco"
+                                wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro"
+                                required>
                         </div>
                     </div>
 
@@ -449,7 +449,10 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="mpago">M. Pago:</label>
-                            <select id="mpago" class="form-control" wire:model='slctMetodoPago' required>
+                            <select id="mpago" class="form-control" wire:model='slctMetodoPago'
+                                wire:loading.class="cursor-not-allowed-important medio-opaco"
+                                wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro"
+                                required>
                                 <option value="">Elegir</option>
                                 @forelse ($metodoPagos as $metodoPago)
                                     <option value="{{ $metodoPago->name }}">{{ $metodoPago->name }}</option>
@@ -463,11 +466,19 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="vaucher">Vaucher:</label>
-                                <input type="text" class="form-control" id="vaucher" required>
+                                <input type="text" class="form-control" id="vaucher" wire:model='file_vaucher'
+                                    wire:loading.attr="disabled"
+                                    wire:loading.class="cursor-not-allowed-important medio-opaco"
+                                    wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro"
+                                    required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="noperacion">N. Operación:</label>
-                                <input type="text" class="form-control" id="noperacion" required>
+                                <input type="text" class="form-control" id="noperacion"
+                                    wire:model='nro_operacion' wire:loading.attr="disabled"
+                                    wire:loading.class="cursor-not-allowed-important medio-opaco"
+                                    wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro"
+                                    required>
                             </div>
                         </div>
                     @endif
@@ -475,19 +486,20 @@
                         <div class="form-group col-md-6">
                             <select id="concepto" class="form-control" wire:model.live='slctConceptoCobro'>
                                 <option>Elegir un Concepto de Cobro ...</option>
-                                @forelse ($grupos as $grupo)
-                                    <option value="{{ $grupo->id }}">{{ $grupo->concepto_cobro_name }}</option>
+                                @forelse ($cgrupos as $cgrupo)
+                                    <option value="{{ $cgrupo->id }}">{{ $cgrupo->concepto_cobro_name }}</option>
                                 @empty
                                     <option>sin registro</option>
                                 @endforelse
                             </select>
+
+                            <input type="text"></input>
                         </div>
                         <div class="form-group col-md-2">
                             <input type="number" class="form-control" id="cantidad" value="0" min="0"
-                                wire:model='montoCobro'
-                                wire:loading.attr="disabled"
+                                wire:model='montoCobro' wire:loading.attr="disabled"
                                 wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                wire:target="slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro">
+                                wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro">
 
                             <input type="hidden" class="form-control" id="montoTotalConcepto"
                                 wire:model='montoTotalConcepto'>
@@ -497,7 +509,7 @@
                             <button type="button" class="btn btn-primary" {{ $disabledAddConcepto }}
                                 wire:click='addConceptoCobro'
                                 wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                wire:target="slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro">Agregar</button>
+                                wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro">Agregar</button>
                         </div>
                     </div>
                 </form>
@@ -522,7 +534,7 @@
                                 <td><button id="cancel-image-perfil" class="btn-icon"
                                         wire:click="removeConceptoCobro('{{ $comprobanteDetalle->codigo }}')"
                                         wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                        wire:target="slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro">❌</button>
+                                        wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro">❌</button>
                                 </td>
                             </tr>
                         @empty
@@ -1176,6 +1188,15 @@
 
         .btn-icon:hover {
             background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .top-100-zindex-1000 {
+            top: 100%;
+            z-index: 1000;
+        }
+
+        .custom-border {
+            border: 2px solid #9a9a9a;
         }
     </style>
 </div>
