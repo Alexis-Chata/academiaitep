@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Area;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,9 @@ class AreaSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Area::create(['name' => 'Administración']);
+        Area::create(['name' => 'Ingenierias']);
+        Area::create(['name' => 'Humanidades']);
+        Area::create(['name' => 'Ciencias']);
     }
 }
