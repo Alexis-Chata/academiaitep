@@ -430,7 +430,7 @@
                             <input type="date" class="form-control" id="femision" min="{{ $fecha_minima }}"
                                 wire:model.live='fecha_emision'
                                 wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro"
+                                wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro"
                                 required>
                         </div>
                     </div>
@@ -451,7 +451,7 @@
                             <label for="mpago">M. Pago:</label>
                             <select id="mpago" class="form-control" wire:model='slctMetodoPago'
                                 wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro"
+                                wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro"
                                 required>
                                 <option value="">Elegir</option>
                                 @forelse ($metodoPagos as $metodoPago)
@@ -469,7 +469,7 @@
                                 <input type="text" class="form-control" id="vaucher" wire:model='file_vaucher'
                                     wire:loading.attr="disabled"
                                     wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                    wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro"
+                                    wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro"
                                     required>
                             </div>
                             <div class="form-group col-md-6">
@@ -477,44 +477,92 @@
                                 <input type="text" class="form-control" id="noperacion"
                                     wire:model='nro_operacion' wire:loading.attr="disabled"
                                     wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                    wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro"
+                                    wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro"
                                     required>
                             </div>
                         </div>
                     @endif
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <select id="concepto" class="form-control" wire:model.live='slctConceptoCobro'>
-                                <option>Elegir un Concepto de Cobro ...</option>
-                                @forelse ($cgrupos as $cgrupo)
-                                    <option value="{{ $cgrupo->id }}">{{ $cgrupo->concepto_cobro_name }}</option>
-                                @empty
-                                    <option>sin registro</option>
-                                @endforelse
-                            </select>
+                    <div class="row">
+                        <div class="form-group col-7">
 
-                            <input type="text"></input>
+                            <div x-data="{
+                                selectedIndex: 0,
+                                query: @entangle('query'),
+                                dataresults: @entangle('dataresults'),
+                                selectedItem: null,
+                                selectCurrent(i = null) {
+                                    if (i !== null) {
+                                        this.selectedIndex = i;
+                                    }
+                                    var item = null
+                                    if (this.query) {
+                                        var item = this.dataresults[this.selectedIndex];
+                                    }
+                                    if (item) {
+                                        this.query = item.concepto_cobro_name;
+                                        this.selectedItem = item; // Guardar el elemento seleccionado
+                                        this.dataresults = [];
+                                        this.selectedIndex = 0;
+                                        $wire.selectItem(this.selectedItem.id);
+                                    }
+                                }
+                                }" class="relative col">
+                                <input type="text" x-model="query" @input="$wire.set('query', query)"
+                                    @keydown.arrow-up.prevent="selectedIndex = Math.max(selectedIndex - 1, 0)"
+                                    @keydown.arrow-down.prevent="selectedIndex = Math.min(selectedIndex + 1, dataresults.length - 1)"
+                                    @keydown.enter.prevent="selectCurrent()" placeholder="Buscar Cobros..."
+                                    class="form-control">
+
+                                <!-- Mostrar la lista solo si hay resultados y el query no está vacío -->
+                                <ul class="list-group mt-2 position-absolute w-100 bg-white"
+                                    x-show="dataresults.length > 0 && query.length > 0" style="z-index: 1000;">
+                                    <template x-for="(result, i) in dataresults" :key="i">
+                                        <li :class="{ 'active': selectedIndex === i }"
+                                            class="list-group-item text-sm px-2 py-1"
+                                            @click="selectCurrent(i); $wire.selectItem(result.id);"
+                                            @mouseover="selectedIndex = i" x-text="result.concepto_cobro_name">
+                                        </li>
+                                    </template>
+                                </ul>
+
+                                <!-- Mostrar los detalles del elemento seleccionado -->
+                                <div class="mt-4 d-none" x-show="selectedItem">
+                                    <h4>Detalles del Cobro seleccionado</h4>
+                                    <p><strong>Nombre:</strong> <span
+                                            x-text="selectedItem ? selectedItem.concepto_cobro_name : ''"></span></p>
+                                    <p><strong>Descripción:</strong> <span
+                                            x-text="selectedItem ? selectedItem.id : ''"></span></p>
+                                    <p><strong>Precio:</strong> <span
+                                            x-text="selectedItem ? selectedItem.costo : ''"></span></p>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="form-group col-md-2">
-                            <input type="number" class="form-control" id="cantidad" value="0" min="0"
-                                wire:model='montoCobro' wire:loading.attr="disabled"
+                        <div class="form-group col-3">
+                            <input type="number" class="form-control col" id="cantidad" value="0" required
+                                min="0" max="{{ $montoTotalConcepto }}" wire:model='montoCobro'
+                                wire:loading.attr="disabled"
                                 wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro">
-
+                                wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro">
+                            <div>
+                                @error('montoCobro')
+                                    {{ $message }}
+                                @enderror
+                            </div>
                             <input type="hidden" class="form-control" id="montoTotalConcepto"
                                 wire:model='montoTotalConcepto'>
                             <input type="hidden" class="form-control" id="conceptoName" wire:model='conceptoName'>
                         </div>
-                        <div class="form-group col-md-4 d-flex align-items-end">
-                            <button type="button" class="btn btn-primary" {{ $disabledAddConcepto }}
-                                wire:click='addConceptoCobro'
+                        <div class="form-group col-2 d-flex align-items-start ">
+                            <button type="submit" class="btn btn-primary col" {{ $disabledAddConcepto }}
+                                form="form-montoCobro" wire:click='addConceptoCobro'
                                 wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro">Agregar</button>
+                                wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro">Agregar</button>
                         </div>
                     </div>
                 </form>
                 <div wire:loading wire:target="addConceptoCobro">Loading...</div>
-                <table class="table table-bordered mt-4">
+                <table class="table table-bordered mt-3">
                     <thead>
                         <tr>
                             <th>Codigo</th>
@@ -534,7 +582,7 @@
                                 <td><button id="cancel-image-perfil" class="btn-icon"
                                         wire:click="removeConceptoCobro('{{ $comprobanteDetalle->codigo }}')"
                                         wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                        wire:target="slctSerie, slctCuenta, slctConceptoCobro, addConceptoCobro, removeConceptoCobro">❌</button>
+                                        wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro, saveComprobantePago">❌</button>
                                 </td>
                             </tr>
                         @empty

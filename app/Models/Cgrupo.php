@@ -11,6 +11,7 @@ class Cgrupo extends Model
     use HasFactory;
 
     protected $fillable = ['turno_id','ciclo_id','modalidad_id','costo'];
+    protected $appends = ["concepto_cobro_name"];
 
     public function turno(){return $this->belongsTo(Turno::class);}
     public function ciclo(){return $this->belongsTo(Ciclo::class);}

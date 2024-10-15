@@ -55,5 +55,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AreaSeeder::class);
         $this->call(CarreraSeeder::class);
         $this->call(MatriculaSeeder::class);
+        $this->call(ProductoSeeder::class);
     }
 }

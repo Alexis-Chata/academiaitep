@@ -38,7 +38,7 @@ class Pagos extends Component
     public $fecha_emision;
     public $slctSerie;
     public $montoCobro;
-    public $slctConceptoCobro;
+    public $cgrupo_id;
     public $series;
     public $cuentas;
     public $cgrupos;
@@ -189,8 +189,8 @@ class Pagos extends Component
 
         if (!empty($this->search)) {
             $this->results = User::when($this->search, function ($q) {
-                    $q->where("name", "like", "%%" . $this->search . "%%");
-                })
+                $q->where("name", "like", "%%" . $this->search . "%%");
+            })
                 ->when($this->search, function ($q) {
                     $q->orWhere(
                         "ap_paterno",
@@ -213,7 +213,7 @@ class Pagos extends Component
                     );
                 })
                 ->when($this->search, function ($q) {
-                    if(env('DB_CONNECTION')!="sqlite"){
+                    if (env('DB_CONNECTION') != "sqlite") {
                         $q->orWhereFullText(
                             ["name", "ap_paterno", "ap_materno", "nro_documento"],
                             $this->search
@@ -324,36 +324,32 @@ class Pagos extends Component
         }
     }
 
-    public function updatedSlctConceptoCobro()
-    {
-        $this->montoCobro = 0;
-        $this->montoTotalConcepto = 0;
-        $this->disabledAddConcepto = "disabled";
-        $this->conceptoName = null;
-        if ($this->cgrupos->find($this->slctConceptoCobro)) {
-            $this->montoCobro = $this->cgrupos->find($this->slctConceptoCobro)->costo;
-            $this->montoTotalConcepto = $this->montoCobro;
-            $this->disabledAddConcepto = null;
-            $this->conceptoName = ucfirst($this->cgrupos->find($this->slctConceptoCobro)->concepto_cobro_name);
-        }
-    }
-
     public function addConceptoCobro()
     {
+        $this->validate([
+            'montoCobro' => 'required|numeric|min:1',
+            'montoTotalConcepto' => 'required|numeric|min:1',
+        ], [
+            'required' => 'Requerido',
+            'numeric' => 'debe ser numerico',
+            'min' => 'minimo 1.00',
+        ]);
+
         $this->comprobanteDetalles->push((object)[
-            'codigo' => $this->slctConceptoCobro,
+            'codigo' => $this->cgrupo_id,
             'concepto' => $this->conceptoName,
             'importeConceptoPendiente' => $this->montoTotalConcepto - $this->montoCobro,
             'importeConceptoPagar' => $this->montoCobro,
         ]);
-        $this->slctConceptoCobro = null;
-        $this->updatedSlctConceptoCobro();
+        $this->query = null;
+        $this->cgrupo_id = null;
+        $this->selectItem();
     }
 
     public function removeConceptoCobro($codigo)
     {
         $this->comprobanteDetalles = $this->comprobanteDetalles->reject(function ($item) use ($codigo) {
-            return $item->codigo === $codigo;
+            return $item->codigo == $codigo;
         });
     }
 
@@ -372,6 +368,40 @@ class Pagos extends Component
         $this->comprobanteDetalles = collect();
         $this->fecha_emision = now()->format('Y-m-d');
         $this->fecha_minima = now()->format('Y-m-d');
+    }
+
+    public $query = '';
+    public $dataresults = [];
+
+    public function updatedQuery()
+    {
+        $resultados = Cgrupo::get()->append('concepto_cobro_name')
+            ->filter(function ($item) {
+                return stripos($item->concepto_cobro_name, $this->query) !== false;
+            })
+            ->take(5)
+            ->toArray();
+
+        $this->dataresults = array_values($resultados);
+    }
+
+    public function selectItem($cgrupo_id = null)
+    {
+        $cgrupo = Cgrupo::find($cgrupo_id);
+        $this->dataresults = [];
+        $this->montoCobro = 0;
+        $this->montoTotalConcepto = 0;
+        $this->disabledAddConcepto = "disabled";
+        $this->conceptoName = null;
+        $this->cgrupo_id = null;
+        if ($cgrupo) {
+            $this->query = $cgrupo->concepto_cobro_name;
+            $this->cgrupo_id = $cgrupo->id;
+            $this->montoCobro = $cgrupo->costo;
+            $this->montoTotalConcepto = $this->montoCobro;
+            $this->disabledAddConcepto = null;
+            $this->conceptoName = ucfirst($cgrupo->concepto_cobro_name);
+        }
     }
 
     public function render()

@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <livewire:pagos>
+    <livewire:pagos />
 @stop
 
 @section('css')
