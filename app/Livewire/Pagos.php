@@ -375,13 +375,19 @@ class Pagos extends Component
 
     public function updatedQuery()
     {
-        $resultados = Cgrupo::get()->append('concepto_cobro_name')
-            ->filter(function ($item) {
-                return stripos($item->concepto_cobro_name, $this->query) !== false;
-            })
-            ->take(5)
-            ->toArray();
+        $string = trim($this->query);
+        $string = str_replace([',', '.'], '', $string);
+        $string = preg_replace('/\s+/', ' ', $string);
+        $queries = explode(' ', $string);
 
+        $resultados = Cgrupo::query();
+        foreach ($queries as $query) {
+            if (!empty($query)) {
+                $resultados->where('concepto_cobro_name', 'LIKE', '%' . $query . '%');
+            }
+        }
+
+        $resultados = $resultados->take(5)->get()->toArray();
         $this->dataresults = array_values($resultados);
     }
 

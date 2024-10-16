@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId("turno_id")->constrained("turnos");
             $table->foreignId("modalidad_id")->constrained("modalidads");
             $table->double("costo");
+            $table->string("concepto_cobro_name");
             $table->timestamps();
         });
     }
