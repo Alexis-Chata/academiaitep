@@ -19,6 +19,7 @@ use App\Models\F_tipo_documento;
 use App\Models\MetodoPago;
 use App\Models\Tapoderado;
 use App\Models\User_apoderado;
+use App\Models\Modalidad;
 use Carbon\Carbon;
 
 class Pagos extends Component
@@ -445,6 +446,36 @@ class Pagos extends Component
         $this->dataresults_sede = [];
         if ($sede) {
             $this->query_sede = $sede->nombre;
+        }
+    }
+    
+    public $query_modalidad = '';
+    public $dataresults_modalidad = [];
+
+    public function updatedQueryModalidad()
+    {
+        $string = trim($this->query_modalidad);
+        $string = str_replace([',', '.'], '', $string);
+        $string = preg_replace('/\s+/', ' ', $string);
+        $queries = explode(' ', $string);
+
+        $resultados = Modalidad::query();
+        foreach ($queries as $query) {
+            if (!empty($query)) {
+                $resultados->where('name', 'LIKE', '%' . $query . '%');
+            }
+        }
+
+        $resultados = $resultados->take(5)->get()->toArray();
+        $this->dataresults_modalidad = array_values($resultados);
+    }
+
+    public function selectItem_modalidad($id = null)
+    {
+        $modalidad = Modalidad::find($id);
+        $this->dataresults_modalidad = [];
+        if ($modalidad) {
+            $this->query_modalidad = $modalidad->name;
         }
     }
 

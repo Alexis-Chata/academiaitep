@@ -347,7 +347,7 @@
                                     width="20px" />
                             </button>
                         </div>
-                        <div class="vencimiento">v: 30-09-2024</div>
+                        <div class="vencimiento">FV: 30-09-2024</div>
                     </div>
 
                     <!-- Contenedor de inputs en 3 columnas -->
@@ -365,27 +365,72 @@
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="proceso" class="form-label"><strong>Proceso:</strong></label>
-                            <input type="text" id="proceso" name="proceso" class="form-control"
-                                value="Primera Ceprunsa" readonly>
+                            <label for="turno" class="form-label"><strong>Turno:</strong></label>
+                            <input type="text" id="turno" name="turno" class="form-control"
+                                value="Mañana" readonly>
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="modalidad" class="form-label"><strong>Modalidad:</strong></label>
-                            <input type="text" id="modalidad" name="modalidad" class="form-control"
-                                value="Presencial" readonly>
+                            <div>
+                                <div x-data="{
+                                    selectedIndex_modalidad: 0,
+                                    query_modalidad: @entangle('query_modalidad'),
+                                    dataresults_modalidad: @entangle('dataresults_modalidad'),
+                                    selectedItem_modalidad: null,
+                                    selectCurrent_modalidad(i = null) {
+                                        if (i !== null) {
+                                            this.selectedIndex_modalidad = i;
+                                        }
+                                        var item = null
+                                        if (this.query_modalidad) {
+                                            var item = this.dataresults_modalidad[this.selectedIndex_modalidad];
+                                        }
+                                        if (item) {
+                                            this.query_modalidad = item.name;
+                                            this.selectedItem_modalidad = item;
+                                            this.dataresults_modalidad = [];
+                                            this.selectedIndex_modalidad = 0;
+                                            $wire.selectItem_modalidad(this.selectedItem_modalidad.id);
+                                        }
+                                    }
+                                }" class="relative col">
+                                    <label for="modalidad" class="form-label"><strong>Modalidad:</strong></label>
+                                    <input type="text" x-model="query_modalidad"
+                                        @input="$wire.set('query_modalidad', query_modalidad)"
+                                        @keydown.arrow-up.prevent="selectedIndex_modalidad = Math.max(selectedIndex_modalidad - 1, 0)"
+                                        @keydown.arrow-down.prevent="selectedIndex_modalidad = Math.min(selectedIndex_modalidad + 1, dataresults_modalidad.length - 1)"
+                                        @keydown.enter.prevent="selectCurrent_modalidad()"
+                                        placeholder="Buscar Modalidades..." class="form-control">
+
+                                    <ul class="list-group mt-2 position-absolute w-100 bg-white"
+                                        x-show="dataresults_modalidad.length > 0 && query_modalidad.length > 0"
+                                        style="z-index: 1000;">
+                                        <template x-for="(result, i) in dataresults_modalidad" :key="i">
+                                            <li :class="{ 'active': selectedIndex_modalidad === i }"
+                                                class="list-group-item text-sm px-2 py-1"
+                                                @click="selectCurrent_modalidad(i);"
+                                                @mouseover="selectedIndex_modalidad = i" x-text="result.name">
+                                            </li>
+                                        </template>
+                                    </ul>
+
+                                    <div class="mt-4 d-none" x-show="selectedItem_modalidad">
+                                        <h4>Detalles de la Modalidad seleccionada</h4>
+                                        <p><strong>Nombre:</strong> <span
+                                                x-text="selectedItem_modalidad ? selectedItem_modalidad.name : ''"></span>
+                                        </p>
+                                        <p><strong>ID:</strong> <span
+                                                x-text="selectedItem_modalidad ? selectedItem_modalidad.id : ''"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="area" class="form-label"><strong>Área:</strong></label>
-                            <input type="text" id="area" name="area" class="form-control"
-                                value="Ingenierías" readonly>
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <label for="carrera" class="form-label"><strong>Carrera:</strong></label>
-                            <input type="text" id="carrera" name="carrera" class="form-control"
-                                value="Ingeniería de Sistemas" readonly>
+                            <label for="aula" class="form-label"><strong>Aula:</strong></label>
+                            <input type="text" id="aula" name="aula" class="form-control"
+                                value="Aula 1" readonly>
                         </div>
 
                         <div class="col-md-4 mb-3">
@@ -448,8 +493,26 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="carrera" class="form-label"><strong>Carrera:</strong></label>
+                            <input type="text" id="carrera" name="carrera" class="form-control"
+                                value="Ingeniería de Sistemas" readonly>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="grupo" class="form-label"><strong>Grupo:</strong></label>
+                            <input type="text" id="grupo" name="grupo" class="form-control"
+                                value="Grupo A" readonly>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="estado" class="form-label"><strong>Estado:</strong></label>
+                            <input type="text" id="estado" name="estado" class="form-control"
+                                value="Activo" readonly>
+                        </div>
+
                     </div>
 
                     <div class="d-flex justify-content-end">
