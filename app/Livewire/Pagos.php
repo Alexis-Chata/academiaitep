@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Apoderado;
 use App\Models\Cgrupo;
 use App\Models\Cuenta;
+use App\Models\F_sede;
 use App\Models\F_serie;
 use App\Models\F_tipo_documento;
 use App\Models\MetodoPago;
@@ -413,6 +414,37 @@ class Pagos extends Component
             $this->montoTotalConcepto = $this->montoCobro;
             $this->disabledAddConcepto = null;
             $this->conceptoName = ucfirst($cgrupo->concepto_cobro_name);
+        }
+    }
+
+    public $query_sede = '';
+    public $dataresults_sede = [];
+
+    public function updatedQuerySede()
+    {
+        $string = trim($this->query_sede);
+        $string = str_replace([',', '.'], '', $string);
+        $string = preg_replace('/\s+/', ' ', $string);
+        $queries = explode(' ', $string);
+
+        $resultados = F_sede::query();
+        foreach ($queries as $query) {
+            if (!empty($query)) {
+                $resultados->where('nombre', 'LIKE', '%' . $query . '%');
+            }
+        }
+
+        $resultados = $resultados->take(5)->get()->toArray();
+        $this->dataresults_sede = array_values($resultados);
+        // dd($resultados, $this->query_sede);
+    }
+
+    public function selectItem_sede($id = null)
+    {
+        $sede = F_sede::find($id);
+        $this->dataresults_sede = [];
+        if ($sede) {
+            $this->query_sede = $sede->nombre;
         }
     }
 

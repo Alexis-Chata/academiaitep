@@ -389,9 +389,66 @@
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="sede" class="form-label"><strong>Sede:</strong></label>
-                            <input type="text" id="sede" name="sede" class="form-control"
-                                value="Local 1" readonly>
+                            <div>
+                                <div x-data="{
+                                    selectedIndex_sede: 0,
+                                    query_sede: @entangle('query_sede'),
+                                    dataresults_sede: @entangle('dataresults_sede'),
+                                    selectedItem_sede: null,
+                                    selectCurrent_sede(i = null) {
+                                        if (i !== null) {
+                                            this.selectedIndex_sede = i;
+                                        }
+                                        var item = null
+                                        if (this.query_sede) {
+                                            var item = this.dataresults_sede[this.selectedIndex_sede];
+                                        }
+                                        if (item) {
+                                            this.query_sede = item.nombre;
+                                            this.selectedItem_sede = item; // Guardar el elemento seleccionado
+                                            this.dataresults_sede = [];
+                                            this.selectedIndex_sede = 0;
+                                            $wire.selectItem_sede(this.selectedItem_sede.id);
+                                        }
+                                    }
+                                }" class="relative col">
+                                    <label for="sede" class="form-label"><strong>Sede:</strong></label>
+                                    <input type="text" x-model="query_sede"
+                                        @input="$wire.set('query_sede', query_sede)"
+                                        @keydown.arrow-up.prevent="selectedIndex_sede = Math.max(selectedIndex_sede - 1, 0)"
+                                        @keydown.arrow-down.prevent="selectedIndex_sede = Math.min(selectedIndex_sede + 1, dataresults_sede.length - 1)"
+                                        @keydown.enter.prevent="selectCurrent_sede()"
+                                        placeholder="Buscar Sedes..." class="form-control">
+
+                                    <!-- Mostrar la lista solo si hay resultados y el query_sede no está vacío -->
+                                    <ul class="list-group mt-2 position-absolute w-100 bg-white"
+                                        x-show="dataresults_sede.length > 0 && query_sede.length > 0"
+                                        style="z-index: 1000;">
+                                        <template x-for="(result, i) in dataresults_sede" :key="i">
+                                            <li :class="{ 'active': selectedIndex_sede === i }"
+                                                class="list-group-item text-sm px-2 py-1"
+                                                @click="selectCurrent_sede(i);"
+                                                @mouseover="selectedIndex_sede = i" x-text="result.nombre">
+                                            </li>
+                                        </template>
+                                    </ul>
+
+                                    <!-- Mostrar los detalles del elemento seleccionado -->
+                                    <div class="mt-4 d-none" x-show="selectedItem_sede">
+                                        <h4>Detalles del Sede seleccionado</h4>
+                                        <p><strong>Nombre:</strong> <span
+                                                x-text="selectedItem_sede ? selectedItem_sede.nombre : ''"></span>
+                                        </p>
+                                        <p><strong>Descripción:</strong> <span
+                                                x-text="selectedItem_sede ? selectedItem_sede.id : ''"></span>
+                                        </p>
+                                        <p><strong>Precio:</strong> <span
+                                                x-text="selectedItem_sede ? selectedItem_sede.costo : ''"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
