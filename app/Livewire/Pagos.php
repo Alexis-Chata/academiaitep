@@ -338,6 +338,7 @@ class Pagos extends Component
         $this->comprobanteDetalles->push((object)[
             'codigo' => $this->cgrupo_id,
             'concepto' => $this->conceptoName,
+            'importeConceptoCosto' => $this->montoTotalConcepto,
             'importeConceptoPendiente' => $this->montoTotalConcepto - $this->montoCobro,
             'importeConceptoPagar' => $this->montoCobro,
         ]);
@@ -353,22 +354,20 @@ class Pagos extends Component
         });
     }
 
-    public function saveComprobantePago(){
+    public function saveComprobantePago()
+    {
         $this->dto_comprobante_pagoform->doc_serie_id = $this->slctSerie;
         $this->dto_comprobante_pagoform->fechaEmision = $this->fecha_emision;
         $this->dto_comprobante_pagoform->cuenta_id = $this->slctCuenta;
         $this->dto_comprobante_pagoform->metodo_pago_cuenta = $this->slctMetodoPago;
-        $this->dto_comprobante_pagoform->user_id = optional($this->userform)->user ? ($this->userform)->user->id: null;
-        ($this->dto_comprobante_pagoform->store());
+        $this->dto_comprobante_pagoform->user_id = optional($this->userform)->user ? ($this->userform)->user->id : null;
+        $this->dto_comprobante_pagoform->data_comprobante_detalles = $this->comprobanteDetalles;
+        $this->dto_comprobante_pagoform->store();
+        $this->updatedSlctSerie();
     }
 
     public function mount()
     {
-        $this->tipo_apoderados = Tapoderado::all();
-        $this->tipo_documentos = F_tipo_documento::all();
-        $this->series = F_serie::all();
-        $this->cuentas = Cuenta::all();
-        $this->cgrupos = Cgrupo::with('turno', 'ciclo', 'modalidad')->get();
         $this->user_apoderados = collect();
         $this->metodoPagos = collect();
         $this->disabledAddConcepto = "disabled";
@@ -419,6 +418,11 @@ class Pagos extends Component
 
     public function render()
     {
+        $this->tipo_apoderados = Tapoderado::all();
+        $this->tipo_documentos = F_tipo_documento::all();
+        $this->series = F_serie::all();
+        $this->cuentas = Cuenta::all();
+        $this->cgrupos = Cgrupo::with('turno', 'ciclo', 'modalidad')->get();
         return view("livewire.pagos");
     }
 }

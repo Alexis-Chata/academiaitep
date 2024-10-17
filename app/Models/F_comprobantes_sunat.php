@@ -72,4 +72,9 @@ class F_comprobantes_sunat extends BaseModel
         'mensaje_sunat',
         'obs',
     ];
+
+    public function comprobantes_sunat_detalle()
+    {
+        return $this->hasMany(F_comprobantes_sunat_detalle::class);
+    }
 }
