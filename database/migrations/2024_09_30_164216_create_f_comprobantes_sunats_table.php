@@ -16,13 +16,16 @@ return new class extends Migration
             $table->foreignId("matricula_id")->constrained("matriculas");
             $table->foreignId("user_id")->constrained("users");
             $table->foreignId("cajero_id")->constrained("users");
-            $table->string("noperacion");
-            $table->string("entidad");
+            $table->string("noperacion")->nullable();
+            $table->string("entidad")->nullable();
             $table->char("cestado", 1);
             $table->foreignId("cuenta_id")->constrained("cuentas");
             $table->string("sede");
-            $table->string("imagen_deposito");
-            $table->string("nombreticketpdf");
+            $table->string('costo_total');
+            $table->string('monto_pagado_total');
+            $table->string('saldo_pendiente_total');
+            $table->string("imagen_deposito")->nullable();
+            $table->string("nombreticketpdf")->nullable();
             $table->string("metodopago");
 
             $table->string('ublVersion')->default('2.1');

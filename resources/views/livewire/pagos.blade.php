@@ -50,7 +50,7 @@
                                     <label for="nombres">Nombres:</label>
                                     <input type="text" id="nombres" {{ $readonly_datos }}
                                         wire:model="userform.name">
-                                    <div>
+                                    <div class="text-sm text-red">
                                         @error('userform.name')
                                             {{ $message }}
                                         @enderror
@@ -60,7 +60,7 @@
                                     <label for="apPaterno">Ap. Paterno:</label>
                                     <input type="text" id="apPaterno" {{ $readonly_datos }}
                                         wire:model="userform.ap_paterno">
-                                    <div>
+                                    <div class="text-sm text-red">
                                         @error('userform.ap_paterno')
                                             {{ $message }}
                                         @enderror
@@ -70,7 +70,7 @@
                                     <label for="apMaterno">Ap. Materno:</label>
                                     <input type="text" id="apMaterno" {{ $readonly_datos }}
                                         wire:model="userform.ap_materno">
-                                    <div>
+                                    <div class="text-sm text-red">
                                         @error('userform.ap_materno')
                                             {{ $message }}
                                         @enderror
@@ -83,7 +83,7 @@
                                         <option value="DNI">DNI</option>
                                         <option value="CE">C.E</option>
                                     </select>
-                                    <div>
+                                    <div class="text-sm text-red">
                                         @error('userform.f_tipo_documento_id')
                                             {{ $message }}
                                         @enderror
@@ -93,7 +93,7 @@
                                     <label for="nro_doc_identidad">Nro. Doc.:</label>
                                     <input type="text" id="nro_doc_identidad" {{ $readonly_datos }}
                                         wire:model="userform.nro_documento">
-                                    <div>
+                                    <div class="text-sm text-red">
                                         @error('userform.userform')
                                             {{ $message }}
                                         @enderror
@@ -103,7 +103,7 @@
                                     <label for="direccion">Dirección:</label>
                                     <input type="text" id="direccion" {{ $readonly_datos }}
                                         wire:model="userform.direccion">
-                                    <div>
+                                    <div class="text-sm text-red">
                                         @error('userform.direccion')
                                             {{ $message }}
                                         @enderror
@@ -113,7 +113,7 @@
                                     <label for="email">Email:</label>
                                     <input type="text" id="email" {{ $readonly_datos }}
                                         wire:model="userform.email">
-                                    <div>
+                                    <div class="text-sm text-red">
                                         @error('userform.email')
                                             {{ $message }}
                                         @enderror
@@ -123,7 +123,7 @@
                                     <label for="celular">Celular:</label>
                                     <input type="text" id="celular" {{ $readonly_datos }}
                                         wire:model="userform.celular1">
-                                    <div>
+                                    <div class="text-sm text-red">
                                         @error('userform.celular1')
                                             {{ $message }}
                                         @enderror
@@ -133,7 +133,7 @@
                                     <label for="celular2">Celular 2:</label>
                                     <input type="text" id="celular2" {{ $readonly_datos }}
                                         wire:model="userform.celular2">
-                                    <div>
+                                    <div class="text-sm text-red">
                                         @error('userform.celular2')
                                             {{ $message }}
                                         @enderror
@@ -409,278 +409,8 @@
 
         <!-- pago-section -->
         <div class="pago-section">
-            <div class="columnLeft mt-4">
-                <h2>Comprobante de Pago</h2>
-
-                <form id="formComprobantePago" wire:submit="saveComprobantePago">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="doc">Doc:</label>
-                            <select id="doc" class="form-control" wire:model.live='slctSerie' required>
-                                <option value="">Elegir</option>
-                                @forelse ($series as $serie)
-                                    <option value="{{ $serie->id }}">{{ $serie->serie }}</option>
-                                @empty
-                                    <option>sin registro</option>
-                                @endforelse
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="femision">F. Emisión:</label>
-                            <input type="date" class="form-control" id="femision" min="{{ $fecha_minima }}"
-                                wire:model.live='fecha_emision'
-                                wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro"
-                                required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="cuenta">Cuenta:</label>
-                            <select id="cuenta" class="form-control" wire:model.live='slctCuenta' required>
-                                <option value="">Elegir</option>
-                                @forelse ($cuentas as $cuenta)
-                                    <option value="{{ $cuenta->id }}">{{ $cuenta->name }}</option>
-                                @empty
-                                    <option>sin registro</option>
-                                @endforelse
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="mpago">M. Pago:</label>
-                            <select id="mpago" class="form-control" wire:model='slctMetodoPago'
-                                wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro"
-                                required>
-                                <option value="">Elegir</option>
-                                @forelse ($metodoPagos as $metodoPago)
-                                    <option value="{{ $metodoPago->name }}">{{ $metodoPago->name }}</option>
-                                @empty
-                                    <option>sin opciones</option>
-                                @endforelse
-                            </select>
-                        </div>
-                    </div>
-                    @if ($tipoCuentaVirtual)
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="vaucher">Vaucher:</label>
-                                <input type="text" class="form-control" id="vaucher" wire:model='file_vaucher'
-                                    wire:loading.attr="disabled"
-                                    wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                    wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro"
-                                    required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="noperacion">N. Operación:</label>
-                                <input type="text" class="form-control" id="noperacion"
-                                    wire:model='nro_operacion' wire:loading.attr="disabled"
-                                    wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                    wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro"
-                                    required>
-                            </div>
-                        </div>
-                    @endif
-                    <div class="row">
-                        <div class="form-group col-7">
-
-                            <div x-data="{
-                                selectedIndex: 0,
-                                query: @entangle('query'),
-                                dataresults: @entangle('dataresults'),
-                                selectedItem: null,
-                                selectCurrent(i = null) {
-                                    if (i !== null) {
-                                        this.selectedIndex = i;
-                                    }
-                                    var item = null
-                                    if (this.query) {
-                                        var item = this.dataresults[this.selectedIndex];
-                                    }
-                                    if (item) {
-                                        this.query = item.concepto_cobro_name;
-                                        this.selectedItem = item; // Guardar el elemento seleccionado
-                                        this.dataresults = [];
-                                        this.selectedIndex = 0;
-                                        $wire.selectItem(this.selectedItem.id);
-                                    }
-                                }
-                                }" class="relative col">
-                                <input type="text" x-model="query" @input="$wire.set('query', query)"
-                                    @keydown.arrow-up.prevent="selectedIndex = Math.max(selectedIndex - 1, 0)"
-                                    @keydown.arrow-down.prevent="selectedIndex = Math.min(selectedIndex + 1, dataresults.length - 1)"
-                                    @keydown.enter.prevent="selectCurrent()" placeholder="Buscar Cobros..."
-                                    class="form-control">
-
-                                <!-- Mostrar la lista solo si hay resultados y el query no está vacío -->
-                                <ul class="list-group mt-2 position-absolute w-100 bg-white"
-                                    x-show="dataresults.length > 0 && query.length > 0" style="z-index: 1000;">
-                                    <template x-for="(result, i) in dataresults" :key="i">
-                                        <li :class="{ 'active': selectedIndex === i }"
-                                            class="list-group-item text-sm px-2 py-1"
-                                            @click="selectCurrent(i); $wire.selectItem(result.id);"
-                                            @mouseover="selectedIndex = i" x-text="result.concepto_cobro_name">
-                                        </li>
-                                    </template>
-                                </ul>
-
-                                <!-- Mostrar los detalles del elemento seleccionado -->
-                                <div class="mt-4 d-none" x-show="selectedItem">
-                                    <h4>Detalles del Cobro seleccionado</h4>
-                                    <p><strong>Nombre:</strong> <span
-                                            x-text="selectedItem ? selectedItem.concepto_cobro_name : ''"></span></p>
-                                    <p><strong>Descripción:</strong> <span
-                                            x-text="selectedItem ? selectedItem.id : ''"></span></p>
-                                    <p><strong>Precio:</strong> <span
-                                            x-text="selectedItem ? selectedItem.costo : ''"></span></p>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="form-group col-3">
-                            <input type="number" class="form-control col" id="cantidad" value="0" required
-                                min="0" max="{{ $montoTotalConcepto }}" wire:model='montoCobro'
-                                wire:loading.attr="disabled"
-                                wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro">
-                            <div>
-                                @error('montoCobro')
-                                    {{ $message }}
-                                @enderror
-                            </div>
-                            <input type="hidden" class="form-control" id="montoTotalConcepto"
-                                wire:model='montoTotalConcepto'>
-                            <input type="hidden" class="form-control" id="conceptoName" wire:model='conceptoName'>
-                        </div>
-                        <div class="form-group col-2 d-flex align-items-start ">
-                            <button type="submit" class="btn btn-primary col" {{ $disabledAddConcepto }}
-                                form="form-montoCobro" wire:click='addConceptoCobro'
-                                wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro">Agregar</button>
-                        </div>
-                    </div>
-                </form>
-                <div wire:loading wire:target="addConceptoCobro">Loading...</div>
-                <table class="table table-bordered mt-3">
-                    <thead>
-                        <tr>
-                            <th>Codigo</th>
-                            <th>Concepto</th>
-                            <th>Saldo</th>
-                            <th>A Pagar</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($comprobanteDetalles as $comprobanteDetalle)
-                            <tr>
-                                <td>{{ $comprobanteDetalle->codigo }}</td>
-                                <td>{{ $comprobanteDetalle->concepto }}</td>
-                                <td>{{ $comprobanteDetalle->importeConceptoPendiente }}</td>
-                                <td>{{ $comprobanteDetalle->importeConceptoPagar }}</td>
-                                <td><button id="cancel-image-perfil" class="btn-icon"
-                                        wire:click="removeConceptoCobro('{{ $comprobanteDetalle->codigo }}')"
-                                        wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                        wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro, saveComprobantePago">❌</button>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td>-</td>
-                                <td>Agregue conceptos</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                        @endforelse
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><b>Total:</b> S/.
-                                {{ number_format($comprobanteDetalles->sum('importeConceptoPagar'), 2) }}</td>
-                            <td>
-                                @if ($comprobanteDetalles->count())
-                                    <button form="formComprobantePago">Guardar</button>
-                                @endif
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="columnRight mt-5">
-                <h2 class="mb-4">Hisotrial de Pagos</h2>
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Mes</th>
-                            <th>Código</th>
-                            <th>Estado</th>
-                            <th>Total</th>
-                            <th>Saldo</th>
-                            <th>Concepto</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Enero</td>
-                            <td>A001</td>
-                            <td>Activo</td>
-                            <td>1500.00</td>
-                            <td>500.00</td>
-                            <td>Pago de servicios</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Febrero</td>
-                            <td>A002</td>
-                            <td>Inactivo</td>
-                            <td>2000.00</td>
-                            <td>0.00</td>
-                            <td>Compra de materiales</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Marzo</td>
-                            <td>A003</td>
-                            <td>Activo</td>
-                            <td>1200.00</td>
-                            <td>300.00</td>
-                            <td>Alquiler de oficina</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Abril</td>
-                            <td>A004</td>
-                            <td>Pendiente</td>
-                            <td>800.00</td>
-                            <td>200.00</td>
-                            <td>Gastos de viaje</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Mayo</td>
-                            <td>A005</td>
-                            <td>Activo</td>
-                            <td>2500.00</td>
-                            <td>1000.00</td>
-                            <td>Venta de productos</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>Junio</td>
-                            <td>A006</td>
-                            <td>Cancelado</td>
-                            <td>500.00</td>
-                            <td>-100.00</td>
-                            <td>Devolución</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            @include('livewire.parts.pagos-comprobante-pagos')
+            @include('livewire.parts.pagos-historial-pagos')
         </div>
     </div>
     <style>

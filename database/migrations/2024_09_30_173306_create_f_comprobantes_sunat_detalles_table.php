@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('f_comprobantes_sunat_detalles', function (Blueprint $table) {
             $table->id();
+            $table->string('tipo_unidad');
             $table->string('codProducto');
-            $table->string('unidad');
-            $table->string('cantidad');
             $table->string('descripcion');
+            $table->string('cantidad');
+            $table->string('costo');
+            $table->string('monto_pagado');
+            $table->string('saldo_pendiente');
             $table->string('mtoBaseIgv');
             $table->string('porcentajeIgv');
             $table->string('igv');

@@ -48,7 +48,7 @@ class Pagos extends Component
     public UserForm $userform;
     public ApoderadoForm $apoderadoform;
     public UserApoderadoForm $user_apoderadoform;
-    public DtoComprobantePago $dto_comprobante_pago;
+    public DtoComprobantePago $dto_comprobante_pagoform;
     public $readonly_datos = "readonly";
     public $disabled_datos = "disabled";
     public $d_none_datos = "";
@@ -353,7 +353,14 @@ class Pagos extends Component
         });
     }
 
-    public function saveComprobantePago(): void {}
+    public function saveComprobantePago(){
+        $this->dto_comprobante_pagoform->doc_serie_id = $this->slctSerie;
+        $this->dto_comprobante_pagoform->fechaEmision = $this->fecha_emision;
+        $this->dto_comprobante_pagoform->cuenta_id = $this->slctCuenta;
+        $this->dto_comprobante_pagoform->metodo_pago_cuenta = $this->slctMetodoPago;
+        $this->dto_comprobante_pagoform->user_id = optional($this->userform)->user ? ($this->userform)->user->id: null;
+        ($this->dto_comprobante_pagoform->store());
+    }
 
     public function mount()
     {
