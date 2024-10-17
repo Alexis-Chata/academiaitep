@@ -46,7 +46,7 @@
             <livewire:styles />
         @endif
     @endif
-
+    @vite(['resources/js/app.js'])
     {{-- Custom Stylesheets (post AdminLTE) --}}
     @yield('adminlte_css')
 
@@ -96,11 +96,12 @@
     {{-- Livewire Script --}}
     @if(config('adminlte.livewire'))
         @if(intval(app()->version()) >= 7)
-            @livewireScripts
+            @livewireScriptConfig
         @else
             <livewire:scripts />
         @endif
     @endif
+    {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
 
     {{-- Custom Scripts --}}
     @yield('adminlte_js')

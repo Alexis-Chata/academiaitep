@@ -346,7 +346,7 @@ class Pagos extends Component
         ]);
         $this->query = null;
         $this->cgrupo_id = null;
-        $this->selectItem();
+        $this->select_Item();
     }
 
     public function removeConceptoCobro($codigo)
@@ -399,7 +399,7 @@ class Pagos extends Component
         $this->dataresults = array_values($resultados);
     }
 
-    public function selectItem($cgrupo_id = null)
+    public function select_Item($cgrupo_id = null)
     {
         $cgrupo = Cgrupo::find($cgrupo_id);
         $this->dataresults = [];
@@ -448,7 +448,7 @@ class Pagos extends Component
             $this->query_sede = $sede->nombre;
         }
     }
-    
+
     public $query_modalidad = '';
     public $dataresults_modalidad = [];
 
@@ -478,6 +478,33 @@ class Pagos extends Component
             $this->query_modalidad = $modalidad->name;
         }
     }
+
+    // public $searchResults = [];
+    // public $searchQuery = '';
+
+    // public function search($type, $query)
+    // {
+    //     $this->searchQuery = $query;
+    //     $model = $type === 'modalidad' ? Modalidad::class : F_sede::class;
+    //     $field = $type === 'modalidad' ? 'name' : 'nombre';
+
+    //     $this->searchResults = $model::where($field, 'LIKE', "%{$query}%")
+    //         ->take(5)
+    //         ->get()
+    //         ->toArray();
+    // }
+
+    // public function selectItem($type, $id)
+    // {
+    //     $model = $type === 'modalidad' ? Modalidad::class : F_sede::class;
+    //     $field = $type === 'modalidad' ? 'name' : 'nombre';
+
+    //     $item = $model::find($id);
+    //     if ($item) {
+    //         $this->searchQuery = $item->$field;
+    //     }
+    //     $this->searchResults = [];
+    // }
 
     public function render()
     {

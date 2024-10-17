@@ -19,7 +19,7 @@
                 <input type="date" class="form-control" id="femision" min="{{ $fecha_minima }}"
                     wire:model.live='fecha_emision'
                     wire:loading.class="cursor-not-allowed-important medio-opaco"
-                    wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro"
+                    wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro"
                     required>
             </div>
         </div>
@@ -40,7 +40,7 @@
                 <label for="mpago">M. Pago:</label>
                 <select id="mpago" class="form-control" wire:model='slctMetodoPago'
                     wire:loading.class="cursor-not-allowed-important medio-opaco"
-                    wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro"
+                    wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro"
                     required>
                     <option value="">Elegir</option>
                     @forelse ($metodoPagos as $metodoPago)
@@ -58,7 +58,7 @@
                     <input type="text" class="form-control" id="vaucher" wire:model='file_vaucher'
                         wire:loading.attr="disabled"
                         wire:loading.class="cursor-not-allowed-important medio-opaco"
-                        wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro"
+                        wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro"
                         required>
                 </div>
                 <div class="form-group col-md-6">
@@ -66,7 +66,7 @@
                     <input type="text" class="form-control" id="noperacion"
                         wire:model='nro_operacion' wire:loading.attr="disabled"
                         wire:loading.class="cursor-not-allowed-important medio-opaco"
-                        wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro"
+                        wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro"
                         required>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                             this.selectedItem = item; // Guardar el elemento seleccionado
                             this.dataresults = [];
                             this.selectedIndex = 0;
-                            $wire.selectItem(this.selectedItem.id);
+                            $wire.select_Item(this.selectedItem.id);
                         }
                     }
                     }" class="relative col">
@@ -108,7 +108,7 @@
                         <template x-for="(result, i) in dataresults" :key="i">
                             <li :class="{ 'active': selectedIndex === i }"
                                 class="list-group-item text-sm px-2 py-1"
-                                @click="selectCurrent(i); $wire.selectItem(result.id);"
+                                @click="selectCurrent(i); $wire.select_Item(result.id);"
                                 @mouseover="selectedIndex = i" x-text="result.concepto_cobro_name">
                             </li>
                         </template>
@@ -132,7 +132,7 @@
                     min="0" max="{{ $montoTotalConcepto }}" wire:model='montoCobro'
                     wire:loading.attr="disabled"
                     wire:loading.class="cursor-not-allowed-important medio-opaco"
-                    wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro">
+                    wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro">
                 <div class="text-sm text-red">
                     @error('montoCobro')
                         {{ $message }}
@@ -146,7 +146,7 @@
                 <button type="submit" class="btn btn-primary col" {{ $disabledAddConcepto }}
                     form="form-montoCobro" wire:click='addConceptoCobro'
                     wire:loading.class="cursor-not-allowed-important medio-opaco"
-                    wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro">Agregar</button>
+                    wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro">Agregar</button>
             </div>
         </div>
     </form>
@@ -171,7 +171,7 @@
                     <td><button id="cancel-image-perfil" class="btn-icon"
                             wire:click="removeConceptoCobro('{{ $comprobanteDetalle->codigo }}')"
                             wire:loading.class="cursor-not-allowed-important medio-opaco"
-                            wire:target="slctSerie, slctCuenta, selectItem, addConceptoCobro, removeConceptoCobro, saveComprobantePago">❌</button>
+                            wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro, saveComprobantePago">❌</button>
                     </td>
                 </tr>
             @empty

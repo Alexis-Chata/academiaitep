@@ -55,7 +55,7 @@ class DtoComprobantePago extends Form
             'vaucher' => $this->vaucher,
             'noperacion' => $this->noperacion,
             'matricula_id' => $matricula->id,
-            'cajero_id' => auth()->user()->id,
+            'cajero_id' => auth()->id,
             'cestado' => 1,
             'sede' => $serie->sede->nombre,
             'costo_total' => $this->data_comprobante_detalles->sum('importeConceptoCosto'),

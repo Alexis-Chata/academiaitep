@@ -250,7 +250,7 @@
                                 <button id="btn-agregar">Agregar</button>
                             </div>
                         </div>
-                        <div class="actions d-none">
+                        <div class="actions" style="display: none">
                             <button id="btn-editar" onclick="habilitarEdicion()">Editar</button>
                             <button id="btn-agregar" onclick="limpiarInputs()">Agregar</button>
                             <button id="btn-guardar" class="btn-guardar guardar"
@@ -279,13 +279,13 @@
                                 <div class="btn-group" id="perfil-btn-group">
                                     <div wire:loading wire:target="newPerfilImage">Loading...</div>
                                     @if (!$newPerfilImage)
-                                        <button id="add-image-perfil" class="btn-icon d-none"
+                                        <button id="add-image-perfil" class="btn-icon"
                                             onclick="document.getElementById('perfil-upload').click()"
                                             wire:loading.attr="disabled"
                                             wire:loading.class="cursor-not-allowed-important medio-opaco"
                                             wire:target="saveImage, cancelImage, newPerfilImage">➕</button>
                                         <input type="file" id="perfil-upload" wire:model="newPerfilImage"
-                                            accept="image/*">
+                                            style="display: none;" accept="image/*">
                                     @endif
                                     @if ($newPerfilImage)
                                         <button id="save-image-perfil" class="btn-icon"
@@ -308,13 +308,13 @@
                                 <div class="btn-group" id="dni-btn-group">
                                     <div wire:loading wire:target="newDniImage">Loading...</div>
                                     @if (!$newDniImage)
-                                        <button id="add-image-dni" class="btn-icon d-none"
+                                        <button id="add-image-dni" class="btn-icon"
                                             onclick="document.getElementById('dni-upload').click()"
                                             wire:loading.attr="disabled"
                                             wire:loading.class="cursor-not-allowed-important medio-opaco"
                                             wire:target="saveImage, cancelImage, newDniImage">➕</button>
                                         <input type="file" id="dni-upload" wire:model="newDniImage"
-                                            accept="image/*">
+                                            style="display: none;" accept="image/*">
                                     @endif
                                     @if ($newDniImage)
                                         <button id="save-image-dni" class="btn-icon" wire:click="saveImage('dni')"
@@ -372,28 +372,7 @@
 
                         <div class="col-md-4 mb-3">
                             <div>
-                                <div x-data="{
-                                    selectedIndex_modalidad: 0,
-                                    query_modalidad: @entangle('query_modalidad'),
-                                    dataresults_modalidad: @entangle('dataresults_modalidad'),
-                                    selectedItem_modalidad: null,
-                                    selectCurrent_modalidad(i = null) {
-                                        if (i !== null) {
-                                            this.selectedIndex_modalidad = i;
-                                        }
-                                        var item = null
-                                        if (this.query_modalidad) {
-                                            var item = this.dataresults_modalidad[this.selectedIndex_modalidad];
-                                        }
-                                        if (item) {
-                                            this.query_modalidad = item.name;
-                                            this.selectedItem_modalidad = item;
-                                            this.dataresults_modalidad = [];
-                                            this.selectedIndex_modalidad = 0;
-                                            $wire.selectItem_modalidad(this.selectedItem_modalidad.id);
-                                        }
-                                    }
-                                }" class="relative col">
+                                <div x-data="modalidadData($wire)" class="relative col">
                                     <label for="modalidad" class="form-label"><strong>Modalidad:</strong></label>
                                     <input type="text" x-model="query_modalidad"
                                         @input="$wire.set('query_modalidad', query_modalidad)"
@@ -533,6 +512,35 @@
             @include('livewire.parts.pagos-historial-pagos')
         </div>
     </div>
+    <script>
+        function modalidadData($wire) {
+            return {
+                selectedIndex_modalidad: 0,
+                query_modalidad: @entangle('query_modalidad'),
+                dataresults_modalidad: @entangle('dataresults_modalidad'),
+                selectedItem_modalidad: null,
+                selectPrevious() {
+                    this.selectedIndex_modalidad = Math.max(this.selectedIndex_modalidad - 1, 0);
+                },
+                selectNext() {
+                    this.selectedIndex_modalidad = Math.min(this.selectedIndex_modalidad + 1, this.dataresults_modalidad.length - 1);
+                },
+                selectCurrent_modalidad(i = null) {
+                    if (i !== null) {
+                        this.selectedIndex_modalidad = i;
+                    }
+                    let item = this.dataresults_modalidad[this.selectedIndex_modalidad];
+                    if (item) {
+                        this.query_modalidad = item.name;
+                        this.selectedItem_modalidad = item;
+                        this.dataresults_modalidad = [];
+                        this.selectedIndex_modalidad = 0;
+                        $wire.selectItem_modalidad(this.selectedItem_modalidad.id);
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         .mainContainer {
             display: grid;
