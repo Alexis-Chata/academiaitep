@@ -25,21 +25,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CstandarSeeder::class);
         $this->call(GrupoSeeder::class);
         $this->call(UserSeeder::class);
-        $user = User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'ap_paterno' => 'Jadem',
-            'direccion' => 'direccion',
-            'password' => bcrypt('12345678'),
-            'ap_materno' => 'Learning',
-            'f_tipo_documento_id' => 'dni',
-            'nro_documento' => '12345678',
-            'estado' => '1',
-            'locked' => '1',
-        ]);
-
-        $user->assignRole(['Administrador', 'Super_Administrador']);
-
         $this->call(TapoderadoSeeder::class);
         $this->call(ApoderadoSeeder::class);
         $this->call(UserApoderadoSeeder::class);
@@ -55,5 +40,19 @@ class DatabaseSeeder extends Seeder
         $this->call(AreaSeeder::class);
         $this->call(CarreraSeeder::class);
         $this->call(MatriculaSeeder::class);
+
+        $user = User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'ap_paterno' => 'Jadem',
+            'direccion' => 'direccion',
+            'password' => bcrypt('12345678'),
+            'ap_materno' => 'Learning',
+            'f_tipo_documento_id' => 'dni',
+            'nro_documento' => '12345678',
+            'estado' => '1',
+            'locked' => '1',
+        ]);
+        $user->assignRole(['Administrador', 'Super_Administrador']);
     }
 }
