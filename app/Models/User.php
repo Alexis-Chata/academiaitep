@@ -114,4 +114,9 @@ class User extends Authenticatable //implements MustVerifyEmail
     {
         return $this->hasMany(Matricula::class);
     }
+
+    public function comprobantes()
+    {
+        return $this->hasMany(F_comprobantes_sunat::class);
+    }
 }

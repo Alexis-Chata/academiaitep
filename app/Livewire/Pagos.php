@@ -367,6 +367,7 @@ class Pagos extends Component
         $this->dto_comprobante_pagoform->data_comprobante_detalles = $this->comprobanteDetalles;
         $this->dto_comprobante_pagoform->store();
         $this->updatedSlctSerie();
+        $this->comprobanteDetalles = collect();
     }
 
     public function mount()
@@ -391,35 +392,35 @@ class Pagos extends Component
 
     #[On('itemSelected')]
     public function handleItemSelected($model, $id, $name)
-{
-    // Aquí manejamos la selección de items para cada campo de la matrícula
-    switch ($model) {
-        case 'anio':
-            $this->selectedAnio = $name;
-            break;
-        case 'Ciclo':
-            $this->selectedCiclo = $name;
-            break;
-        case 'Turno':
-            $this->selectedTurno = $name;
-            break;
-        case 'Modalidad':
-            $this->selectedModalidad = $name;
-            break;
-        case 'Aula':
-            $this->selectedAula = $name;
-            break;
-        case 'F_sede':
-            $this->selectedSede = $name;
-            break;
-        case 'Carrera':
-            $this->selectedCarrera = $id;
-            break;
-        case 'Grupo':
-            $this->selectedGrupo = $id;
-            break;
+    {
+        // Aquí manejamos la selección de items para cada campo de la matrícula
+        switch ($model) {
+            case 'anio':
+                $this->selectedAnio = $name;
+                break;
+            case 'Ciclo':
+                $this->selectedCiclo = $name;
+                break;
+            case 'Turno':
+                $this->selectedTurno = $name;
+                break;
+            case 'Modalidad':
+                $this->selectedModalidad = $name;
+                break;
+            case 'Aula':
+                $this->selectedAula = $name;
+                break;
+            case 'F_sede':
+                $this->selectedSede = $name;
+                break;
+            case 'Carrera':
+                $this->selectedCarrera = $id;
+                break;
+            case 'Grupo':
+                $this->selectedGrupo = $id;
+                break;
+        }
     }
-}
 
     public $query = '';
     public $dataresults = [];
@@ -439,6 +440,14 @@ class Pagos extends Component
         }
 
         $resultados = $resultados->take(5)->get()->toArray();
+        if (isset($this->userform->user) and $this->userform->user->deuda_pendiente>0) {
+            $resultados = ["pendiente"=>[
+                "id" => "p-1",
+                "costo" => $this->userform->user->deuda_pendiente,
+                "concepto_cobro_name" => "Saldo Pendiente - ".$this->userform->user->deuda_pendiente,
+            ]]+$resultados;
+        }
+
         $this->dataresults = array_values($resultados);
     }
 
@@ -459,95 +468,15 @@ class Pagos extends Component
             $this->disabledAddConcepto = null;
             $this->conceptoName = ucfirst($cgrupo->concepto_cobro_name);
         }
-    }
-
-    public $query_sede = '';
-    public $dataresults_sede = [];
-
-    public function updatedQuerySede()
-    {
-        $string = trim($this->query_sede);
-        $string = str_replace([',', '.'], '', $string);
-        $string = preg_replace('/\s+/', ' ', $string);
-        $queries = explode(' ', $string);
-
-        $resultados = F_sede::query();
-        foreach ($queries as $query) {
-            if (!empty($query)) {
-                $resultados->where('nombre', 'LIKE', '%' . $query . '%');
-            }
-        }
-
-        $resultados = $resultados->take(5)->get()->toArray();
-        $this->dataresults_sede = array_values($resultados);
-        // dd($resultados, $this->query_sede);
-    }
-
-    public function selectItem_sede($id = null)
-    {
-        $sede = F_sede::find($id);
-        $this->dataresults_sede = [];
-        if ($sede) {
-            $this->query_sede = $sede->nombre;
+        if ($cgrupo_id == "p-1" and isset($this->userform->user)) {
+            $this->query = "Saldo Pendiente - ".$this->userform->user->deuda_pendiente;
+            $this->cgrupo_id = "p-1";
+            $this->montoCobro = $this->userform->user->deuda_pendiente;
+            $this->montoTotalConcepto = $this->userform->user->deuda_pendiente;
+            $this->disabledAddConcepto = null;
+            $this->conceptoName = ucfirst($this->query);
         }
     }
-
-    public $query_modalidad = '';
-    public $dataresults_modalidad = [];
-
-    public function updatedQueryModalidad()
-    {
-        $string = trim($this->query_modalidad);
-        $string = str_replace([',', '.'], '', $string);
-        $string = preg_replace('/\s+/', ' ', $string);
-        $queries = explode(' ', $string);
-
-        $resultados = Modalidad::query();
-        foreach ($queries as $query) {
-            if (!empty($query)) {
-                $resultados->where('name', 'LIKE', '%' . $query . '%');
-            }
-        }
-
-        $resultados = $resultados->take(5)->get()->toArray();
-        $this->dataresults_modalidad = array_values($resultados);
-    }
-
-    public function selectItem_modalidad($id = null)
-    {
-        $modalidad = Modalidad::find($id);
-        $this->dataresults_modalidad = [];
-        if ($modalidad) {
-            $this->query_modalidad = $modalidad->name;
-        }
-    }
-
-    // public $searchResults = [];
-    // public $searchQuery = '';
-
-    // public function search($type, $query)
-    // {
-    //     $this->searchQuery = $query;
-    //     $model = $type === 'modalidad' ? Modalidad::class : F_sede::class;
-    //     $field = $type === 'modalidad' ? 'name' : 'nombre';
-
-    //     $this->searchResults = $model::where($field, 'LIKE', "%{$query}%")
-    //         ->take(5)
-    //         ->get()
-    //         ->toArray();
-    // }
-
-    // public function selectItem($type, $id)
-    // {
-    //     $model = $type === 'modalidad' ? Modalidad::class : F_sede::class;
-    //     $field = $type === 'modalidad' ? 'name' : 'nombre';
-
-    //     $item = $model::find($id);
-    //     if ($item) {
-    //         $this->searchQuery = $item->$field;
-    //     }
-    //     $this->searchResults = [];
-    // }
 
     public function render()
     {
