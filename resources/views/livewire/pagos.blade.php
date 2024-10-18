@@ -353,143 +353,84 @@
                     <!-- Contenedor de inputs en 3 columnas -->
                     <div class="row grid-input">
                         <div class="col-md-4 mb-3">
-                            <label for="anio" class="form-label"><strong>Año:</strong></label>
-                            <input type="text" id="anio" name="anio" class="form-control" value="2023"
-                                readonly>
+                            @livewire('search-field', [
+                                'label' => 'Año',
+                                'placeholder' => 'Buscar Años...',
+                                'model' => 'anio',
+                                'field' => 'name'
+                            ])
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="ciclo" class="form-label"><strong>Ciclo:</strong></label>
-                            <input type="text" id="ciclo" name="ciclo" class="form-control"
-                                value="Primera Fase" readonly>
+                            @livewire('search-field', [
+                                'label' => 'Ciclo',
+                                'placeholder' => 'Buscar Ciclos...',
+                                'model' => 'Ciclo',
+                                'field' => 'name'
+                            ])
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="turno" class="form-label"><strong>Turno:</strong></label>
-                            <input type="text" id="turno" name="turno" class="form-control"
-                                value="Mañana" readonly>
+                            @livewire('search-field', [
+                                'label' => 'Turno',
+                                'placeholder' => 'Buscar Turnos...',
+                                'model' => 'Turno',
+                                'field' => 'name'
+                            ])
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <div>
-                                <div x-data="modalidadData($wire)" class="relative col">
-                                    <label for="modalidad" class="form-label"><strong>Modalidad:</strong></label>
-                                    <input type="text" x-model="query_modalidad"
-                                        @input="$wire.set('query_modalidad', query_modalidad)"
-                                        @keydown.arrow-up.prevent="selectedIndex_modalidad = Math.max(selectedIndex_modalidad - 1, 0)"
-                                        @keydown.arrow-down.prevent="selectedIndex_modalidad = Math.min(selectedIndex_modalidad + 1, dataresults_modalidad.length - 1)"
-                                        @keydown.enter.prevent="selectCurrent_modalidad()"
-                                        placeholder="Buscar Modalidades..." class="form-control">
-
-                                    <ul class="list-group mt-2 position-absolute w-100 bg-white"
-                                        x-show="dataresults_modalidad.length > 0 && query_modalidad.length > 0"
-                                        style="z-index: 1000;">
-                                        <template x-for="(result, i) in dataresults_modalidad" :key="i">
-                                            <li :class="{ 'active': selectedIndex_modalidad === i }"
-                                                class="list-group-item text-sm px-2 py-1"
-                                                @click="selectCurrent_modalidad(i);"
-                                                @mouseover="selectedIndex_modalidad = i" x-text="result.name">
-                                            </li>
-                                        </template>
-                                    </ul>
-
-                                    <div class="mt-4 d-none" x-show="selectedItem_modalidad">
-                                        <h4>Detalles de la Modalidad seleccionada</h4>
-                                        <p><strong>Nombre:</strong> <span
-                                                x-text="selectedItem_modalidad ? selectedItem_modalidad.name : ''"></span>
-                                        </p>
-                                        <p><strong>ID:</strong> <span
-                                                x-text="selectedItem_modalidad ? selectedItem_modalidad.id : ''"></span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            @livewire('search-field', [
+                                'label' => 'Modalidad',
+                                'placeholder' => 'Buscar Modalidades...',
+                                'model' => 'Modalidad',
+                                'field' => 'name'
+                            ])
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="aula" class="form-label"><strong>Aula:</strong></label>
-                            <input type="text" id="aula" name="aula" class="form-control"
-                                value="Aula 1" readonly>
+                            @livewire('search-field', [
+                                'label' => 'Aula',
+                                'placeholder' => 'Buscar Aulas...',
+                                'model' => 'Aula',
+                                'field' => 'name'
+                            ])
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <div>
-                                <div x-data="{
-                                    selectedIndex_sede: 0,
-                                    query_sede: @entangle('query_sede'),
-                                    dataresults_sede: @entangle('dataresults_sede'),
-                                    selectedItem_sede: null,
-                                    selectCurrent_sede(i = null) {
-                                        if (i !== null) {
-                                            this.selectedIndex_sede = i;
-                                        }
-                                        var item = null
-                                        if (this.query_sede) {
-                                            var item = this.dataresults_sede[this.selectedIndex_sede];
-                                        }
-                                        if (item) {
-                                            this.query_sede = item.nombre;
-                                            this.selectedItem_sede = item; // Guardar el elemento seleccionado
-                                            this.dataresults_sede = [];
-                                            this.selectedIndex_sede = 0;
-                                            $wire.selectItem_sede(this.selectedItem_sede.id);
-                                        }
-                                    }
-                                }" class="relative col">
-                                    <label for="sede" class="form-label"><strong>Sede:</strong></label>
-                                    <input type="text" x-model="query_sede"
-                                        @input="$wire.set('query_sede', query_sede)"
-                                        @keydown.arrow-up.prevent="selectedIndex_sede = Math.max(selectedIndex_sede - 1, 0)"
-                                        @keydown.arrow-down.prevent="selectedIndex_sede = Math.min(selectedIndex_sede + 1, dataresults_sede.length - 1)"
-                                        @keydown.enter.prevent="selectCurrent_sede()"
-                                        placeholder="Buscar Sedes..." class="form-control">
-
-                                    <!-- Mostrar la lista solo si hay resultados y el query_sede no está vacío -->
-                                    <ul class="list-group mt-2 position-absolute w-100 bg-white"
-                                        x-show="dataresults_sede.length > 0 && query_sede.length > 0"
-                                        style="z-index: 1000;">
-                                        <template x-for="(result, i) in dataresults_sede" :key="i">
-                                            <li :class="{ 'active': selectedIndex_sede === i }"
-                                                class="list-group-item text-sm px-2 py-1"
-                                                @click="selectCurrent_sede(i);"
-                                                @mouseover="selectedIndex_sede = i" x-text="result.nombre">
-                                            </li>
-                                        </template>
-                                    </ul>
-
-                                    <!-- Mostrar los detalles del elemento seleccionado -->
-                                    <div class="mt-4 d-none" x-show="selectedItem_sede">
-                                        <h4>Detalles del Sede seleccionado</h4>
-                                        <p><strong>Nombre:</strong> <span
-                                                x-text="selectedItem_sede ? selectedItem_sede.nombre : ''"></span>
-                                        </p>
-                                        <p><strong>Descripción:</strong> <span
-                                                x-text="selectedItem_sede ? selectedItem_sede.id : ''"></span>
-                                        </p>
-                                        <p><strong>Precio:</strong> <span
-                                                x-text="selectedItem_sede ? selectedItem_sede.costo : ''"></span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            @livewire('search-field', [
+                                'label' => 'Sede',
+                                'placeholder' => 'Buscar Sedes...',
+                                'model' => 'F_sede',
+                                'field' => 'nombre'
+                            ])
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="carrera" class="form-label"><strong>Carrera:</strong></label>
-                            <input type="text" id="carrera" name="carrera" class="form-control"
-                                value="Ingeniería de Sistemas" readonly>
+                            @livewire('search-field', [
+                                'label' => 'Carrera',
+                                'placeholder' => 'Buscar Carreras...',
+                                'model' => 'Carrera',
+                                'field' => 'name'
+                            ])
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="grupo" class="form-label"><strong>Grupo:</strong></label>
-                            <input type="text" id="grupo" name="grupo" class="form-control"
-                                value="Grupo A" readonly>
+                            @livewire('search-field', [
+                                'label' => 'Grupo',
+                                'placeholder' => 'Buscar Grupos...',
+                                'model' => 'Grupo',
+                                'field' => 'name'
+                            ])
                         </div>
 
-                        <div class="col-md-4 mb-3">
-                            <label for="estado" class="form-label"><strong>Estado:</strong></label>
-                            <input type="text" id="estado" name="estado" class="form-control"
-                                value="Activo" readonly>
+                        <div class="col-md-4 mb-3" style="display: none">
+                            @livewire('search-field', [
+                                'label' => 'Estado',
+                                'placeholder' => 'Buscar Estados...',
+                                'model' => 'Matricula',
+                                'field' => 'estado'
+                            ])
                         </div>
 
                     </div>
@@ -1104,5 +1045,23 @@
         .custom-border {
             border: 2px solid #9a9a9a;
         }
+        .pago-section .row:last-child {
+    display:grid;
+    grid-template-columns: 1fr .5fr auto;
+    & .form-group {
+        grid-template-columns: 1fr !important;
+        max-width: initial !important;
+        margin: 0 !important;
+        & div:first-child{
+        padding:0;
+        }
+    & button{
+            margin:0 !important;
+        }
+    }
+}
+.tab {
+    padding: calc(5px + .3vw) 20px;
+}
     </style>
 </div>

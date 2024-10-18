@@ -21,6 +21,7 @@ use App\Models\Tapoderado;
 use App\Models\User_apoderado;
 use App\Models\Modalidad;
 use Carbon\Carbon;
+use Livewire\Attributes\On;
 
 class Pagos extends Component
 {
@@ -377,6 +378,48 @@ class Pagos extends Component
         $this->fecha_emision = now()->format('Y-m-d');
         $this->fecha_minima = now()->format('Y-m-d');
     }
+
+    public $selectedAnio;
+    public $selectedCiclo;
+    public $selectedTurno;
+    public $selectedModalidad;
+    public $selectedAula;
+    public $selectedSede;
+    public $selectedCarrera;
+    public $selectedGrupo;
+    public $selectedEstado;
+
+    #[On('itemSelected')]
+    public function handleItemSelected($model, $id, $name)
+{
+    // Aquí manejamos la selección de items para cada campo de la matrícula
+    switch ($model) {
+        case 'anio':
+            $this->selectedAnio = $name;
+            break;
+        case 'Ciclo':
+            $this->selectedCiclo = $name;
+            break;
+        case 'Turno':
+            $this->selectedTurno = $name;
+            break;
+        case 'Modalidad':
+            $this->selectedModalidad = $name;
+            break;
+        case 'Aula':
+            $this->selectedAula = $name;
+            break;
+        case 'F_sede':
+            $this->selectedSede = $name;
+            break;
+        case 'Carrera':
+            $this->selectedCarrera = $id;
+            break;
+        case 'Grupo':
+            $this->selectedGrupo = $id;
+            break;
+    }
+}
 
     public $query = '';
     public $dataresults = [];
