@@ -1,447 +1,60 @@
 <div>
     <div class="mainContainer">
         <!-- dni-section -->
-        <div class="dniContainer">
-            <div class="columnLeft">
-                <!-- upload-section -->
-                <div class="uploadSection">
-                    <div class="buscar d-flex align-items-center">
-                        <label for="search" class="mr-2">Buscar:</label>
-
-                        <div class="position-relative w-auto">
-                            <input type="text" id="search" wire:model.live="search" placeholder="DNI ..."
-                                autocomplete="off" @keydown.arrow-down.prevent="$wire.incrementIndex()"
-                                @keydown.arrow-up.prevent="$wire.decrementIndex()"
-                                @keydown.enter.prevent="$wire.selectCurrent()">
-
-                            <!-- Lista de resultados -->
-                            @if (!empty($results))
-                                <ul class="list-group position-absolute w-100 top-100-zindex-1000">
-                                    @forelse ($results as $index => $result)
-                                        <li class="list-group-item list-group-item-action text-sm py-2 {{ $selectedIndex === $index ? 'active' : '' }}"
-                                            role="button" wire:click="selectResult('{{ $result->id }}')">
-                                            {{ $result->name }}
-                                        </li>
-                                    @empty
-                                        <li class="list-group-item list-group-item-action text-sm py-2" role="button">
-                                            No encontrado
-                                        </li>
-                                    @endforelse
-                                </ul>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <!-- tabs-section -->
-                <div class="tabsSection">
-                    <input type="radio" id="tab1" name="tab-informacion" checked />
-                    <input type="radio" id="tab2" name="tab-informacion" />
-                    <input type="radio" id="tab3" name="tab-informacion" />
-                    <div class="tab-labels">
-                        <label for="tab1" class="tab" wire:click='cancelEdit'>Datos</label>
-                        <label for="tab2" class="tab" wire:click='cancelEdit'>Apoderados</label>
-                        <label for="tab3" class="tab" wire:click='cancelEdit'>Ubicacion</label>
-                    </div>
-
-                    <div class="tab-content-container">
-                        <div class="tab-content" id="datos-content">
-                            <div class="datos-container">
-                                <div class="input-group">
-                                    <label for="nombres">Nombres:</label>
-                                    <input type="text" id="nombres" {{ $readonly_datos }}
-                                        wire:model="userform.name">
-                                    <div class="text-sm text-red">
-                                        @error('userform.name')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="input-group">
-                                    <label for="apPaterno">Ap. Paterno:</label>
-                                    <input type="text" id="apPaterno" {{ $readonly_datos }}
-                                        wire:model="userform.ap_paterno">
-                                    <div class="text-sm text-red">
-                                        @error('userform.ap_paterno')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="input-group">
-                                    <label for="apMaterno">Ap. Materno:</label>
-                                    <input type="text" id="apMaterno" {{ $readonly_datos }}
-                                        wire:model="userform.ap_materno">
-                                    <div class="text-sm text-red">
-                                        @error('userform.ap_materno')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="input-group">
-                                    <label for="tipo_doc_identidad">Tipo Doc.:</label>
-                                    <select id="tipo_doc_identidad" class="form-control w-100" {{ $disabled_datos }}
-                                        wire:model="userform.f_tipo_documento_id">
-                                        <option value="DNI">DNI</option>
-                                        <option value="CE">C.E</option>
-                                    </select>
-                                    <div class="text-sm text-red">
-                                        @error('userform.f_tipo_documento_id')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="input-group">
-                                    <label for="nro_doc_identidad">Nro. Doc.:</label>
-                                    <input type="text" id="nro_doc_identidad" {{ $readonly_datos }}
-                                        wire:model="userform.nro_documento">
-                                    <div class="text-sm text-red">
-                                        @error('userform.userform')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="input-group">
-                                    <label for="direccion">Dirección:</label>
-                                    <input type="text" id="direccion" {{ $readonly_datos }}
-                                        wire:model="userform.direccion">
-                                    <div class="text-sm text-red">
-                                        @error('userform.direccion')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="input-group">
-                                    <label for="email">Email:</label>
-                                    <input type="text" id="email" {{ $readonly_datos }}
-                                        wire:model="userform.email">
-                                    <div class="text-sm text-red">
-                                        @error('userform.email')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="input-group">
-                                    <label for="celular">Celular:</label>
-                                    <input type="text" id="celular" {{ $readonly_datos }}
-                                        wire:model="userform.celular1">
-                                    <div class="text-sm text-red">
-                                        @error('userform.celular1')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="input-group">
-                                    <label for="celular2">Celular 2:</label>
-                                    <input type="text" id="celular2" {{ $readonly_datos }}
-                                        wire:model="userform.celular2">
-                                    <div class="text-sm text-red">
-                                        @error('userform.celular2')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="actions">
-                                @if (isset($userform->user) and !$editandoUser)
-                                    <button id="btn-editar" wire:click="editUser({{ $userform->user->id }})"
-                                        wire:loading.attr="disabled" wire:loading.class="cursor-not-allowed medio-opaco"
-                                        wire:target="editUser, btnGuardar, cancelEdit, btnAgregar">Editar</button>
-                                @endif
-                                @if ($editandoUser)
-                                    <button id="btn-guardar" class="btn-guardar guardar {{ $inline_block_datos }}"
-                                        wire:click="btnGuardar()" wire:loading.attr="disabled"
-                                        wire:loading.class="cursor-not-allowed medio-opaco"
-                                        wire:target="editUser, btnGuardar, cancelEdit, btnAgregar">Guardar</button>
-                                    <button id="btn-cancelar" class="btn-cancelar cancelar {{ $inline_block_datos }}"
-                                        wire:click="cancelEdit()" wire:loading.attr="disabled"
-                                        wire:loading.class="cursor-not-allowed medio-opaco"
-                                        wire:target="editUser, btnGuardar, cancelEdit, btnAgregar">Cancelar</button>
-                                @endif
-                                @if ($agregandoUser)
-                                    <button id="btn-agregar" class="{{ $d_none_datos }}" wire:click="btnAgregar()"
-                                        wire:loading.attr="disabled"
-                                        wire:loading.class="cursor-not-allowed medio-opaco"
-                                        wire:target="editUser, btnGuardar, cancelEdit, btnAgregar">Agregar</button>
-                                @else
-                                    <button id="btn-guardar" class="btn-guardar guardar {{ $inline_block_datos }}"
-                                        wire:click="btnGuardar()" wire:loading.attr="disabled"
-                                        wire:loading.class="cursor-not-allowed medio-opaco"
-                                        wire:target="editUser, btnGuardar, cancelEdit, btnAgregar">Guardar</button>
-                                    <button id="btn-cancelar" class="btn-cancelar cancelar {{ $inline_block_datos }}"
-                                        wire:click="cancelEdit()" wire:loading.attr="disabled"
-                                        wire:loading.class="cursor-not-allowed medio-opaco"
-                                        wire:target="editUser, btnGuardar, cancelEdit, btnAgregar">Cancelar</button>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="tab-content" id="apoderados-content">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Celular</th>
-                                        <th>Tipo</th>
-                                        <th>DNI</th>
-                                        <th>Dirección</th>
-                                        <th>Email</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($user_apoderados as $user_apoderado)
-                                        <tr>
-                                            @if ($editingApoderadoId === $user_apoderado->apoderado->id)
-                                                @include('livewire.parts.pagos-apoderado')
-                                            @else
-                                                <td>{{ $user_apoderado->apoderado->full_name }}</td>
-                                                <td>{{ $user_apoderado->apoderado->celular1 }}</td>
-                                                <td>{{ $user_apoderado->tipo_apoderado->name }}</td>
-                                                <td>{{ $user_apoderado->apoderado->nro_documento }}</td>
-                                                <td>{{ $user_apoderado->apoderado->direccion }}</td>
-                                                <td>{{ $user_apoderado->apoderado->email }}</td>
-                                                <td>
-                                                    <button
-                                                        wire:click="editApoderado({{ $user_apoderado->apoderado->id }}, {{ $user_apoderado->id }})"
-                                                        wire:loading.attr="disabled"
-                                                        wire:loading.class="cursor-not-allowed medio-opaco"
-                                                        wire:target="editApoderado, deleteApoderado, addApoderado, updateApoderado, cancelEdit">Editar</button>
-                                                    <button wire:click="deleteApoderado({{ $user_apoderado->id }})"
-                                                        wire:loading.attr="disabled"
-                                                        wire:loading.class="cursor-not-allowed medio-opaco"
-                                                        wire:target="editApoderado, deleteApoderado, addApoderado, updateApoderado, cancelEdit">Eliminar</button>
-                                                </td>
-                                            @endif
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="6">Sin registro</td>
-                                        </tr>
-                                    @endforelse
-                                    @if ($editingApoderadoId === 'new')
-                                        <tr>
-                                            @include('livewire.parts.pagos-apoderado')
-                                        </tr>
-                                    @endif
-                                </tbody>
-                            </table>
-                            <div class="actions">
-                                <button id="btn-agregar" wire:click="addApoderado" wire:loading.attr="disabled"
-                                    wire:loading.class="cursor-not-allowed medio-opaco"
-                                    wire:target="editApoderado, deleteApoderado, addApoderado, updateApoderado, cancelEdit">Agregar</button>
-                            </div>
-                        </div>
-                        <div class="tab-content" id="ubicacion-content">
-                            <div class="ubicacion-container">
-                                <div class="input-group">
-                                    <label for="udireccion">Dirección:</label>
-                                    <input type="text" id="udireccion" value="Av. Huancavelica" readonly>
-                                </div>
-                                <div class="input-group">
-                                    <label for="referencia">Referencia:</label>
-                                    <input type="text" id="referencia" value="Espalda del hospital del niño"
-                                        readonly>
-                                </div>
-                                <div class="input-group">
-                                    <label for="celular">Celular:</label>
-                                    <input type="text" id="celular" value="934665704" readonly>
-                                </div>
-                            </div>
-                            <div class="actions">
-                                <button id="btn-editar">Editar</button>
-                                <button id="btn-agregar">Agregar</button>
-                            </div>
-                        </div>
-                        <div class="actions" style="display: none">
-                            <button id="btn-editar" onclick="habilitarEdicion()">Editar</button>
-                            <button id="btn-agregar" onclick="limpiarInputs()">Agregar</button>
-                            <button id="btn-guardar" class="btn-guardar guardar"
-                                onclick="guardarCambios()">Guardar</button>
-                            <button id="btn-cancelar" class="btn-cancelar cancelar"
-                                onclick="cancelarEdicion()">Cancelar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- columnRight -->
-            <div class="columnRight">
-                <div class="tabs-toggle_perfil-dni">
-                    <input type="radio" id="toggle-perfil" name="tab-toggle" checked />
-                    <input type="radio" id="toggle-dni" name="tab-toggle" />
-                    <div class="tab-labels mb-2">
-                        <label for="toggle-perfil" class="tab">Perfil</label>
-                        <label for="toggle-dni" class="tab">DNI</label>
-                    </div>
-
-                    <div class="tab-content-container">
-                        <!-- Perfil Section -->
-                        <div class="tab-content" id="perfil-content">
-                            <div class="image-container">
-                                <img id="perfil-img" src="{{ $perfilUrl }}" alt="Perfil">
-                                <div class="btn-group" id="perfil-btn-group">
-                                    <div wire:loading wire:target="newPerfilImage">Loading...</div>
-                                    @if (!$newPerfilImage)
-                                        <button id="add-image-perfil" class="btn-icon"
-                                            onclick="document.getElementById('perfil-upload').click()"
-                                            wire:loading.attr="disabled"
-                                            wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                            wire:target="saveImage, cancelImage, newPerfilImage">➕</button>
-                                        <input type="file" id="perfil-upload" wire:model="newPerfilImage"
-                                            style="display: none;" accept="image/*">
-                                    @endif
-                                    @if ($newPerfilImage)
-                                        <button id="save-image-perfil" class="btn-icon"
-                                            wire:click="saveImage('perfil')" wire:loading.attr="disabled"
-                                            wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                            wire:target="saveImage, cancelImage, newPerfilImage">💾</button>
-                                        <button id="cancel-image-perfil" class="btn-icon"
-                                            wire:click="cancelImage('perfil')" wire:loading.attr="disabled"
-                                            wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                            wire:target="saveImage, cancelImage, newPerfilImage">❌</button>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- DNI Section -->
-                        <div class="tab-content" id="dni-content">
-                            <div class="image-container">
-                                <img id="dni-img" src="{{ $dniUrl }}" alt="DNI">
-                                <div class="btn-group" id="dni-btn-group">
-                                    <div wire:loading wire:target="newDniImage">Loading...</div>
-                                    @if (!$newDniImage)
-                                        <button id="add-image-dni" class="btn-icon"
-                                            onclick="document.getElementById('dni-upload').click()"
-                                            wire:loading.attr="disabled"
-                                            wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                            wire:target="saveImage, cancelImage, newDniImage">➕</button>
-                                        <input type="file" id="dni-upload" wire:model="newDniImage"
-                                            style="display: none;" accept="image/*">
-                                    @endif
-                                    @if ($newDniImage)
-                                        <button id="save-image-dni" class="btn-icon" wire:click="saveImage('dni')"
-                                            wire:loading.attr="disabled"
-                                            wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                            wire:target="saveImage, cancelImage, newDniImage">💾</button>
-                                        <button id="cancel-image-dni" class="btn-icon"
-                                            wire:click="cancelImage('dni')" wire:loading.attr="disabled"
-                                            wire:loading.class="cursor-not-allowed-important medio-opaco"
-                                            wire:target="saveImage, cancelImage, newDniImage">❌</button>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @include('livewire.parts.pagos-user')
 
         <!-- matricula-section -->
         <div class="matricula-section">
             <div class="columnFull mt-5 p-4 border rounded">
-                @if (isset($userform->user) and $userform->user->matriculas->count())
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <button class="matA">MAT-A</button>
-                            <button class="matB">MAT-B</button>
-                            <button class="btn btn-light me-3 mt-n3 rounded-0 custom-border">
-                                <img src="https://cdn-icons-png.flaticon.com/512/0/532.png" alt="Descargar"
-                                    width="20px" />
-                            </button>
-                        </div>
-                        <div class="vencimiento">FV: 30-09-2024</div>
-                    </div>
-
-                    <!-- Contenedor de inputs en 3 columnas -->
-                    <div class="row grid-input">
-                        <div class="col-md-4 mb-3">
-                            @livewire('search-field', [
-                                'label' => 'Año',
-                                'placeholder' => 'Buscar Años...',
-                                'model' => 'anio',
-                                'field' => 'name'
-                            ])
+                @if (isset($userform->user) && $userform->user->matriculas->count())
+                    <div class="tabs-matriculas">
+                        <div class="tab-labels">
+                            @foreach ($userform->user->matriculas as $matricu)
+                                <button class="tab {{ $selectedMatriculaId == $matricu->id ? 'active' : '' }}"
+                                    wire:click="selectMatricula({{ $matricu->id }})">
+                                    Matrícula {{ $matricu->id }}
+                                </button>
+                            @endforeach
                         </div>
 
-                        <div class="col-md-4 mb-3">
-                            @livewire('search-field', [
-                                'label' => 'Ciclo',
-                                'placeholder' => 'Buscar Ciclos...',
-                                'model' => 'Ciclo',
-                                'field' => 'name'
-                            ])
+                        <div class="tab-content-container">
+                                <div
+                                    class="tab-content active">
+                                    @if ($editingMatricula)
+                                        @include('livewire.matricula-form')
+                                    @else
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div>
+                                                <button class="btn btn-light me-3 mt-n3 rounded-0 custom-border">
+                                                    <img src="https://cdn-icons-png.flaticon.com/512/0/532.png"
+                                                        alt="Descargar" width="20px" />
+                                                </button>
+                                            </div>
+                                            <div class="vencimiento">FV: {{ $matricula->fvencimiento }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3"><strong>Año:</strong> {{ $matricula->anio }}</div>
+                                            <div class="col-md-3"><strong>Ciclo:</strong> {{ $matricula->ciclo }}</div>
+                                            <div class="col-md-3"><strong>Turno:</strong> {{ $matricula->turno }}</div>
+                                            <div class="col-md-3"><strong>Modalidad:</strong>{{ $matricula->modalidad }}</div>
+                                            <div class="col-md-3"><strong>Aula:</strong> {{ $matricula->aula }}</div>
+                                            <div class="col-md-3"><strong>Sede:</strong> {{ $matricula->sede }}</div>
+                                            <div class="col-md-3"><strong>Carrera:</strong> {{ $matricula->carrera->name }}</div>
+                                            <div class="col-md-3"><strong>Grupo:</strong> {{ $matricula->grupo->name }}
+                                            </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <button wire:click="editMatricula({{ $matricula->id }})"
+                                                class="btn btn-primary">Editar</button>
+                                        </div>
+                                    @endif
+                                </div>
                         </div>
-
-                        <div class="col-md-4 mb-3">
-                            @livewire('search-field', [
-                                'label' => 'Turno',
-                                'placeholder' => 'Buscar Turnos...',
-                                'model' => 'Turno',
-                                'field' => 'name'
-                            ])
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            @livewire('search-field', [
-                                'label' => 'Modalidad',
-                                'placeholder' => 'Buscar Modalidades...',
-                                'model' => 'Modalidad',
-                                'field' => 'name'
-                            ])
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            @livewire('search-field', [
-                                'label' => 'Aula',
-                                'placeholder' => 'Buscar Aulas...',
-                                'model' => 'Aula',
-                                'field' => 'name'
-                            ])
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            @livewire('search-field', [
-                                'label' => 'Sede',
-                                'placeholder' => 'Buscar Sedes...',
-                                'model' => 'F_sede',
-                                'field' => 'nombre'
-                            ])
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            @livewire('search-field', [
-                                'label' => 'Carrera',
-                                'placeholder' => 'Buscar Carreras...',
-                                'model' => 'Carrera',
-                                'field' => 'name'
-                            ])
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            @livewire('search-field', [
-                                'label' => 'Grupo',
-                                'placeholder' => 'Buscar Grupos...',
-                                'model' => 'Grupo',
-                                'field' => 'name'
-                            ])
-                        </div>
-
-                        <div class="col-md-4 mb-3" style="display: none">
-                            @livewire('search-field', [
-                                'label' => 'Estado',
-                                'placeholder' => 'Buscar Estados...',
-                                'model' => 'Matricula',
-                                'field' => 'estado'
-                            ])
-                        </div>
-
-                    </div>
-
-                    <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-outline-secondary">Editar</button>
                     </div>
                 @else
                     <div class="noMat">
                         <i class="fas fa-bell"></i>
-                        <b>No se encontro matricula</b>
+                        <b>No se encontró matrícula</b>
                     </div>
                 @endif
             </div>
@@ -453,35 +66,6 @@
             @include('livewire.parts.pagos-historial-pagos')
         </div>
     </div>
-    <script>
-        function modalidadData($wire) {
-            return {
-                selectedIndex_modalidad: 0,
-                query_modalidad: @entangle('query_modalidad'),
-                dataresults_modalidad: @entangle('dataresults_modalidad'),
-                selectedItem_modalidad: null,
-                selectPrevious() {
-                    this.selectedIndex_modalidad = Math.max(this.selectedIndex_modalidad - 1, 0);
-                },
-                selectNext() {
-                    this.selectedIndex_modalidad = Math.min(this.selectedIndex_modalidad + 1, this.dataresults_modalidad.length - 1);
-                },
-                selectCurrent_modalidad(i = null) {
-                    if (i !== null) {
-                        this.selectedIndex_modalidad = i;
-                    }
-                    let item = this.dataresults_modalidad[this.selectedIndex_modalidad];
-                    if (item) {
-                        this.query_modalidad = item.name;
-                        this.selectedItem_modalidad = item;
-                        this.dataresults_modalidad = [];
-                        this.selectedIndex_modalidad = 0;
-                        $wire.selectItem_modalidad(this.selectedItem_modalidad.id);
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         .mainContainer {
             display: grid;
@@ -654,6 +238,7 @@
                 max-width: 100%;
                 background: #fafafa;
                 padding: calc(4px + .5vw) !important;
+                padding-top:0!important;
                 margin: 0 !important;
                 border-top: 3px solid #01aaa6 !important;
             }
@@ -804,8 +389,6 @@
             font-size: 20px;
             color: white;
             padding: 10px;
-            margin: -6px !important;
-            margin-top: -8px !important;
         }
 
         /* Ocultar por defecto los botones de guardar y cancelar */
@@ -1045,23 +628,60 @@
         .custom-border {
             border: 2px solid #9a9a9a;
         }
+
         .pago-section .row:last-child {
-    display:grid;
-    grid-template-columns: 1fr .5fr auto;
-    & .form-group {
-        grid-template-columns: 1fr !important;
-        max-width: initial !important;
-        margin: 0 !important;
-        & div:first-child{
-        padding:0;
+            display: grid;
+            grid-template-columns: 1fr .5fr auto;
+
+            & .form-group {
+                grid-template-columns: 1fr !important;
+                max-width: initial !important;
+                margin: 0 !important;
+
+                & div:first-child {
+                    padding: 0;
+                }
+
+                & button {
+                    margin: 0 !important;
+                }
+            }
         }
-    & button{
-            margin:0 !important;
+
+        .tab {
+            padding: calc(5px + .3vw) 20px;
         }
-    }
-}
-.tab {
-    padding: calc(5px + .3vw) 20px;
-}
+
+        .tabs-matriculas {
+            display: flex;
+            flex-direction: column;
+            & .tab-labels{
+                flex-direction: row-reverse;
+                margin-bottom: calc(4px + .3vw);
+                & button{
+                    border-radius: 0;
+                    border: 0;
+                    background: transparent;
+                    font-size: 16px;
+                    padding: calc(5px + .3vw) 20px;
+                    margin: 0;
+                    font-weight: bold;
+                    text-shadow: 1px 1px 1px #00000033;
+
+                    &:hover {
+                        background: #b6b6b6;
+                    }
+                }
+                & .tab.active {
+                        background: #161616;
+                    }
+            }
+            & .tab-content.active {
+                    display: block;
+                }
+            & .tab-content-container{
+
+            }
+        }
     </style>
 </div>

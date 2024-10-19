@@ -14,12 +14,13 @@ class SearchField extends Component
     public $results = [];
     public $selectedItem = null;
 
-    public function mount($label, $placeholder, $model, $field)
+    public function mount($label, $placeholder, $model, $field, $query = '')
     {
         $this->label = $label;
         $this->placeholder = $placeholder;
         $this->model = $model;
         $this->field = $field;
+        $this->query = $query;
     }
 
     public function updatedQuery()

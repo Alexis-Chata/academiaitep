@@ -14,6 +14,8 @@ use App\Models\Apoderado;
 use App\Models\Cgrupo;
 use App\Models\Cuenta;
 use App\Models\F_sede;
+use App\Models\Carrera;
+use App\Models\Grupo;
 use App\Models\F_serie;
 use App\Models\F_tipo_documento;
 use App\Models\MetodoPago;
@@ -22,6 +24,7 @@ use App\Models\User_apoderado;
 use App\Models\Modalidad;
 use Carbon\Carbon;
 use Livewire\Attributes\On;
+use App\Models\Matricula;
 
 class Pagos extends Component
 {
@@ -71,6 +74,22 @@ class Pagos extends Component
     public $editingApoderado = null;
     public $editandoUser = null;
     public $agregandoUser = 'agregandoUser';
+
+    public $selectedMatriculaId = null;
+
+    public function selectMatricula($matriculaId)
+    {
+        $this->matricula = Matricula::find($matriculaId);
+        $this->editingMatricula = false;
+        $this->selectedMatriculaId = $matriculaId;
+    }
+
+    public function newMatricula()
+    {
+        $this->selectedMatriculaId = null;
+        $this->editingMatricula = false;
+        $this->resetMatriculaFields();
+    }
 
     // ... otros métodos
 
@@ -267,6 +286,9 @@ class Pagos extends Component
         $this->perfilUrl = $this->userform->profile_photo_path;
         $this->dniUrl = $this->userform->dni_path;
         //dd($this->userform);
+        if ($this->userform->user->matriculas->last()) {
+        $this->selectMatricula($this->userform->user->matriculas->last()->id);
+        }
     }
 
     public function editUser(User $user)
@@ -378,6 +400,7 @@ class Pagos extends Component
         $this->comprobanteDetalles = collect();
         $this->fecha_emision = now()->format('Y-m-d');
         $this->fecha_minima = now()->format('Y-m-d');
+        $this->matricula = new Matricula();
     }
 
     public $selectedAnio;
@@ -486,5 +509,106 @@ class Pagos extends Component
         $this->cuentas = Cuenta::all();
         $this->cgrupos = Cgrupo::with('turno', 'ciclo', 'modalidad')->get();
         return view("livewire.pagos");
+    }
+
+    public $matricula;
+    public $editingMatricula = false;
+
+    public function createMatricula()
+    {
+        //dd('Entrando en createMatricula', $this->all());
+        $this->validate([
+            //'selectedAnio' => 'required',
+            'selectedCiclo' => 'required',
+            'selectedTurno' => 'required',
+            'selectedModalidad' => 'required',
+            'selectedAula' => 'required',
+            'selectedSede' => 'required',
+            'selectedCarrera' => 'required',
+            'selectedGrupo' => 'required',
+        ]);
+        //dd('Pasó la validación');
+
+        $this->matricula->user_id = $this->userform->user->id;
+        $this->matricula->anio = $this->selectedAnio;
+        $this->matricula->ciclo = $this->selectedCiclo;
+        $this->matricula->turno = $this->selectedTurno;
+        $this->matricula->modalidad = $this->selectedModalidad;
+        $this->matricula->aula = $this->selectedAula;
+        $this->matricula->sede = $this->selectedSede;
+        $this->matricula->carrera_id = $this->selectedCarrera;
+        $this->matricula->grupo_id = $this->selectedGrupo;
+        $this->matricula->estado = 1; // Activo por defecto
+        $this->matricula->fvencimiento = now()->addYear(); // Ejemplo: vence en un año
+
+        try {
+            $this->matricula->save();
+            session()->flash('message', 'Matrícula creada con éxito.');
+        } catch (\Exception $e) {
+            dd('Error al guardar:', $e->getMessage());
+        }
+
+        $this->resetMatriculaFields();
+        session()->flash('message', 'Matrícula creada con éxito.');
+    }
+
+    public function editMatricula(Matricula $matricula)
+    {
+        //dd('Entrando en createMatricula', $this->all());
+        $this->matricula = $matricula;
+        $this->selectedAnio = $matricula->anio;
+        $this->selectedCiclo = $matricula->ciclo;
+        $this->selectedTurno = $matricula->turno;
+        $this->selectedModalidad = $matricula->modalidad;
+        $this->selectedAula = $matricula->aula;
+        $this->selectedSede = $matricula->sede;
+        $this->selectedCarrera = $matricula->carrera->name;
+        $this->selectedGrupo = $matricula->grupo->name;
+        $this->fvencimiento = $matricula->fvencimiento;
+        $this->editingMatricula = true;
+    }
+
+    public $fvencimiento;
+
+    public function updateMatricula()
+    {
+        $this->validate([
+            'selectedAnio' => 'required',
+            'selectedCiclo' => 'required',
+            'selectedTurno' => 'required',
+            'selectedModalidad' => 'required',
+            'selectedAula' => 'required',
+            'selectedSede' => 'required',
+            'selectedCarrera' => 'required',
+            'selectedGrupo' => 'required',
+            'fvencimiento' => 'required',
+        ]);
+
+        $this->matricula->anio = $this->selectedAnio;
+        $this->matricula->ciclo = $this->selectedCiclo;
+        $this->matricula->turno = $this->selectedTurno;
+        $this->matricula->modalidad = $this->selectedModalidad;
+        $this->matricula->aula = $this->selectedAula;
+        $this->matricula->sede = $this->selectedSede;
+        $this->matricula->carrera_id = Carrera::where('name', $this->selectedCarrera)->first()->id;
+        $this->matricula->grupo_id = Grupo::where('name', $this->selectedGrupo)->first()->id;
+        $this->matricula->fvencimiento = $this->fvencimiento;
+
+        $this->matricula->save();
+
+        $this->resetMatriculaFields();
+        $this->editingMatricula = false;
+        session()->flash('message', 'Matrícula actualizada con éxito.');
+    }
+
+    public function deleteMatricula(Matricula $matricula)
+    {
+        $matricula->delete();
+        session()->flash('message', 'Matrícula eliminada con éxito.');
+    }
+
+    public function resetMatriculaFields()
+    {
+        $this->editingMatricula = false;
     }
 }
