@@ -167,7 +167,7 @@
                     <td>{{ $comprobanteDetalle->codigo }}</td>
                     <td>{{ $comprobanteDetalle->concepto }}</td>
                     <td>{{ $comprobanteDetalle->importeConceptoPendiente }}</td>
-                    <td>{{ $comprobanteDetalle->importeConceptoPagar }}</td>
+                    <td>S/. {{ number_format($comprobanteDetalle->importeConceptoPagar, 2) }}</td>
                     <td><button id="cancel-image-perfil" class="btn-icon"
                             wire:click="removeConceptoCobro('{{ $comprobanteDetalle->codigo }}')"
                             wire:loading.class="cursor-not-allowed-important medio-opaco"
@@ -185,14 +185,13 @@
             @endforelse
             <tr>
                 <td></td>
+                <td><div class="text-sm text-red">@error('dto_comprobante_pagoform.user_id') {{ '* '.$message }} @enderror</div></td>
                 <td></td>
-                <td></td>
-                <td><b>Total:</b> S/.
-                    {{ number_format($comprobanteDetalles->sum('importeConceptoPagar'), 2) }}</td>
+                <td><b>Total:</b> <br />
+                    S/. {{ number_format($comprobanteDetalles->sum('importeConceptoPagar'), 2) }}</td>
                 <td>
                     @if ($comprobanteDetalles->count())
                         <button form="formComprobantePago">Guardar</button>
-                        <div class="text-sm text-red">@error('dto_comprobante_pagoform.user_id') {{ $message }} @enderror</div>
                     @endif
                 </td>
             </tr>

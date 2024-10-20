@@ -53,19 +53,6 @@ class DtoComprobantePago extends Form
 
                     $serie = F_serie::find($this->doc_serie_id);
 
-                    if ($this->matricula_id) {
-                        $matricula = Matricula::find($this->matricula_id);
-                        $matricula->fvencimiento = Carbon::parse($matricula->fvencimiento)->addMonth();
-                        $matricula->save();
-                    } else {
-                        $matricula = Matricula::create([
-                            'user_id' => $usuario->id,
-                            'sede' => $serie->sede->nombre,
-                            'fvencimiento' => Carbon::parse($this->fechaEmision)->addMonth(),
-                            'anio' => Carbon::parse($this->fechaEmision)->year,
-                            'estado' => 1,
-                        ]);
-                    }
                     $serie->correlativo += 1;
                     $serie->fecha_emision = $this->fechaEmision;
                     $serie->save();
@@ -80,8 +67,7 @@ class DtoComprobantePago extends Form
                         'metodo_pago_cuenta' => $this->metodo_pago_cuenta,
                         'vaucher' => $this->vaucher,
                         'noperacion' => $this->noperacion,
-                        'matricula_id' => $matricula->id,
-                        'cajero_id' => auth()->id(),
+                        'cajero_id' => auth_id(),
                         'cestado' => 1,
                         'sede' => $serie->sede->nombre,
                         'costo_total' => $this->data_comprobante_detalles->sum('importeConceptoCosto'),
@@ -148,6 +134,7 @@ class DtoComprobantePago extends Form
 
                         $comprobante->comprobantes_sunat_detalle()->create($data);
                     }
+                    $this->reset();
                 });
             });
         } catch (LockTimeoutException $e) {
@@ -164,6 +151,5 @@ class DtoComprobantePago extends Form
             Log::error("GC " . $e->getMessage());
             throw new Exception("GC " . $e->getMessage());
         }
-        $this->reset();
     }
 }

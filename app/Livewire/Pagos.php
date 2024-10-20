@@ -25,6 +25,7 @@ use App\Models\Modalidad;
 use Carbon\Carbon;
 use Livewire\Attributes\On;
 use App\Models\Matricula;
+use Illuminate\Support\Facades\Validator;
 
 class Pagos extends Component
 {
@@ -111,6 +112,11 @@ class Pagos extends Component
     public function updateApoderado()
     {
         if ($this->editingApoderadoId === 'new') {
+            Validator::make(
+                ['user_para_crear_apoderado' => optional($this->userform)->user],
+                ['user_para_crear_apoderado' => 'required'],
+                ['required' => "Por favor, seleccione un usuario primero."],
+            )->validate();
             $this->apoderadoform->store();
             $this->user_apoderadoform->apoderado_id = $this->apoderadoform->apoderado->id;
             $this->user_apoderadoform->user_id = $this->userform->user->id;
@@ -136,6 +142,7 @@ class Pagos extends Component
     {
         $this->editingApoderadoId = 'new';
         $this->apoderadoform->reset();
+        $this->apoderadoform->f_tipo_documento_id = $this->tipo_documentos->first()->id;
         $this->user_apoderadoform->reset();
     }
 
@@ -287,7 +294,7 @@ class Pagos extends Component
         $this->dniUrl = $this->userform->dni_path;
         //dd($this->userform);
         if ($this->userform->user->matriculas->last()) {
-        $this->selectMatricula($this->userform->user->matriculas->last()->id);
+            $this->selectMatricula($this->userform->user->matriculas->last()->id);
         }
     }
 
@@ -320,11 +327,13 @@ class Pagos extends Component
     public function btnGuardar()
     {
         $this->userform->store();
+        $this->cancelEdit();
     }
 
     public function refreshComponent()
     {
         $this->userform->reset();
+        $this->userform->f_tipo_documento_id = $this->tipo_documentos->first()->id;
         $this->reset(['apoderadoform', 'user_apoderadoform', 'readonly_datos', 'disabled_datos', 'd_none_datos', 'inline_block_datos', 'perfilUrl', 'dniUrl', 'newPerfilImage', 'newDniImage', 'editingApoderadoId', 'editingApoderado', 'editandoUser', 'agregandoUser']);
     }
 
@@ -463,12 +472,12 @@ class Pagos extends Component
         }
 
         $resultados = $resultados->take(5)->get()->toArray();
-        if (isset($this->userform->user) and $this->userform->user->deuda_pendiente>0) {
-            $resultados = ["pendiente"=>[
+        if (isset($this->userform->user) and $this->userform->user->deuda_pendiente > 0) {
+            $resultados = ["pendiente" => [
                 "id" => "p-1",
                 "costo" => $this->userform->user->deuda_pendiente,
-                "concepto_cobro_name" => "Saldo Pendiente - ".$this->userform->user->deuda_pendiente,
-            ]]+$resultados;
+                "concepto_cobro_name" => "Saldo Pendiente - " . $this->userform->user->deuda_pendiente,
+            ]] + $resultados;
         }
 
         $this->dataresults = array_values($resultados);
@@ -492,7 +501,7 @@ class Pagos extends Component
             $this->conceptoName = ucfirst($cgrupo->concepto_cobro_name);
         }
         if ($cgrupo_id == "p-1" and isset($this->userform->user)) {
-            $this->query = "Saldo Pendiente - ".$this->userform->user->deuda_pendiente;
+            $this->query = "Saldo Pendiente - " . $this->userform->user->deuda_pendiente;
             $this->cgrupo_id = "p-1";
             $this->montoCobro = $this->userform->user->deuda_pendiente;
             $this->montoTotalConcepto = $this->userform->user->deuda_pendiente;

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('f_comprobantes_sunats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("matricula_id")->constrained("matriculas");
+            $table->foreignId("matricula_id")->nullable()->constrained("matriculas");
             $table->foreignId("user_id")->constrained("users");
             $table->foreignId("cajero_id")->constrained("users");
             $table->string("noperacion")->nullable();

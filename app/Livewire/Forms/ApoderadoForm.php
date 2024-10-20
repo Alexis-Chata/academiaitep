@@ -10,21 +10,21 @@ class ApoderadoForm extends Form
 {
     public ?Apoderado $apoderado = null;
 
-    #[Validate('required')]
+    #[Validate('required', message: '* Nombre Requerido')]
     public $name;
-    #[Validate('required')]
+    #[Validate('required', message: '* Ap.Paterno Requerido')]
     public $ap_paterno;
-    #[Validate('required')]
+    #[Validate('required', message: '* Ap.Materno Requerido')]
     public $ap_materno;
-    #[Validate('required')]
+    #[Validate('required', message: '* Requerido')]
     public $celular1;
-    #[Validate('required')]
+    #[Validate('required', message: '* Nro.Documento Requerido')]
     public $nro_documento;
-    #[Validate('required')]
+    #[Validate('required', message: '* Requerido')]
     public $direccion;
     #[Validate('nullable|email')]
     public $email;
-    #[Validate('required')]
+    #[Validate('required', message: '* Requerido')]
     public $f_tipo_documento_id;
 
     public function set(Apoderado $apoderado)

@@ -11,17 +11,17 @@ class UserForm extends Form
 {
     public ?User $user;
 
-    #[Validate('required')]
+    #[Validate('required', message: '* Requerido')]
     public $name;
-    #[Validate('required')]
+    #[Validate('required', message: '* Requerido')]
     public $ap_paterno;
-    #[Validate('required')]
+    #[Validate('required', message: '* Requerido')]
     public $ap_materno;
-    #[Validate('required')]
+    #[Validate('required', message: '* Requerido')]
     public $f_tipo_documento_id;
-    #[Validate('required')]
+    #[Validate('required', message: '* Requerido')]
     public $nro_documento;
-    #[Validate('required')]
+    #[Validate('required', message: '* Requerido')]
     public $email;
     public $direccion;
     public $celular1;

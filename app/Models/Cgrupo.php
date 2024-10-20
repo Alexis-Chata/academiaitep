@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Awobaz\Compoships\Compoships;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Cgrupo extends BaseModel
 {
-    use HasFactory;
+    use HasFactory, Compoships;
 
     protected $fillable = ['turno_id', 'ciclo_id', 'modalidad_id', 'costo', 'concepto_cobro_name'];
 
@@ -24,6 +25,8 @@ class Cgrupo extends BaseModel
     {
         return $this->belongsTo(Modalidad::class);
     }
+
+    public function grupo(){return $this->belongsTo(Grupo::class, ['turno_id', 'ciclo_id', 'modalidad_id'], ['turno_id', 'ciclo_id', 'modalidad_id']);}
 
     protected function conceptoCobroName(): Attribute
     {
