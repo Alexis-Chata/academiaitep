@@ -17,10 +17,8 @@
             <div class="form-group col-md-6">
                 <label for="femision">F. Emisión:</label>
                 <input type="date" class="form-control" id="femision" min="{{ $fecha_minima }}"
-                    wire:model.live='fecha_emision'
-                    wire:loading.class="cursor-not-allowed-important medio-opaco"
-                    wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro"
-                    required>
+                    wire:model.live='fecha_emision' wire:loading.class="cursor-not-allowed-important medio-opaco"
+                    wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro" required>
             </div>
         </div>
 
@@ -40,8 +38,7 @@
                 <label for="mpago">M. Pago:</label>
                 <select id="mpago" class="form-control" wire:model='slctMetodoPago'
                     wire:loading.class="cursor-not-allowed-important medio-opaco"
-                    wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro"
-                    required>
+                    wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro" required>
                     <option value="">Elegir</option>
                     @forelse ($metodoPagos as $metodoPago)
                         <option value="{{ $metodoPago->name }}">{{ $metodoPago->name }}</option>
@@ -56,23 +53,21 @@
                 <div class="form-group col-md-6">
                     <label for="vaucher">Vaucher:</label>
                     <input type="text" class="form-control" id="vaucher" wire:model='file_vaucher'
-                        wire:loading.attr="disabled"
-                        wire:loading.class="cursor-not-allowed-important medio-opaco"
+                        wire:loading.attr="disabled" wire:loading.class="cursor-not-allowed-important medio-opaco"
                         wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro"
                         required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="noperacion">N. Operación:</label>
-                    <input type="text" class="form-control" id="noperacion"
-                        wire:model='nro_operacion' wire:loading.attr="disabled"
-                        wire:loading.class="cursor-not-allowed-important medio-opaco"
+                    <input type="text" class="form-control" id="noperacion" wire:model='nro_operacion'
+                        wire:loading.attr="disabled" wire:loading.class="cursor-not-allowed-important medio-opaco"
                         wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro"
                         required>
                 </div>
             </div>
         @endif
-        <div class="row">
-            <div class="form-group col-7">
+        <div class="row gap-10">
+            <div class="form-group col-6 p-0">
 
                 <div x-data="{
                     selectedIndex: 0,
@@ -95,21 +90,19 @@
                             $wire.select_Item(this.selectedItem.id);
                         }
                     }
-                    }" class="relative col">
+                }" class="relative col p-0">
                     <input type="text" x-model="query" @input="$wire.set('query', query)"
                         @keydown.arrow-up.prevent="selectedIndex = Math.max(selectedIndex - 1, 0)"
                         @keydown.arrow-down.prevent="selectedIndex = Math.min(selectedIndex + 1, dataresults.length - 1)"
-                        @keydown.enter.prevent="selectCurrent()" placeholder="Buscar Cobros..."
-                        class="form-control">
+                        @keydown.enter.prevent="selectCurrent()" placeholder="Buscar Cobros..." class="form-control">
 
                     <!-- Mostrar la lista solo si hay resultados y el query no está vacío -->
                     <ul class="list-group mt-2 position-absolute w-100 bg-white"
                         x-show="dataresults.length > 0 && query.length > 0" style="z-index: 1000;">
                         <template x-for="(result, i) in dataresults" :key="i">
-                            <li :class="{ 'active': selectedIndex === i }"
-                                class="list-group-item text-sm px-2 py-1"
-                                @click="selectCurrent(i); $wire.select_Item(result.id);"
-                                @mouseover="selectedIndex = i" x-text="result.concepto_cobro_name">
+                            <li :class="{ 'active': selectedIndex === i }" class="list-group-item text-sm px-2 py-1"
+                                @click="selectCurrent(i); $wire.select_Item(result.id);" @mouseover="selectedIndex = i"
+                                x-text="result.concepto_cobro_name">
                             </li>
                         </template>
                     </ul>
@@ -119,33 +112,45 @@
                         <h4>Detalles del Cobro seleccionado</h4>
                         <p><strong>Nombre:</strong> <span
                                 x-text="selectedItem ? selectedItem.concepto_cobro_name : ''"></span></p>
-                        <p><strong>Descripción:</strong> <span
-                                x-text="selectedItem ? selectedItem.id : ''"></span></p>
-                        <p><strong>Precio:</strong> <span
-                                x-text="selectedItem ? selectedItem.costo : ''"></span></p>
+                        <p><strong>Descripción:</strong> <span x-text="selectedItem ? selectedItem.id : ''"></span></p>
+                        <p><strong>Precio:</strong> <span x-text="selectedItem ? selectedItem.costo : ''"></span></p>
                     </div>
                 </div>
 
             </div>
-            <div class="form-group col-3">
+            <div class="form-group col p-0">
                 <input type="number" class="form-control col" id="cantidad" value="0" required
-                    min="0" max="{{ $montoTotalConcepto }}" wire:model='montoCobro'
-                    wire:loading.attr="disabled"
-                    wire:loading.class="cursor-not-allowed-important medio-opaco"
+                    placeholder="Importe" min="0" max="{{ $montoTotalConcepto }}" wire:model='montoCobro'
+                    wire:loading.attr="disabled" wire:loading.class="cursor-not-allowed-important medio-opaco"
                     wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro">
                 <div class="text-sm text-red">
                     @error('montoCobro')
                         {{ $message }}
                     @enderror
                 </div>
-                <input type="hidden" class="form-control" id="montoTotalConcepto"
-                    wire:model='montoTotalConcepto'>
+                <input type="hidden" class="form-control" id="montoTotalConcepto" wire:model='montoTotalConcepto'>
                 <input type="hidden" class="form-control" id="conceptoName" wire:model='conceptoName'>
             </div>
-            <div class="form-group col-2 d-flex align-items-start ">
-                <button type="submit" class="btn btn-primary col" {{ $disabledAddConcepto }}
-                    form="form-montoCobro" wire:click='addConceptoCobro'
-                    wire:loading.class="cursor-not-allowed-important medio-opaco"
+            <div class="form-group col p-0">
+                @livewire('search-field', [
+                    'label' => 'Grupo',
+                    'placeholder' => 'Buscar Grupo...',
+                    'model' => 'Grupo',
+                    'field' => 'name',
+                    'query' => $cp_selected_grupo,
+                    'class_label' => 'd-none',
+                ])
+                <div class="text-sm text-red">
+                    @error('cp_selected_grupo')
+                        {{ $message }}
+                    @enderror
+                </div>
+            </div>
+        </div>
+        <div class="row gap-10 grid-initial">
+            <div class="form-group col p-0">
+                <button type="submit" class="btn btn-primary col" {{ $disabledAddConcepto }} form="form-montoCobro"
+                    wire:click='addConceptoCobro' wire:loading.class="cursor-not-allowed-important medio-opaco"
                     wire:target="slctSerie, slctCuenta, select_Item, addConceptoCobro, removeConceptoCobro">Agregar</button>
             </div>
         </div>
@@ -156,6 +161,7 @@
             <tr>
                 <th>Codigo</th>
                 <th>Concepto</th>
+                <th>Grupo</th>
                 <th>Saldo</th>
                 <th>A Pagar</th>
                 <th>Acciones</th>
@@ -166,6 +172,7 @@
                 <tr>
                     <td>{{ $comprobanteDetalle->codigo }}</td>
                     <td>{{ $comprobanteDetalle->concepto }}</td>
+                    <td>{{ $comprobanteDetalle->cp_grupo_name }}</td>
                     <td>{{ $comprobanteDetalle->importeConceptoPendiente }}</td>
                     <td>S/. {{ number_format($comprobanteDetalle->importeConceptoPagar, 2) }}</td>
                     <td><button id="cancel-image-perfil" class="btn-icon"
@@ -181,11 +188,19 @@
                     <td>-</td>
                     <td>-</td>
                     <td>-</td>
+                    <td>-</td>
                 </tr>
             @endforelse
             <tr>
                 <td></td>
-                <td><div class="text-sm text-red">@error('dto_comprobante_pagoform.user_id') {{ '* '.$message }} @enderror</div></td>
+                <td>
+                    <div class="text-sm text-red">
+                        @error('dto_comprobante_pagoform.user_id')
+                            {{ '* ' . $message }}
+                        @enderror
+                    </div>
+                </td>
+                <td></td>
                 <td></td>
                 <td><b>Total:</b> <br />
                     S/. {{ number_format($comprobanteDetalles->sum('importeConceptoPagar'), 2) }}</td>

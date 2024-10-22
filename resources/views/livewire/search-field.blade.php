@@ -8,7 +8,7 @@
         }
     }
 }" class="relative">
-    <label for="{{ $field }}" class="form-label"><strong>{{ $label }}:</strong></label>
+    <label for="{{ $field }}" class="form-label {{ $class_label }}"><strong>{{ $label }}:</strong></label>
     <input type="text" wire:model.live="query" @focus="open = true" @click.away="open = false"
         @keydown.arrow-up.prevent="selectedIndex = Math.max(selectedIndex - 1, 0)"
         @keydown.arrow-down.prevent="selectedIndex = Math.min(selectedIndex + 1, {{ count($results) }} - 1)"

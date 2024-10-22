@@ -21,11 +21,11 @@
                 </tr>
             @empty
                 <tr>
-                    <td>1</td>
-                    <td>Enero</td>
-                    <td>A001</td>
-                    <td>1500.00</td>
-                    <td>500.00</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
                 </tr>
             @endforelse
         </tbody>

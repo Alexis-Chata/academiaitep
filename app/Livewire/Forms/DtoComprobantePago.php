@@ -43,7 +43,7 @@ class DtoComprobantePago extends Form
         try {
             Cache::lock('guardar_comprobante', 5)->block(3, function () {
                 DB::transaction(function () {
-                    $usuario = User::find($this->user_id);
+                    $usuario = User::with(['matriculas'])->find($this->user_id);
                     if ($this->data_comprobante_detalles->where('codigo', 'p-1')->count()) {
                         $usuario->deuda_pendiente -= $this->data_comprobante_detalles->where('codigo', 'p-1')->sum('importeConceptoPagar');
                     } else {
@@ -133,6 +133,22 @@ class DtoComprobantePago extends Form
                         ];
 
                         $comprobante->comprobantes_sunat_detalle()->create($data);
+
+                        dd($detalle->cp_grupo);
+                        $matricula = $usuario->matriculas->firstWhere('grupo_id', $detalle->cp_grupo);
+                        if ($matricula) {
+                            $matricula->fvencimiento = Carbon::parse($matricula->fvencimiento)->addMonth();
+                            $matricula->save();
+                        } else {
+                            $matricula = Matricula::create([
+                                'user_id' => $usuario->id,
+                                'grupo_id' => $detalle->cp_grupo,
+                                'sede' => $serie->sede->nombre,
+                                'fvencimiento' => Carbon::parse($this->fechaEmision)->addMonth(),
+                                'anio' => Carbon::parse($this->fechaEmision)->year,
+                                'estado' => 1,
+                            ]);
+                        }
                     }
                     $this->reset();
                 });

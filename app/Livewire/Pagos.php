@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Apoderado;
 use App\Models\Cgrupo;
 use App\Models\Cuenta;
-use App\Models\F_sede;
 use App\Models\Carrera;
 use App\Models\Grupo;
 use App\Models\F_serie;
@@ -21,7 +20,6 @@ use App\Models\F_tipo_documento;
 use App\Models\MetodoPago;
 use App\Models\Tapoderado;
 use App\Models\User_apoderado;
-use App\Models\Modalidad;
 use Carbon\Carbon;
 use Livewire\Attributes\On;
 use App\Models\Matricula;
@@ -363,6 +361,7 @@ class Pagos extends Component
         $this->validate([
             'montoCobro' => 'required|numeric|min:1',
             'montoTotalConcepto' => 'required|numeric|min:1',
+            'cp_selected_grupo' => 'required',
         ], [
             'required' => 'Requerido',
             'numeric' => 'debe ser numerico',
@@ -375,6 +374,8 @@ class Pagos extends Component
             'importeConceptoCosto' => $this->montoTotalConcepto,
             'importeConceptoPendiente' => $this->montoTotalConcepto - $this->montoCobro,
             'importeConceptoPagar' => $this->montoCobro,
+            'cp_grupo' => $this->cp_selected_grupo,
+            'cp_grupo_name' => $this->cp_selected_grupo_name,
         ]);
         $this->query = null;
         $this->cgrupo_id = null;
@@ -394,11 +395,13 @@ class Pagos extends Component
         $this->dto_comprobante_pagoform->fechaEmision = $this->fecha_emision;
         $this->dto_comprobante_pagoform->cuenta_id = $this->slctCuenta;
         $this->dto_comprobante_pagoform->metodo_pago_cuenta = $this->slctMetodoPago;
-        $this->dto_comprobante_pagoform->user_id = optional($this->userform)->user ? ($this->userform)->user->id : null;
+        $this->dto_comprobante_pagoform->user_id = optional($this->userform)->user ? $this->userform->user->id : null;
         $this->dto_comprobante_pagoform->data_comprobante_detalles = $this->comprobanteDetalles;
         $this->dto_comprobante_pagoform->store();
         $this->updatedSlctSerie();
+        $this->userform->set($this->dto_comprobante_pagoform->user_id);
         $this->comprobanteDetalles = collect();
+        $this->cp_selected_grupo = null;
     }
 
     public function mount()
@@ -421,6 +424,8 @@ class Pagos extends Component
     public $selectedCarrera;
     public $selectedGrupo;
     public $selectedEstado;
+    public $cp_selected_grupo;
+    public $cp_selected_grupo_name;
 
     #[On('itemSelected')]
     public function handleItemSelected($model, $id, $name)
@@ -446,10 +451,12 @@ class Pagos extends Component
                 $this->selectedSede = $name;
                 break;
             case 'Carrera':
-                $this->selectedCarrera = $id;
+                $this->selectedCarrera = $name;
                 break;
             case 'Grupo':
-                $this->selectedGrupo = $id;
+                $this->selectedGrupo = $name;
+                $this->cp_selected_grupo = $id;
+                $this->cp_selected_grupo_name = $name;
                 break;
         }
     }
@@ -471,7 +478,7 @@ class Pagos extends Component
             }
         }
 
-        $resultados = $resultados->take(5)->get()->toArray();
+        $resultados = $resultados->take(8)->get()->toArray();
         if (isset($this->userform->user) and $this->userform->user->deuda_pendiente > 0) {
             $resultados = ["pendiente" => [
                 "id" => "p-1",
@@ -571,7 +578,7 @@ class Pagos extends Component
         $this->selectedModalidad = $matricula->modalidad;
         $this->selectedAula = $matricula->aula;
         $this->selectedSede = $matricula->sede;
-        $this->selectedCarrera = $matricula->carrera->name;
+        $this->selectedCarrera = optional($matricula->carrera)->name ?? null;
         $this->selectedGrupo = $matricula->grupo->name;
         $this->fvencimiento = $matricula->fvencimiento;
         $this->editingMatricula = true;

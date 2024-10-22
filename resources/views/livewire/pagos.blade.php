@@ -39,8 +39,8 @@
                                             <div class="col-md-3"><strong>Modalidad:</strong>{{ $matricula->modalidad }}</div>
                                             <div class="col-md-3"><strong>Aula:</strong> {{ $matricula->aula }}</div>
                                             <div class="col-md-3"><strong>Sede:</strong> {{ $matricula->sede }}</div>
-                                            <div class="col-md-3"><strong>Carrera:</strong> {{ $matricula->carrera->name }}</div>
-                                            <div class="col-md-3"><strong>Grupo:</strong> {{ $matricula->grupo->name }}
+                                            <div class="col-md-3"><strong>Carrera:</strong> {{ optional($matricula->carrera)->name ?? '-' }}</div>
+                                            <div class="col-md-3"><strong>Grupo:</strong> {{ optional($matricula->grupo)->name ?? '-' }}
                                             </div>
                                         </div>
                                         <div class="mt-3">
@@ -683,5 +683,16 @@
 
             }
         }
+
+    .gap-10{
+        gap: 10px;
+    }
+
+    .grid-initial{
+        grid: initial;
+    }
+    .row.gap-10.grid-initial {
+    grid: initial;
+}
     </style>
 </div>
