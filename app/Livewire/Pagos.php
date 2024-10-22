@@ -363,7 +363,7 @@ class Pagos extends Component
             'montoTotalConcepto' => 'required|numeric|min:1',
             'cp_selected_grupo' => 'required',
         ], [
-            'required' => 'Requerido',
+            'required' => '* Requerido',
             'numeric' => 'debe ser numerico',
             'min' => 'minimo 1.00',
         ]);
@@ -399,9 +399,8 @@ class Pagos extends Component
         $this->dto_comprobante_pagoform->data_comprobante_detalles = $this->comprobanteDetalles;
         $this->dto_comprobante_pagoform->store();
         $this->updatedSlctSerie();
-        $this->userform->set($this->dto_comprobante_pagoform->user_id);
+        $this->selectResult($this->userform->user);
         $this->comprobanteDetalles = collect();
-        $this->cp_selected_grupo = null;
     }
 
     public function mount()
@@ -533,16 +532,21 @@ class Pagos extends Component
     public function createMatricula()
     {
         //dd('Entrando en createMatricula', $this->all());
-        $this->validate([
-            //'selectedAnio' => 'required',
-            'selectedCiclo' => 'required',
-            'selectedTurno' => 'required',
-            'selectedModalidad' => 'required',
-            'selectedAula' => 'required',
-            'selectedSede' => 'required',
-            'selectedCarrera' => 'required',
-            'selectedGrupo' => 'required',
-        ]);
+        $this->validate(
+            [
+                //'selectedAnio' => 'required',
+                'selectedCiclo' => 'required',
+                'selectedTurno' => 'required',
+                'selectedModalidad' => 'required',
+                'selectedAula' => 'required',
+                'selectedSede' => 'required',
+                'selectedCarrera' => 'required',
+                'selectedGrupo' => 'required',
+            ],
+            [
+                'required' => '* Requerido',
+            ]
+        );
         //dd('Pasó la validación');
 
         $this->matricula->user_id = $this->userform->user->id;
@@ -588,17 +592,22 @@ class Pagos extends Component
 
     public function updateMatricula()
     {
-        $this->validate([
-            'selectedAnio' => 'required',
-            'selectedCiclo' => 'required',
-            'selectedTurno' => 'required',
-            'selectedModalidad' => 'required',
-            'selectedAula' => 'required',
-            'selectedSede' => 'required',
-            'selectedCarrera' => 'required',
-            'selectedGrupo' => 'required',
-            'fvencimiento' => 'required',
-        ]);
+        $this->validate(
+            [
+                'selectedAnio' => 'required',
+                'selectedCiclo' => 'required',
+                'selectedTurno' => 'required',
+                'selectedModalidad' => 'required',
+                'selectedAula' => 'required',
+                'selectedSede' => 'required',
+                'selectedCarrera' => 'required',
+                'selectedGrupo' => 'required',
+                'fvencimiento' => 'required',
+            ],
+            [
+                'required' => '* Requerido',
+            ]
+        );
 
         $this->matricula->anio = $this->selectedAnio;
         $this->matricula->ciclo = $this->selectedCiclo;

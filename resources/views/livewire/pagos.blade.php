@@ -18,37 +18,39 @@
                         </div>
 
                         <div class="tab-content-container">
-                                <div
-                                    class="tab-content active">
-                                    @if ($editingMatricula)
-                                        @include('livewire.matricula-form')
-                                    @else
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <div>
-                                                <button class="btn btn-light me-3 mt-n3 rounded-0 custom-border">
-                                                    <img src="https://cdn-icons-png.flaticon.com/512/0/532.png"
-                                                        alt="Descargar" width="20px" />
-                                                </button>
-                                            </div>
-                                            <div class="vencimiento">FV: {{ $matricula->fvencimiento }}</div>
+                            <div class="tab-content active">
+                                @if ($editingMatricula)
+                                    @include('livewire.matricula-form')
+                                @else
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <button class="btn btn-light me-3 mt-n3 rounded-0 custom-border">
+                                                <img src="https://cdn-icons-png.flaticon.com/512/0/532.png"
+                                                    alt="Descargar" width="20px" />
+                                            </button>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-3"><strong>Año:</strong> {{ $matricula->anio }}</div>
-                                            <div class="col-md-3"><strong>Ciclo:</strong> {{ $matricula->ciclo }}</div>
-                                            <div class="col-md-3"><strong>Turno:</strong> {{ $matricula->turno }}</div>
-                                            <div class="col-md-3"><strong>Modalidad:</strong>{{ $matricula->modalidad }}</div>
-                                            <div class="col-md-3"><strong>Aula:</strong> {{ $matricula->aula }}</div>
-                                            <div class="col-md-3"><strong>Sede:</strong> {{ $matricula->sede }}</div>
-                                            <div class="col-md-3"><strong>Carrera:</strong> {{ optional($matricula->carrera)->name ?? '-' }}</div>
-                                            <div class="col-md-3"><strong>Grupo:</strong> {{ optional($matricula->grupo)->name ?? '-' }}
-                                            </div>
+                                        <div class="vencimiento">FV: {{ $matricula->fvencimiento }}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3"><strong>Año:</strong> {{ $matricula->anio }}</div>
+                                        <div class="col-md-3"><strong>Ciclo:</strong> {{ $matricula->ciclo }}</div>
+                                        <div class="col-md-3"><strong>Turno:</strong> {{ $matricula->turno }}</div>
+                                        <div class="col-md-3"><strong>Modalidad:</strong>{{ $matricula->modalidad }}
                                         </div>
-                                        <div class="mt-3">
-                                            <button wire:click="editMatricula({{ $matricula->id }})"
-                                                class="btn btn-primary">Editar</button>
+                                        <div class="col-md-3"><strong>Aula:</strong> {{ $matricula->aula }}</div>
+                                        <div class="col-md-3"><strong>Sede:</strong> {{ $matricula->sede }}</div>
+                                        <div class="col-md-3"><strong>Carrera:</strong>
+                                            {{ optional($matricula->carrera)->name ?? '-' }}</div>
+                                        <div class="col-md-3"><strong>Grupo:</strong>
+                                            {{ optional($matricula->grupo)->name ?? '-' }}
                                         </div>
-                                    @endif
-                                </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <button wire:click="editMatricula({{ $matricula->id }})"
+                                            class="btn btn-primary">Editar</button>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 @else
@@ -238,7 +240,7 @@
                 max-width: 100%;
                 background: #fafafa;
                 padding: calc(4px + .5vw) !important;
-                padding-top:0!important;
+                padding-top: 0 !important;
                 margin: 0 !important;
                 border-top: 3px solid #01aaa6 !important;
             }
@@ -655,10 +657,12 @@
         .tabs-matriculas {
             display: flex;
             flex-direction: column;
-            & .tab-labels{
+
+            & .tab-labels {
                 flex-direction: row-reverse;
                 margin-bottom: calc(4px + .3vw);
-                & button{
+
+                & button {
                     border-radius: 0;
                     border: 0;
                     background: transparent;
@@ -672,27 +676,29 @@
                         background: #b6b6b6;
                     }
                 }
-                & .tab.active {
-                        background: #161616;
-                    }
-            }
-            & .tab-content.active {
-                    display: block;
-                }
-            & .tab-content-container{
 
+                & .tab.active {
+                    background: #161616;
+                }
             }
+
+            & .tab-content.active {
+                display: block;
+            }
+
+            & .tab-content-container {}
         }
 
-    .gap-10{
-        gap: 10px;
-    }
+        .gap-10 {
+            gap: 10px;
+        }
 
-    .grid-initial{
-        grid: initial;
-    }
-    .row.gap-10.grid-initial {
-    grid: initial;
-}
+        .grid-initial {
+            grid: initial;
+        }
+
+        .row.gap-10.grid-initial {
+            grid: initial;
+        }
     </style>
 </div>

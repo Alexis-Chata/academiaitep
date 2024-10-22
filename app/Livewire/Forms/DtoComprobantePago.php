@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Models\F_comprobantes_sunat;
 use App\Models\F_serie;
+use App\Models\Grupo;
 use App\Models\Matricula;
 use App\Models\User;
 use Carbon\Carbon;
@@ -134,15 +135,20 @@ class DtoComprobantePago extends Form
 
                         $comprobante->comprobantes_sunat_detalle()->create($data);
 
-                        dd($detalle->cp_grupo);
+                        //dd($detalle->cp_grupo);
                         $matricula = $usuario->matriculas->firstWhere('grupo_id', $detalle->cp_grupo);
                         if ($matricula) {
                             $matricula->fvencimiento = Carbon::parse($matricula->fvencimiento)->addMonth();
                             $matricula->save();
                         } else {
+                            $grupo = Grupo::with(['aula', 'turno', 'ciclo', 'modalidad'])->find($detalle->cp_grupo);
                             $matricula = Matricula::create([
                                 'user_id' => $usuario->id,
-                                'grupo_id' => $detalle->cp_grupo,
+                                'grupo_id' => $grupo->id,
+                                'ciclo' => $grupo->ciclo->name,
+                                'turno' => $grupo->turno->name,
+                                'modalidad' => $grupo->ciclo->name,
+                                'aula' => $grupo->modalidad->name,
                                 'sede' => $serie->sede->nombre,
                                 'fvencimiento' => Carbon::parse($this->fechaEmision)->addMonth(),
                                 'anio' => Carbon::parse($this->fechaEmision)->year,
