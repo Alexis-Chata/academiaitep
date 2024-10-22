@@ -70,7 +70,10 @@ class UserForm extends Form
             $this->validate([
                 'email' => 'required|email|unique:users,email',
             ]);
-            User::create($this->all());
+            $usuario = User::create($this->all());
+            #crear el usuario de moodle
+            $n_moodle = new UserMoodle($usuario);
+            $n_moodle->crear_usuario();
         }
     }
 }
