@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string("name");
             $table->string("shortname");
             $table->char("id_course_moodle", 1);
-            $table->foreignId("ciclo_id")->constrained("ciclos");
+            $table->foreignId("inicio_id")->constrained("inicios");
             $table->timestamps();
         });
     }

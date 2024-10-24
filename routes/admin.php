@@ -16,17 +16,20 @@ Route::view("grupos", "administrador.grupos.index_grupo")->middleware('can:admin
 Route::view("cgrupos", "administrador.cgrupos.index_cgrupo")->middleware('can:admin.cgrupo.titulo')->name("cgrupos.index");
 #cstandar
 Route::view("cstandars", "administrador.cstandars.index_cstandar")->middleware('can:admin.cstandar.titulo')->name("cstandars.index");
+#inicios
+Route::view("inicios", "administrador.inicios.index_inicio")->middleware('can:admin.inicio.titulo')->name("inicios.index");
 #modalidads
 Route::view("modalidads", "administrador.modalidads.index_modalidad")->middleware('can:admin.modalidad.titulo')->name("modalidads.index");
 #pagos
 Route::view("pagos", "administrador.pagos.pagos_index")->name("pagos.index");
+#planillas y materias
+Route::view("plantillas", "administrador.plantillas.plantilla_index")->middleware('can:admin.plantilla.titulo')->name("plantillas.index");
 #turnos
 Route::view("turnos", "administrador.turnos.index_turno")->middleware('can:admin.turno.titulo')->name("turnos.index");
 #settings
 Route::view("settings", "administrador.index")->name("settings.index");
 #usuarios
 Route::view("usuarios", "administrador.usuarios.index")->middleware('can:admin.usuarios.titulo')->name("usuarios.index");
-
 
 // Nuevas rutas para el frontend
 #tipo comprobantes

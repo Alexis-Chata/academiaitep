@@ -325,6 +325,11 @@ return [
                     'can' => 'admin.ciclo.titulo'
                 ],
                 [
+                    'text' => 'Inicios',
+                    'route' => 'admin.inicios.index',
+                    'can' => 'admin.inicio.titulo',
+                ],
+                [
                     'text' => 'Grupo',
                     'route' => 'admin.grupos.index',
                     'can' => 'admin.grupo.titulo'
@@ -338,6 +343,11 @@ return [
                     'text' => 'Turnos',
                     'route' => 'admin.turnos.index',
                     'can' => 'admin.turno.titulo'
+                ],
+                [
+                    'text' => 'Plantillas',
+                    'route' => 'admin.plantillas.index',
+                    'can' => 'admin.plantilla.titulo'
                 ],
             ],
         ],
