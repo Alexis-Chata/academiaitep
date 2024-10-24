@@ -324,8 +324,19 @@ class Pagos extends Component
 
     public function btnGuardar()
     {
-        $this->userform->store();
-        $this->cancelEdit();
+        try
+        {
+            $obs = $this->userform->store();
+            $this->cancelEdit();
+            $this->dispatch('success', [
+                'message' => 'Usuario guardado exitosamente.',
+                'obs' => $obs,
+            ]);
+        } catch (\Exception $e)
+        {
+            # En caso de error, despachar el evento con el mensaje de error
+            $this->dispatch('error', ['message' => $e->getMessage()]);
+        }
     }
 
     public function refreshComponent()
@@ -636,4 +647,5 @@ class Pagos extends Component
     {
         $this->editingMatricula = false;
     }
+
 }

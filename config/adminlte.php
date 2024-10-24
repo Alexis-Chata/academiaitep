@@ -304,12 +304,7 @@ return [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
-        [
-            'text' => 'Usuarios',
-            'route'  => 'admin.usuarios.index',
-            'icon' => 'fas fa-user fa-fw',
-            'can' => 'admin.usuarios.titulo'
-        ],
+
         [
             'text' => 'Academia',
             'icon' => 'fas fa-bookmark',
@@ -323,16 +318,6 @@ return [
                     'text' => 'Carreras',
                     'route' => 'admin.carreras.index',
                     'can' => 'admin.carrera.titulo'
-                ],
-                [
-                    'text' => 'Costos-Grupos',
-                    'route' => 'admin.cgrupos.index',
-                    'can' => 'admin.cgrupo.titulo'
-                ],
-                [
-                    'text' => 'Costos-Estandar',
-                    'route' => 'admin.cstandars.index',
-                    'can' => 'admin.cstandar.titulo'
                 ],
                 [
                     'text' => 'Ciclos',
@@ -354,37 +339,25 @@ return [
                     'route' => 'admin.turnos.index',
                     'can' => 'admin.turno.titulo'
                 ],
+            ],
+        ],
+        [
+            'text' => 'Pagos',
+            'icon' => 'fas fa-bookmark',
+            'submenu' => [
+                [
+                    'text' => 'Costos-Grupos',
+                    'route' => 'admin.cgrupos.index',
+                    'can' => 'admin.cgrupo.titulo'
+                ],
+                [
+                    'text' => 'Costos-Estandar',
+                    'route' => 'admin.cstandars.index',
+                    'can' => 'admin.cstandar.titulo'
+                ],
                 [
                     'text' => 'Pagos',
                     'route' => 'admin.pagos.index'
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
                 ],
             ],
         ],
@@ -427,6 +400,12 @@ return [
                     'text' => 'Sedes y Series',
                     'url'  => 'admin/sedes-series',
                     'icon' => 'fas fa-map-marker-alt',
+                ],
+                [
+                    'text' => 'Usuarios',
+                    'route'  => 'admin.usuarios.index',
+                    'icon' => 'fas fa-user fa-fw',
+                    'can' => 'admin.usuarios.titulo'
                 ],
             ],
         ],

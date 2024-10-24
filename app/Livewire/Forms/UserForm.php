@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Models\User;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -61,19 +62,37 @@ class UserForm extends Form
             $this->password = bcrypt($this->nro_documento);
         }
 
-        if (isset($this->user)) {
-            $this->validate([
-                'email' => 'required|email|unique:users,email,'.$this->user->id,
-            ]);
-            $this->update();
-        } else {
-            $this->validate([
-                'email' => 'required|email|unique:users,email',
-            ]);
-            $usuario = User::create($this->all());
-            #crear el usuario de moodle
-            $n_moodle = new UserMoodle($usuario);
-            $n_moodle->crear_usuario();
+        DB::beginTransaction();
+        $mensaje_observaciones = false;
+        try {
+            if (isset($this->user))
+            {
+                $this->validate(['email' => 'required|email|unique:users,email,'.$this->user->id,]);
+                $mensaje_observaciones = $this->update();
+            }
+
+            else
+            {
+                $this->validate(['email' => 'required|email|unique:users,email',]);
+                $usuario = User::create($this->all());
+                #crear el usuario de moodle
+                $n_moodle = new UserMoodle($usuario);
+                $mensaje_observaciones = $n_moodle->crear_usuario();
+                #Confirmar la transacción si todo sale bien
+                DB::commit();
+            }
+            return $mensaje_observaciones;
+        }
+        catch (\Exception $e)
+        {
+            # Si hay algún error, revertir los cambios en la base de datos
+            DB::rollBack();
+
+            # Eliminar el usuario creado si existe
+            if (isset($usuario)) {$usuario->delete();}
+
+            # Lanzar una nueva excepción para mostrar el mensaje de error
+            throw new \Exception('Error al crear o actualizar el usuario: ' . $e->getMessage());
         }
     }
 }

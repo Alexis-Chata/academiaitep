@@ -17,7 +17,5 @@
 @stop
 
 @section('js')
-    <script>
-        console.log("Hi, I'm using the Laravel-AdminLTE package!");
-    </script>
+<script src="{{ asset('js/sweetalert2@11.js') }}"></script>
 @stop

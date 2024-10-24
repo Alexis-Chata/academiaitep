@@ -701,4 +701,38 @@
             grid: initial;
         }
     </style>
+    @script
+        <script>
+            $wire.on('success', data => {
+                mensaje = data[0]['message'];
+                if (data[0]['obs'] && Array.isArray(data[0]['obs']))
+                {
+                    if (data[0]['obs'].length >= 2)
+                    {
+                        mensaje += " obs:"; // Añadir "obs:" al mensaje base
+                        // Recorrer cada observación y añadirla al mensaje
+                        data[0]['obs'].slice(1).forEach(obs => { mensaje += " " + obs;});
+                    }
+                }
+
+                Swal.fire({
+                    position: "center-center",
+                    icon: "success",
+                    title: mensaje,
+                    showConfirmButton: false,
+                    timer: 4500
+                });
+            });
+
+            $wire.on('error', data => {
+                Swal.fire({
+                    position: "center-center",
+                    icon: "error",
+                    title: data[0]['message'],
+                    showConfirmButton: false,
+                    timer: 4500
+                });
+            });
+        </script>
+    @endscript
 </div>
