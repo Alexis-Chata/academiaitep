@@ -9,4 +9,9 @@ class Inicio extends Model
 {
     use HasFactory;
     protected $fillable = ['name','id_category_moodle','id_anio','estado'];
+
+    public function anio()
+    {
+        return $this->belongsTo(Anio::class);
+    }
 }

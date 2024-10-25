@@ -42,6 +42,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CarreraSeeder::class);
         $this->call(MatriculaSeeder::class);
         $this->call(CmoodleSeeder::class);
+        $this->call(PlanillaSeeder::class);
 
         $user = User::factory()->create([
             'name' => 'Test User',
